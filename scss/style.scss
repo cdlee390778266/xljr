@@ -3,8 +3,13 @@
 
 $blue: #4ba5ff;
 $blueHover: #1765b3;
+$blueText: #00a0e9;
+$headerBg: #095eb3;
+$red: #db6b80;
+$borderColor: #eeeeee;
 
 html {
+    min-width: 1000px;
     height: 100%;
 }
 
@@ -29,6 +34,204 @@ a {
 }
 .tr {
     text-align: right;
+}
+.blueBg {
+    background: $blue;
+}
+.warningBg {
+    background: $red;
+}
+
+/*********** common ***********/
+.wrapper {
+    width: 1000px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+.header {
+    height: 70px;
+    background: $headerBg;
+    clear: both;
+    .wrapper {
+        padding: 0 10px;
+        height: 70px;
+    }
+    .header-left {
+        width: 300px;
+        height: 70px;
+        line-height: 0px;
+        float: left;
+        img {
+            margin-top: 15px;
+            margin-left: 15px;
+        }
+    }
+    .header-right {
+        font-size: 14px;
+        float: right;
+        .header-right-l {
+            float: left;
+            ul {
+                li {
+                    display: inline-block;
+                    a {
+                        display: block;
+                        width: 100px;
+                        color: #fff;
+                        line-height: 70px;
+                        text-align: center;
+                        transition: all .4s;
+                        &:hover {
+                            background: #0a67c4;
+                        }
+                    }
+                }
+            }
+        }
+        .header-right-r {
+            position: relative;
+            float: right;
+            color: #fff;
+            line-height: 70px;
+            margin-left: 40px;
+            i {
+                color: #999;
+                transition: all .4s;
+            }
+            &:hover i {
+                transform: rotate(180deg);
+                & + ul {
+                    display: block; 
+                }
+            }
+            ul {
+                position: absolute;
+                top: 66px;
+                right: 0;
+                display: none;
+                width: 120px;
+                text-align: center;
+                border-radius: 4px;
+                background: #fff;
+                box-shadow: 0 0 10px 0 #666;
+                li {
+                    padding: 10px 0;
+                    line-height: 20px;
+                    &.line {
+                        border-bottom: 1px solid $borderColor;
+                        a {
+                            color: #666;
+                        }
+                    }
+                    a {
+                        display: inline-block;
+                        width: 58px;
+                        height: 26px;
+                        text-align: center;
+                        line-height: 26px;
+                        color: #fff;
+                        border-radius: 2px;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+.left {
+    position: relative;
+    width: 200px;
+    font-size: 14px;
+    color: #666;
+    padding-top: 20px;
+    float: left;
+    z-index: 88;
+    background: #fff;
+    ul {
+        li {
+            & > span {
+                position: relative;
+                display: block;
+                width: 180px;
+                height: 50px;
+                text-align: center;
+                line-height: 50px;
+                padding: 0 10px;
+                border: 1px solid #fff;
+                border-bottom: 1px solid $borderColor;
+                border-right: none;
+                z-index: 2;
+                i {
+                    display: block;
+                    line-height: 50px;
+                    color: #999;
+                    font-size: 26px;
+                    float: right;
+                }
+            }
+            & > div {
+                position: absolute;
+                left: 201px;
+                top: 0px;
+                display: none;
+                width: 752px;
+                min-height: 400px;
+                padding: 20px;
+                border: 1px solid $red;
+                background: #fff;
+                dl {
+                    line-height: 36px;
+                    overflow: hidden;
+                    dt {
+                        width: 160px;
+                        text-align: right;
+                        float: left;
+                        span {
+                            color: $red;
+                        }
+                        i {
+                            position: relative;
+                            top: 3px;
+                            color: #999;
+                            font-size: 26px;
+                            margin: 0 10px;
+                        }
+                    }
+                    dd {
+                        width: 588px;
+                        float: left;
+                        font-size: 12px;
+                        color: #999;
+                        line-height: 36px;
+                        a {
+                            display: inline-block;
+                            color: #999;
+                        }
+                        i {
+                            margin: 0 5px;
+                            color: #999;
+                            font-style: normal;
+                        }
+                    }
+                } 
+            }
+            &:hover {
+                & > span {
+                    border: 1px solid $red;
+                    border-right: 1px solid #fff;
+                }
+                & > div {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+.right {
+    width: 780px;
+    height: 500px;
+    float: right;
 }
 
 /*********** 登录 ***********/
@@ -367,6 +570,12 @@ form {
         }
         span {
             margin-left: 20px;
+            a {
+                color: $blueText;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
     }
     input[type="submit"] {
@@ -375,13 +584,122 @@ form {
         line-height: 38px;
         text-align: center;
         color: #fff;
-        background: #00a0e9;
+        background: $blueText;
         border: none;
         outline: none;
         transition: all .4s;
         margin-bottom: 40px;
         &:hover {
             background: #1481b3;
+        }
+    }
+}
+.reg-success-body {
+    width: 260px;
+    padding: 40px 0;
+    margin: 0 auto;
+    text-align: center;
+    .reg-success-img {
+        i {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background: url(../images/icons.png) -50px 10px no-repeat #e54260;
+            border-radius: 100%;
+            box-shadow: 0 0 15px 10px #ffecf0;
+        }
+        span {
+            display: block;
+            line-height: 40px;
+            font-size: 18px;
+            color: $blueText;
+        }
+        .reg-line {
+            line-height: 0;
+            display: block;
+            height: 1px;
+            margin: 10px 0;
+            background: -webkit-linear-gradient(left, #fff 0%, #e5e5e5 30%, #e5e5e5 70%, #fff 100%);
+            background: -o-linear-gradient(left, #fff 0%, #e5e5e5 30%, #e5e5e5 70%, #fff 100%);
+            background: -moz-linear-gradient(left, #fff 0%, #e5e5e5 30%, #e5e5e5 70%, #fff 100%);
+            background: linear-gradient(left, #fff 0%, #e5e5e5 30%, #e5e5e5 70%, #fff 100%);
+        }
+    }
+    .reg-success-mes {
+        margin: 30px 0;
+        line-height: 24px;
+        font-size: 14px;
+    }
+    .reg-success-btns {
+        a {
+            display: inline-block;
+            width: 170px;
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            background: #00a0e9;
+            color: #fff;
+            font-size: 14px;
+            box-shadow: 0 0 10px 0 #8db6c9;
+        }
+    }
+}
+
+/*********** 数据中心 ***********/
+.banner-img {
+    width: 100%;
+    margin: 2px 0;
+    border-radius: 4px;
+}
+.data {
+    overflow: hidden;
+    box-shadow: 0 0 5px 0 #ddd;
+    padding: 5px;
+    .right-history {
+        ul {
+            padding: 5px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            border-bottom: 1px solid $borderColor;
+            overflow: hidden;
+            li {
+                display: inline-block;
+                padding: 0;
+                margin: 0;
+                float: left;
+                a {
+                    display: inline-block;
+                    height: 40px;
+                    line-height: 40px;
+                    background: $blue;
+                    color: #fff;
+                    font-size: 14px;
+                    padding: 0 10px;
+                    margin-bottom: 2px;
+                    margin-right: 2px;
+                    img{
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*********** detail ***********/
+.right-body {
+    height: 400px;
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+    html {
+        min-width: 200px;
+    }
+    .database-box {
+        h2 {
+            font-size: 18px;
+            color: #333;
         }
     }
 }
