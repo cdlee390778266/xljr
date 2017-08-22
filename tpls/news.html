@@ -7,13 +7,114 @@
         <meta name="keywords" content="">
         <link rel="shortcut icon" href="myicon.ico">
         <link rel="stylesheet" href="../frameworks/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="../frameworks/jquery-treeview/jquery.treeview.css" />
         <link href="../css/style.css" rel="stylesheet">
 
         <script type="text/javascript" src="../js/jquery-1.10.1.js"></script>
+        <script src="../frameworks/jquery-treeview/jquery.cookie.js"></script>
+        <script src="../frameworks/jquery-treeview/jquery.treeview.js"></script>
+
         
         <title>信龙金融数据平台</title>
     </head>
     <body>
+
+        <!--  头部  -->
+        <div class="header">
+            <div class="wrapper">
+                <div class="header-left">
+                    <img src="../images/login_title.png"  alt="" />
+                </div>
+                <div class="header-right">
+                    <div class="header-right-l">
+                        <ul>
+                            <li><a href="">首页</a></li>
+                            <li><a href="">数据中心</a></li>
+                            <li><a href="">公告资讯</a></li>
+                            <li><a href="">新闻中心</a></li>
+                            <li><a href="">行情导出</a></li>
+                        </ul>
+                    </div>
+                    <div class="header-right-r">
+                        <span>欢迎你！ 游客</span>
+                        <i class="fa fa-angle-down"></i>
+                        <ul>
+                            <li class="line"><a href="">退出</a>
+                            </li>
+                            <li><a href="reg.html" class="blueBg">登录</a></li>
+                            <li><a href="reg.html" class="warningBg">注册</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  广告图  -->
+        <div class="wrapper">
+            <img src="../images/banner-new.png"  alt="" class="banner-img"  />
+        </div>
+
+        <!--  页面主体  -->
+        <div class="wrapper data">
+
+            <!--  左侧菜单  -->
+            <div class="news-menu">
+                <ul id="menu" class="filetree treeview-famfamfam">
+                    <li><span>股票公告</span>
+                        <ul>
+                            <li><span>利好公告</span>
+                                <ul>
+                                    <li data-href="home.html"><span>今日股票公告</span>
+                                        <ul>
+                                            <li>
+                                                <a href="">第四级</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li data-href="home.html"><span>今日债券公告</span></li>
+                                </ul>
+                            </li>
+                            <li><span>今日债券</span>
+                                <ul>
+                                    <li><span>Subfolder 2.1</span>
+                                </ul>
+                            </li>
+                            <li class="closed"><span>利空公告</span>
+                                <ul>
+                                    <li><span>File 3.1</span></li>
+                                </ul>
+                            </li>
+                            <li><span>中小版股票公告</span></li>
+                        </ul>
+                    </li>
+                    <li><span>债券公告</span></li>
+                    <li><span>基金公告</span></li>
+                    <li><span>其他公告</span></li>
+                </ul>
+            </div>
+
+            <!--  右侧详细内容  -->
+            <div class="right">
+                <iframe name="right" src="new.html" frameborder="0"  style="border:none;" width="100%" height="1000" ></iframe>
+                
+            </div>
+
+        </div>
        
+        <script>
+            $(function() {
+
+                //左侧按钮初始化
+                $("#menu").treeview({
+                    collapsed: true,
+                    toggle: function() {
+                        console.log("%s was toggled.", $(this).find(">span").text());
+                    }
+                });
+            })
+
+
+        </script>
+
     </body>
 </html>

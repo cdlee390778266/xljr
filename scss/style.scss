@@ -238,14 +238,7 @@ a {
 .login {
     background: url(../images/login_bg.png) no-repeat;
     background-size: cover;
-}
-h1 {
-    height: 80px;
-    line-height: 98px;
-    background: #095eb3;
-    text-align: center;
-}
-form {
+    form {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -367,6 +360,13 @@ form {
         }
     }
 }
+}
+h1 {
+    height: 80px;
+    line-height: 98px;
+    background: #095eb3;
+    text-align: center;
+}
 .login-text {
     height: 36px;
     line-height: 36px;
@@ -384,13 +384,13 @@ form {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 650px;
-    height: 600px;
-    margin-top: -300px;
-    margin-left: -325px;
-    background: #fff;
-    box-shadow: 0 0 15px 0 #444;
-    border-radius: 4px;
+    width: 650px !important;
+    height: 600px !important;
+    margin-top: -300px !important;
+    margin-left: -325px !important;
+    background: #fff !important;
+    box-shadow: 0 0 15px 0 #444 !important;
+    border-radius: 4px !important;
     .reg-title {
         height: 86px;
         line-height: 86px;
@@ -688,18 +688,196 @@ form {
 
 /*********** detail ***********/
 .right-body {
-    height: 400px;
-    iframe {
-        width: 100%;
-        height: 100%;
+    height: auto;   
+}
+.ifm {
+    min-width: auto;
+}
+.database-box {
+    .database-title {
+        padding: 30px 20px;
     }
-    html {
-        min-width: 200px;
+    h2 {
+        font-size: 18px;
+        color: #333;
+        text-indent: 2em;
     }
-    .database-box {
-        h2 {
-            font-size: 18px;
+    .database-main {
+        padding: 0px 20px;
+        p {
+            text-indent: 2em;
+            line-height: 24px;
+            color: #999;
+            font-size: 14px;
+        }
+        table {
+            min-width: 100%;
+            tr {
+                th, td {
+                   height: 40px;
+                   line-height: 40px;
+                   text-align: center;
+                   font-size: 14px;
+                   border-left: 1px solid #ddd; 
+                   border-bottom: 1px solid #ddd;
+                   &:last-child {
+                    border-right: 1px solid #ddd;
+                   } 
+                }
+                th {
+                    color: #333;
+                    border-top: 1px solid #ddd;
+                    border-bottom: 2px solid #ddd;
+                }
+                td {
+                    color: #999;
+                }
+            }
+        }
+    }
+}
+
+/*********** 新闻中心 ***********/
+.news-menu {
+    position: relative;
+    width: 200px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #666;
+    padding-top: 20px;
+    float: left;
+    z-index: 88;
+    background: #fff;
+}
+div.expandable-hitarea {
+    position: relative;
+    top: 7px;
+    float: right;
+    font: normal normal normal 14px/1 FontAwesome;
+    background: none;
+    background-image: none !important;
+    font-size: 12px;
+    line-height: 16px !important;
+    text-align: center;
+    color: #999;
+    &:before {
+        content: "\f105";
+    }
+}
+div.collapsable-hitarea {
+    position: relative;
+    top: 7px;
+    float: right;
+    font: normal normal normal 14px/1 FontAwesome;
+    background: none !important;
+    font-size: 12px;
+    line-height: 16px !important;
+    text-align: center;
+    transition: all .4s;
+    transform: rotate(90deg);
+    &:before {
+        content: "\f105";
+    }
+}
+.filetree {
+    color: #666;
+    font-size: 12px;
+    & > li {
+        position: relative;
+        & > div.expandable-hitarea {
+            position: relative;
+            top: 6px;
+            float: right;
+            font: normal normal normal 14px/1 FontAwesome;
+            background: none;
+            font-size: 20px;
+            color: #999;
+            &:before {
+                content: "\f105";
+            }
+        }
+        & > div.collapsable-hitarea {
+            position: relative;
+            top: 6px;
+            float: right;
+            font: normal normal normal 14px/1 FontAwesome;
+            background: none;
+            font-size: 20px;
+            color: $blue;
+            transition: all .4s;
+            transform: rotate(90deg);
+            &:before {
+                content: "\f105";
+            }
+            & + span {
+                color: $blue;
+            }
+        }
+        & > span {
+            display: block;
+            text-align: center;
             color: #333;
+            font-size: 13px;
+        }
+        & > li > span {
+            color: #333;
+        }
+        & > ul > li {
+            & > div.expandable-hitarea {
+                position: relative;
+                top: 9px;
+                width: 10px;
+                height: 10px;
+                line-height: 10px !important;
+                font: normal normal normal 14px/1 FontAwesome;
+                background: none;
+                color: #999;
+                border: 1px solid #999;
+                transform: rotate(0deg);
+                transition: none;
+                &:before {
+                    content: "+";
+                }
+            }
+            & > div.collapsable-hitarea {
+                position: relative;
+                top: 9px;
+                width: 10px;
+                height: 10px;
+                line-height: 10px !important;
+                font: normal normal normal 14px/1 FontAwesome;
+                background: none;
+                font-size: 20px;
+                color: #999;
+                border: 1px solid #999;
+                transform: rotate(0deg);
+                transition: none;
+                &:before {
+                    content: "-";
+                }
+            }
+        }
+    }
+    a {
+        color: #999;
+    }
+}
+.treeview .hover {
+    color: $blue;
+}
+.news {
+    .new-form-item {
+        display: inline-block;
+        input[type="text"] {
+            width: 76px;
+            height: 32px;
+            padding: 0 5px;
+            outline: none;
+            border: 1px solid #f1f1f1;
+            margin-right: 5px;
+        }
+        select {
+
         }
     }
 }

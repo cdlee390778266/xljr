@@ -268,15 +268,7 @@ a {
   background: url(../images/login_bg.png) no-repeat;
   background-size: cover;
 }
-
-h1 {
-  height: 80px;
-  line-height: 98px;
-  background: #095eb3;
-  text-align: center;
-}
-
-form {
+.login form {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -288,17 +280,17 @@ form {
   box-shadow: 0 0 15px 0 #444;
   border-radius: 4px;
 }
-form .login-main {
+.login form .login-main {
   margin-top: 25px;
 }
-form .login-row {
+.login form .login-row {
   width: 330px;
   height: 40px;
   line-height: 40px;
   margin: 0px auto;
   margin-bottom: 15px;
 }
-form .login-row label {
+.login form .login-row label {
   display: inline-block;
   width: 66px;
   text-align: right;
@@ -306,16 +298,16 @@ form .login-row label {
   font-weight: bold;
   color: #333;
 }
-form .login-row .login-text {
+.login form .login-row .login-text {
   width: 200px;
 }
-form .login-checkbox {
+.login form .login-checkbox {
   position: relative;
   top: -7px;
   margin-left: 96px;
   color: #999;
 }
-form .login-checkbox input {
+.login form .login-checkbox input {
   position: absolute;
   left: 0;
   top: 12px;
@@ -325,10 +317,10 @@ form .login-checkbox input {
   opacity: 0;
   z-index: 2;
 }
-form .login-checkbox input:checked + i {
+.login form .login-checkbox input:checked + i {
   background: url(../images/icons.png) -4px -11px no-repeat;
 }
-form .login-checkbox i {
+.login form .login-checkbox i {
   position: absolute;
   left: 0;
   top: 12px;
@@ -337,13 +329,13 @@ form .login-checkbox i {
   height: 14px;
   border: 1px solid #b5b5b5;
 }
-form .login-checkbox span {
+.login form .login-checkbox span {
   margin-left: 26px;
 }
-form .login-btns {
+.login form .login-btns {
   text-align: center;
 }
-form .login-btns a {
+.login form .login-btns a {
   display: inline-block;
   width: 120px;
   height: 40px;
@@ -355,29 +347,29 @@ form .login-btns a {
   margin: 0 5px;
   transition: all .4s;
 }
-form .login-btns a:first-child {
+.login form .login-btns a:first-child {
   background: #4ba5ff;
 }
-form .login-btns a:first-child:hover {
+.login form .login-btns a:first-child:hover {
   background: #1765b3;
 }
-form .login-btns a:last-child {
+.login form .login-btns a:last-child {
   background: #959595;
 }
-form .login-btns a:last-child:hover {
+.login form .login-btns a:last-child:hover {
   background: #726969;
 }
-form .login-reg {
+.login form .login-reg {
   margin-top: 10px;
   color: #999;
 }
-form .login-reg a {
+.login form .login-reg a {
   color: #6bdb88;
 }
-form .login-reg a:hover {
+.login form .login-reg a:hover {
   text-decoration: underline;
 }
-form .login-error {
+.login form .login-error {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -388,7 +380,7 @@ form .login-error {
   background: #db6b80;
   color: #fff;
 }
-form .login-error i {
+.login form .login-error i {
   position: relative;
   top: 3px;
   display: inline-block;
@@ -397,6 +389,13 @@ form .login-error i {
   background: url(../images/icons.png) -1px -33px no-repeat #fff;
   border-radius: 100%;
   margin-right: 5px;
+}
+
+h1 {
+  height: 80px;
+  line-height: 98px;
+  background: #095eb3;
+  text-align: center;
 }
 
 .login-text {
@@ -417,13 +416,13 @@ form .login-error i {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 650px;
-  height: 600px;
-  margin-top: -300px;
-  margin-left: -325px;
-  background: #fff;
-  box-shadow: 0 0 15px 0 #444;
-  border-radius: 4px;
+  width: 650px !important;
+  height: 600px !important;
+  margin-top: -300px !important;
+  margin-left: -325px !important;
+  background: #fff !important;
+  box-shadow: 0 0 15px 0 #444 !important;
+  border-radius: 4px !important;
 }
 .reg .reg-title {
   height: 86px;
@@ -712,16 +711,192 @@ form .login-error i {
 
 /*********** detail ***********/
 .right-body {
-  height: 400px;
+  height: auto;
 }
-.right-body iframe {
-  width: 100%;
-  height: 100%;
+
+.ifm {
+  min-width: auto;
 }
-.right-body html {
-  min-width: 200px;
+
+.database-box .database-title {
+  padding: 30px 20px;
 }
-.right-body .database-box h2 {
+.database-box h2 {
   font-size: 18px;
   color: #333;
+  text-indent: 2em;
+}
+.database-box .database-main {
+  padding: 0px 20px;
+}
+.database-box .database-main p {
+  text-indent: 2em;
+  line-height: 24px;
+  color: #999;
+  font-size: 14px;
+}
+.database-box .database-main table {
+  min-width: 100%;
+}
+.database-box .database-main table tr th, .database-box .database-main table tr td {
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 14px;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.database-box .database-main table tr th:last-child, .database-box .database-main table tr td:last-child {
+  border-right: 1px solid #ddd;
+}
+.database-box .database-main table tr th {
+  color: #333;
+  border-top: 1px solid #ddd;
+  border-bottom: 2px solid #ddd;
+}
+.database-box .database-main table tr td {
+  color: #999;
+}
+
+/*********** 新闻中心 ***********/
+.news-menu {
+  position: relative;
+  width: 200px;
+  line-height: 30px;
+  font-size: 14px;
+  color: #666;
+  padding-top: 20px;
+  float: left;
+  z-index: 88;
+  background: #fff;
+}
+
+div.expandable-hitarea {
+  position: relative;
+  top: 7px;
+  float: right;
+  font: normal normal normal 14px/1 FontAwesome;
+  background: none;
+  background-image: none !important;
+  font-size: 12px;
+  line-height: 16px !important;
+  text-align: center;
+  color: #999;
+}
+div.expandable-hitarea:before {
+  content: "\f105";
+}
+
+div.collapsable-hitarea {
+  position: relative;
+  top: 7px;
+  float: right;
+  font: normal normal normal 14px/1 FontAwesome;
+  background: none !important;
+  font-size: 12px;
+  line-height: 16px !important;
+  text-align: center;
+  transition: all .4s;
+  transform: rotate(90deg);
+}
+div.collapsable-hitarea:before {
+  content: "\f105";
+}
+
+.filetree {
+  color: #666;
+  font-size: 12px;
+}
+.filetree > li {
+  position: relative;
+}
+.filetree > li > div.expandable-hitarea {
+  position: relative;
+  top: 6px;
+  float: right;
+  font: normal normal normal 14px/1 FontAwesome;
+  background: none;
+  font-size: 20px;
+  color: #999;
+}
+.filetree > li > div.expandable-hitarea:before {
+  content: "\f105";
+}
+.filetree > li > div.collapsable-hitarea {
+  position: relative;
+  top: 6px;
+  float: right;
+  font: normal normal normal 14px/1 FontAwesome;
+  background: none;
+  font-size: 20px;
+  color: #4ba5ff;
+  transition: all .4s;
+  transform: rotate(90deg);
+}
+.filetree > li > div.collapsable-hitarea:before {
+  content: "\f105";
+}
+.filetree > li > div.collapsable-hitarea + span {
+  color: #4ba5ff;
+}
+.filetree > li > span {
+  display: block;
+  text-align: center;
+  color: #333;
+  font-size: 13px;
+}
+.filetree > li > li > span {
+  color: #333;
+}
+.filetree > li > ul > li > div.expandable-hitarea {
+  position: relative;
+  top: 9px;
+  width: 10px;
+  height: 10px;
+  line-height: 10px !important;
+  font: normal normal normal 14px/1 FontAwesome;
+  background: none;
+  color: #999;
+  border: 1px solid #999;
+  transform: rotate(0deg);
+  transition: none;
+}
+.filetree > li > ul > li > div.expandable-hitarea:before {
+  content: "+";
+}
+.filetree > li > ul > li > div.collapsable-hitarea {
+  position: relative;
+  top: 9px;
+  width: 10px;
+  height: 10px;
+  line-height: 10px !important;
+  font: normal normal normal 14px/1 FontAwesome;
+  background: none;
+  font-size: 20px;
+  color: #999;
+  border: 1px solid #999;
+  transform: rotate(0deg);
+  transition: none;
+}
+.filetree > li > ul > li > div.collapsable-hitarea:before {
+  content: "-";
+}
+.filetree a {
+  color: #999;
+}
+
+.treeview .hover {
+  color: #4ba5ff;
+}
+
+.news .new-form-item {
+  display: inline-block;
+}
+.news .new-form-item input[type="text"] {
+  width: 76px;
+  height: 32px;
+  padding: 0 5px;
+  outline: none;
+  border: 1px solid #f1f1f1;
+  margin-right: 5px;
 }
