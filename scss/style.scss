@@ -10,7 +10,7 @@ $borderColor: #eeeeee;
 
 html {
     min-width: 1000px;
-    height: 100%;
+    min-height: 100%;
 }
 
 body {
@@ -655,6 +655,7 @@ h1 {
     overflow: hidden;
     box-shadow: 0 0 5px 0 #ddd;
     padding: 5px;
+    margin-bottom: 40px;
     .right-history {
         ul {
             padding: 5px;
@@ -738,6 +739,9 @@ h1 {
 }
 
 /*********** 新闻中心 ***********/
+.new-wrapper {
+    padding: 0;
+}
 .news-menu {
     position: relative;
     width: 200px;
@@ -866,18 +870,137 @@ div.collapsable-hitarea {
     color: $blue;
 }
 .news {
+    .news-top {
+        padding: 5px 10px;
+        border-bottom: 1px solid $borderColor;
+    }
     .new-form-item {
         display: inline-block;
+        margin-right: 15px;
         input[type="text"] {
-            width: 76px;
+            width: 88px;
             height: 32px;
             padding: 0 5px;
             outline: none;
-            border: 1px solid #f1f1f1;
-            margin-right: 5px;
+            border: 1px solid $borderColor;
+            margin: 0;
         }
         select {
-
+            width: 88px;
+            height: 32px;
+        }
+        .new-btn {
+            display: inline-block;
+            width: 60px;
+            height: 32px;
+            text-align: center;
+            line-height: 32px;
+            outline: none;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            &.search {
+                background: $blue;
+                &:hover {
+                    background: $blueHover;
+                }
+            }
+            &.reset {
+                background: #45d48f;
+                &:hover {
+                    background: #208956;
+                }
+            }
+            &.export {
+                background: #dc6a81;
+                &:hover {
+                    background: #b45a6c;
+                }
+            }
         }
     }
+    .new-body {
+        .new-item {
+            border-bottom: 1px solid $borderColor;
+            padding: 10px;
+            h3 {
+                line-height: 40px;
+               font-size: 14px;
+               color: #333;
+               &.active {
+                color: #1b64ae;
+               }
+            } 
+            &:nth-child(even) {
+                background: #f9f9f9;
+                a {
+                    color: #666;
+                }
+            }
+            a {
+                line-height: 22px;
+                color: #999;
+                &:hover {
+                    color: $red;
+                    text-decoration: underline;
+                }
+            }
+        } 
+    }
+}
+.new-page {
+    margin: 15px 0;
+    text-align: right;
+    .page {
+        display: inline-block;
+        a {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid #dcdcdc;
+            float: left;
+            border-left: none;
+            &:first-child {
+                border-left: 1px solid #dcdcdc;
+            }
+            &.active {
+                background: #45d48f;
+                color: #fff;
+            }
+        }
+    }
+}
+
+/*********** 新闻详情 ***********/
+.new {
+    min-height: 100%;
+    .wrapper {
+        padding: 50px 20px;
+        background: #fff;
+        min-height: 100%;
+    }
+    .new-title {
+        text-align: center;
+        h2 {
+            line-height: 30px;
+            font-size: 14px;
+            color: #333;
+        }
+        span {
+            color: #999;
+        }
+    }
+    .new-detail {
+        color: #999;
+        line-height: 24px;
+        p {
+            margin: 20px 0;
+        }
+    }
+}
+.new-bg {
+    background: #f8f8f8;
+    min-height: 100%;
 }

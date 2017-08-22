@@ -42,7 +42,7 @@
 
 html {
   min-width: 1000px;
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
@@ -680,6 +680,7 @@ h1 {
   overflow: hidden;
   box-shadow: 0 0 5px 0 #ddd;
   padding: 5px;
+  margin-bottom: 40px;
 }
 .data .right-history ul {
   padding: 5px;
@@ -759,6 +760,10 @@ h1 {
 }
 
 /*********** 新闻中心 ***********/
+.new-wrapper {
+  padding: 0;
+}
+
 .news-menu {
   position: relative;
   width: 200px;
@@ -889,14 +894,136 @@ div.collapsable-hitarea:before {
   color: #4ba5ff;
 }
 
+.news .news-top {
+  padding: 5px 10px;
+  border-bottom: 1px solid #eeeeee;
+}
 .news .new-form-item {
   display: inline-block;
+  margin-right: 15px;
 }
 .news .new-form-item input[type="text"] {
-  width: 76px;
+  width: 88px;
   height: 32px;
   padding: 0 5px;
   outline: none;
-  border: 1px solid #f1f1f1;
-  margin-right: 5px;
+  border: 1px solid #eeeeee;
+  margin: 0;
+}
+.news .new-form-item select {
+  width: 88px;
+  height: 32px;
+}
+.news .new-form-item .new-btn {
+  display: inline-block;
+  width: 60px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  outline: none;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+}
+.news .new-form-item .new-btn.search {
+  background: #4ba5ff;
+}
+.news .new-form-item .new-btn.search:hover {
+  background: #1765b3;
+}
+.news .new-form-item .new-btn.reset {
+  background: #45d48f;
+}
+.news .new-form-item .new-btn.reset:hover {
+  background: #208956;
+}
+.news .new-form-item .new-btn.export {
+  background: #dc6a81;
+}
+.news .new-form-item .new-btn.export:hover {
+  background: #b45a6c;
+}
+.news .new-body .new-item {
+  border-bottom: 1px solid #eeeeee;
+  padding: 10px;
+}
+.news .new-body .new-item h3 {
+  line-height: 40px;
+  font-size: 14px;
+  color: #333;
+}
+.news .new-body .new-item h3.active {
+  color: #1b64ae;
+}
+.news .new-body .new-item:nth-child(even) {
+  background: #f9f9f9;
+}
+.news .new-body .new-item:nth-child(even) a {
+  color: #666;
+}
+.news .new-body .new-item a {
+  line-height: 22px;
+  color: #999;
+}
+.news .new-body .new-item a:hover {
+  color: #db6b80;
+  text-decoration: underline;
+}
+
+.new-page {
+  margin: 15px 0;
+  text-align: right;
+}
+.new-page .page {
+  display: inline-block;
+}
+.new-page .page a {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border: 1px solid #dcdcdc;
+  float: left;
+  border-left: none;
+}
+.new-page .page a:first-child {
+  border-left: 1px solid #dcdcdc;
+}
+.new-page .page a.active {
+  background: #45d48f;
+  color: #fff;
+}
+
+/*********** 新闻详情 ***********/
+.new {
+  min-height: 100%;
+}
+.new .wrapper {
+  padding: 50px 20px;
+  background: #fff;
+  min-height: 100%;
+}
+.new .new-title {
+  text-align: center;
+}
+.new .new-title h2 {
+  line-height: 30px;
+  font-size: 14px;
+  color: #333;
+}
+.new .new-title span {
+  color: #999;
+}
+.new .new-detail {
+  color: #999;
+  line-height: 24px;
+}
+.new .new-detail p {
+  margin: 20px 0;
+}
+
+.new-bg {
+  background: #f8f8f8;
+  min-height: 100%;
 }

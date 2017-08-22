@@ -3,7 +3,7 @@ $(document).ready( function () {
 
             var flag = true;
 
-            var myDataTables = $('#table_id_example').DataTable({
+            var myDataTables = $('#table').DataTable({
                 autoFill: true,
                 dom: 'Brtip',
                 buttons: ['colvis'],
@@ -19,6 +19,9 @@ $(document).ready( function () {
                     { data: 'salary' },
                     { data: 'office' }
                 ],
+                fnInitComplete: function (oSettings, json) {
+                    $(parent.document).find('iframe, .right').height($(document).height() + 80);
+                },
                 language: {
                     "sProcessing": "处理中...",
                     "sLengthMenu": "显示 _MENU_ 项结果",
@@ -53,7 +56,6 @@ $(document).ready( function () {
                 flag = !flag;
                 myDataTables.ajax.url(url).load();
             })
-
 
         } );
 
