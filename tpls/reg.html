@@ -9,11 +9,11 @@
         <link href="../css/style.css" rel="stylesheet">
 
         <script type="text/javascript" src="../js/jquery-1.10.1.js"></script>
-        
+        <script src="../js/jquery.validate.js"></script>
         <title>注册</title>
     </head>
     <body class="login">
-        <form action="" class="reg">
+        <form action="" class="reg" id="reg">
             <div class="reg-title">
                 <div class="reg-title-left">
                     注册
@@ -26,86 +26,71 @@
             <div class="reg-main">
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i> 姓名</span>
-                    <input type="text" class="login-text" name="userName" />
-                    <span class="reg-error"><i></i><strong>请输入姓名</strong></span>
+                    <input type="text" class="login-text" name="F001" />
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i> 性别</span>
                     <label>
-                        <input type="radio" name="gender" value="0" checked="" />
+                        <input type="radio" name="F002" value="0" checked="" />
                         <i></i>
                         <span>男</span>
                     </label>
                     <label>
-                        <input type="radio" name="gender" value="1" />
+                        <input type="radio" name="F002" value="1" />
                         <i></i>
                         <span>女</span>
                     </label>
                 </div>
                 <div class="reg-row">
-                    <span class="reg-text"><i>*</i> 出生日期</span>
-                    <input type="text" class="login-text" />
-                    <span class="reg-error"><i></i>请选择年月日</span>
-                </div>
-                <div class="reg-row">
                     <span class="reg-text"><i>*</i>身份证</span>
-                    <input type="text" class="login-text" name="userName" />
-                    <span class="reg-error"><i></i><strong>请输入身份证号</strong></span>
+                    <input type="text" class="login-text" name="F003" />
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i> 开户营业部</span>
-                    <select name="" id="">
+                    <select id="" name="F004">
                         <option value="">1</option>
                         <option value="">1</option>
                         <option value="">1</option>
                         <option value="">1</option>
                     </select>
-                    <span class="reg-error"><i></i><strong>请你的开户营业部</strong></span>
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>固定电话</span>
-                    <input type="text" class="login-text" name="userName" />
-                    <span class="reg-error"><i></i><strong>请输入固定电话号码</strong></span>
+                    <input type="text" class="login-text" name="F005" />
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>手机</span>
-                    <input type="text" class="login-text" name="userName" />
-                    <span class="reg-error"><i></i><strong>请输入11位手机号码</strong></span>
+                    <input type="text" class="login-text" name="F006" />
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>用户名</span>
-                    <input type="text" class="login-text" name="userName" />
-                    <span class="reg-error"><i></i><strong>6-20位字母与数字的组合</strong></span>
+                    <input type="text" class="login-text" name="F007" />
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>密码</span>
-                    <input type="password" class="login-text" name="userName" />
-                    <span class="reg-error"><i></i><strong>请输入密码</strong></span>
+                    <input type="password" class="login-text" name="F008" />
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>确认密码</span>
-                    <input type="password" class="login-text" name="userName" />
-                    <span class="reg-error"><i></i><strong>请输入确认密码</strong></span>
+                    <input type="password" class="login-text" name="F009" />
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>电子邮箱</span>
-                    <input type="text" class="login-text" name="userName" />
-                    <span class="reg-error"><i></i><strong>请输入Email地址</strong></span>
+                    <input type="text" class="login-text" name="F010" />
                 </div>
                 <div class="reg-row reg-code">
                     <span class="reg-text"><i>*</i>验证码</span>
-                    <input type="text" class="login-text" name="userName" />
+                    <input type="text" class="login-text" name="F011" />
                     <img src="../images/login_bg.png" height="1467" width="2495" alt="" />
-                    <span class="reg-error"><i></i><strong>请4位输入验证码</strong></span>
                 </div>
-                <div class="reg-row">
+                <!-- <div class="reg-row">
                     <span class="reg-text"></span>
                     <div class="reg-checkbox">
                         <input type="checkbox" />
                         <i></i>
                         <span>我已阅读并同意<a href="">《许可协议》</a></span>
                     </div>
-                </div>
+                </div> -->
                 <div class="reg-row">
                     <span class="reg-text"></span>
                     <input type="submit" value="注册" />
@@ -128,5 +113,84 @@
                 </div>
             </div>
         </form>
+        <script>
+            $(function() {
+
+                $('#reg').validate({
+                    rules : {
+                        F001 : {
+                            required : true,
+                            rangelength : [2, 6]
+                        }, 
+                        F002 : {
+                           
+                        }, 
+                        F003 : {
+                            required : true
+                        },
+                        F004 : {
+                            required : true
+                        },
+                        F005 : {
+                            required : true
+                        },
+                        F006 : {
+                            required : true
+                        },
+                        F007 : {
+                            required : true
+                        },
+                        F008 : {
+                            required : true
+                        },
+                        F009 : {
+                            required : true
+                        },
+                        F010 : {
+                            required : true
+                        },
+                        F011 : {
+                            required : true
+                        }, 
+                        dateISO : {
+                            dateISO : true,
+                        }, 
+                        number : {
+                            number : true,
+                        }, 
+                        digits : {
+                            digits : true,
+                        }, 
+                        creditcard : {
+                            creditcard : true,
+                        },
+                        notpass : {
+                            equalTo : '#pass',
+                        },
+                        min : {
+                            min : 5,
+                        },
+                        range : {
+                            range : [5, 10],
+                        },
+                        rangelength : {
+                            rangelength : [5, 10],
+                        }
+                    },
+                    messages : {
+                        F001 : {
+                            required : '姓名不得为空！',
+                            rangelength :  jQuery.format('姓名限制在{0}-{1}位！'),
+                        },
+                        F003 : {
+                            required : '身份证不得为空！',
+                        }
+                    },
+                    submitHandler : function (form) {
+                        alert('验证成功，准备提交！');
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
