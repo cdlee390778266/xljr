@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <link rel="shortcut icon" href="myicon.ico">
+        <link rel="stylesheet" href="./frameworks/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <link href="./css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="./css/animate.css" />
+        <script type="text/javascript" src="./js/jquery-1.10.1.js"></script>
+        
+        <title>登录</title>
+    </head>
+    <body class="login">
+        <form>
+            <h1><img src="./images/login_title.png"></h1>
+            <div class="login-main">
+                <div class="login-row">
+                    <label for="">用户名</label>
+                    <input type="text" placeholder="用户名" class="login-text" id="userName">
+                </div>
+                <div class="login-row">
+                    <label for="">密码</label>
+                    <input type="password" placeholder="密码" class="login-text" id="pwd">
+                </div>
+                <div class="login-row">
+                    <div class="login-checkbox">
+                        <input type="checkbox"  >
+                        <i></i>
+                        <span>Check me out</span>
+                    </div>
+                </div>
+                <div class="login-row login-btns">
+                    <a href="javascript:void(0);" id="login-submit">登录</a>
+                    <a href="javascript: void(0);" id="anonymous">匿名登录</a>
+                </div>
+                <div class="login-row tc login-reg">
+                    还没有账号？<a href="./tpls/reg.html">马上注册</a>
+                </div>
+            </div>
+            <div class="login-error">
+                <div id="login-error-box" class="animated"><i></i><span>您输入的用户名有误</span></div>
+            </div>
+        </form>
+
+        <script>
+            $(function() {
+                /**
+                 * 匿名登录
+                 */
+                $('#anonymous').click(function() {
+                    $(this).text('匿名登录中...');
+                    location.href = './tpls/index.html';
+                });
+
+                /**
+                 * 关闭错误提示
+                 */
+                $('.login-error i').click(function() {
+                    $('.login-error').hide();
+                    $('.login-error').removeClass('shake');
+                })
+
+                /**
+                 * 登录
+                 */
+                $('#login-submit').click(function() {
+
+                    if($(this).hasClass('active')) return;
+
+                    var userName = $('#userName').val();
+                    var pwd = $('#pwd').val();
+                    //用户名验证
+                    if(userName.length < 2 || userName.length > 20) {
+                        $('.login-error span').text('用户名长度应该在2-20位之间！');
+                        $('.login-error div').addClass('shake');
+                        $('.login-error').show();
+                        return;
+                    }
+                    //密码验证
+                    if(pwd.length < 6 || pwd.length > 20) {
+                        $('.login-error span').text('密码长度应该在6-20位之间！');
+                        $('.login-error div').addClass('shake');
+                        $('.login-error').show();
+                        return;
+                    }
+
+                    $(this).text('登录中...').addClass('active');
+                    $('.login-error').hide();
+                    $('.login-error').removeClass('shake');
+
+                    //表单提交
+                    $.ajax({
+                        url: './data/login.json',
+                        type: 'POST',
+                        data: {
+                            FunType: "IF002",
+                            F001: $('#userName').val(),
+                            F002: $('#pwd').val()
+                        }
+                    })
+                    .done(function(res) {
+                        if(parseInt(res.resultdata)) { //登录成功
+                            location.href = './tpls/index.html';
+                        }else { //登录失败
+                            $('#login-submit').text('登录').removeClass('active');
+                            $('.login-error span').text('登录失败，用户名或密码错误！');
+                            $('.login-error div').addClass('shake');
+                            $('.login-error').show();
+                        }
+                    })
+                    .fail(function() {
+                        $('#login-submit').text('登录').removeClass('active');
+                        $('.login-error span').text('登录失败，请检查网络！');
+                        $('.login-error div').addClass('shake');
+                        $('.login-error').show();
+                    })
+                    
+                })
+                
+            })
+
+        </script>
+
+    </body>
+</html>

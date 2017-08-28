@@ -10,6 +10,7 @@
 
         <script type="text/javascript" src="../js/jquery-1.10.1.js"></script>
         <script src="../js/jquery.validate.js"></script>
+        
         <title>注册</title>
     </head>
     <body class="login">
@@ -20,16 +21,16 @@
                 </div>
                 <div class="reg-title-right">
                     <span>已有账号？</span>
-                    <a href="login.html">返回登录</a>
+                    <a href="../index.html">返回登录</a>
                 </div>
             </div>
-            <div class="reg-main">
+            <div class="reg-main reg-form">
                 <div class="reg-row">
-                    <span class="reg-text"><i>*</i> 姓名</span>
-                    <input type="text" class="login-text" name="F001" />
+                    <span class="reg-text">姓名</span>
+                    <input type="text" class="login-text" name="F001" id="name"/>
                 </div>
                 <div class="reg-row">
-                    <span class="reg-text"><i>*</i> 性别</span>
+                    <span class="reg-text">性别</span>
                     <label>
                         <input type="radio" name="F002" value="0" checked="" />
                         <i></i>
@@ -42,25 +43,20 @@
                     </label>
                 </div>
                 <div class="reg-row">
-                    <span class="reg-text"><i>*</i>身份证</span>
-                    <input type="text" class="login-text" name="F003" />
+                    <span class="reg-text">身份证</span>
+                    <input type="text" class="login-text" name="F003" id="ID"/>
                 </div>
                 <div class="reg-row">
-                    <span class="reg-text"><i>*</i> 开户营业部</span>
-                    <select id="" name="F004">
-                        <option value="">1</option>
-                        <option value="">1</option>
-                        <option value="">1</option>
-                        <option value="">1</option>
-                    </select>
+                    <span class="reg-text">开户营业部</span>
+                    <input type="text" class="login-text" name="F004" />
                 </div>
                 <div class="reg-row">
-                    <span class="reg-text"><i>*</i>固定电话</span>
-                    <input type="text" class="login-text" name="F005" />
+                    <span class="reg-text">固定电话</span>
+                    <input type="text" class="login-text" name="F005" id="phone"/>
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>手机</span>
-                    <input type="text" class="login-text" name="F006" />
+                    <input type="text" class="login-text" name="F006" id="mobile"/>
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>用户名</span>
@@ -68,11 +64,11 @@
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>密码</span>
-                    <input type="password" class="login-text" name="F008" />
+                    <input type="password" class="login-text" name="F008"  id="pwd" />
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>确认密码</span>
-                    <input type="password" class="login-text" name="F009" />
+                    <input type="password" class="login-text" name="F009" id="cPwd" />
                 </div>
                 <div class="reg-row">
                     <span class="reg-text"><i>*</i>电子邮箱</span>
@@ -93,22 +89,21 @@
                 </div> -->
                 <div class="reg-row">
                     <span class="reg-text"></span>
-                    <input type="submit" value="注册" />
+                    <input type="submit" value="注册"  id="reg-submit" />
                 </div>
             </div>
-            <div class="reg-success reg-main" style="display: none;"> 
-                <div class="reg-success-body">
+            <div class="reg-success reg-main"> 
+                <div class="reg-success-body reg-error">
                     <div class="reg-success-img">
                         <i></i>
-                        <span>恭喜注册成功</span>
+                        <span id="res-text">对不起，注册失败！</span>
                         <span class="reg-line"></span>
                     </div>
                     <div class="reg-success-mes">
-                        你的用户名：D12569636 <br />
-                        密码：5869356
+                        
                     </div>
                     <div class="reg-success-btns">
-                        <a href="login.html">直接登录</a>
+                        <a href="javascript: void(0);">直接登录</a>
                     </div>
                 </div>
             </div>
@@ -119,62 +114,26 @@
                 $('#reg').validate({
                     rules : {
                         F001 : {
-                            required : true,
                             rangelength : [2, 6]
-                        }, 
-                        F002 : {
-                           
-                        }, 
-                        F003 : {
-                            required : true
-                        },
-                        F004 : {
-                            required : true
-                        },
-                        F005 : {
-                            required : true
-                        },
-                        F006 : {
-                            required : true
-                        },
+                        },  
                         F007 : {
-                            required : true
+                            required : true,
+                            rangelength : [2, 20]
                         },
                         F008 : {
                             required : true
                         },
                         F009 : {
-                            required : true
+                            required : true,
+                            equalTo:"#pwd"
                         },
                         F010 : {
-                            required : true
+                            required : true,
+                            email:true
                         },
                         F011 : {
-                            required : true
-                        }, 
-                        dateISO : {
-                            dateISO : true,
-                        }, 
-                        number : {
-                            number : true,
-                        }, 
-                        digits : {
-                            digits : true,
-                        }, 
-                        creditcard : {
-                            creditcard : true,
-                        },
-                        notpass : {
-                            equalTo : '#pass',
-                        },
-                        min : {
-                            min : 5,
-                        },
-                        range : {
-                            range : [5, 10],
-                        },
-                        rangelength : {
-                            rangelength : [5, 10],
+                            required : true,
+                            rangelength:[4,4]
                         }
                     },
                     messages : {
@@ -184,12 +143,135 @@
                         },
                         F003 : {
                             required : '身份证不得为空！',
+                        },
+                        F004 : {
+                            required : '开户营业部不得为空！',
+                        },
+                        F007 : {
+                            required : '用户名不得为空！',
+                            rangelength :  jQuery.format('用户名限制在{0}-{1}位！'),
+                        },
+                        F009 : {
+                            required : '确认密码不得为空！',
+                            equalTo:"两次密码不一致！"
+                        },
+                        F010 : {
+                            required : '电子邮箱不得为空！',
+                            email: '请输入正确格式的电子邮箱！'
+                        },
+                        F011 : {
+                            required : '验证码不得为空！',
+                            rangelength: '请输入4位验证码！'
                         }
                     },
-                    submitHandler : function (form) {
-                        alert('验证成功，准备提交！');
+                    submitHandler : function (form) {   //提交表单
+                        if($('#reg-submit').hasClass('active')) return;
+                        $('#reg-submit').addClass('active').val('注册中...');
+                        $.ajax({
+                            url: '../data/reg.json',
+                            type: 'POST',
+                            data: {
+                                FunType: "IF001",
+                                F001: escape($('input[name="F001"]').val()),
+                                F002: $('input[name="F001"]').val(),
+                                F003: escape($('input[name="F003"]').val()),
+                                F004: $('input[name="F004"]').val(),
+                                F005: escape($('input[name="F005"]').val()),
+                                F006: escape($('input[name="F006"]').val()),
+                                F007: escape($('input[name="F007"]').val()),
+                                F008: escape($('input[name="F008"]').val()),
+                                F009: escape($('input[name="F009"]').val()),
+                                F010: escape($('input[name="F010"]').val()),
+                                F011: $('input[name="F005"]').val()
+                            }
+                        })
+                        .done(function(res) {
+                            $('#reg-submit').removeClass('active').val('注册');
+                            if(parseInt(res.resultdata)) {
+                                $('.reg-form').hide();
+                                $('.reg-success-body').removeClass('reg-error');
+                                $('#res-text').html('恭喜您，注册成功');
+                                $('.reg-success-mes').html('你的用户名：' +  $('input[name="F007"]').val()+ '<br/>密码：' + $('input[name="F008"]').val() + '');
+                                $('.reg-success-btns a').text('直接登录');
+                                $('.reg-success').fadeIn();
+                            }else {
+                                $('.reg-form').hide();
+                                $('.reg-success-body').addClass('reg-error');
+                                $('#res-text').html('对不起，注册失败！');
+                                $('.reg-success-mes').html('');
+                                $('.reg-success-btns a').text('重新注册');
+                                $('.reg-success').fadeIn();
+                            }
+                        })
+                        .fail(function() {
+                            $('#reg-submit').removeClass('active').val('注册');
+                            $('.reg-form').hide();
+                            $('.reg-success-body').addClass('reg-error');
+                            $('#res-text').html('对不起，注册失败！');
+                            $('.reg-success-mes').html('由于网络原因，注册失败！');
+                            $('.reg-success-btns a').text('重新注册');
+                            $('.reg-success').fadeIn();
+                        })
+            
                     }
                 });
+                
+                /**
+                 * 直接登录or重新注册按钮动作
+                 */
+                $('.reg-success-btns a').click(function() {
+                    if(!$(this).parents('.reg-error').length) {
+                        location.href = '../index.html';
+                    }else {
+                        $('.reg-success').hide();
+                        $('.reg-form').fadeIn();
+                    }
+                })
+                
+                //身份证号码验证
+                $('#ID').rules('add', {
+                    idRule: true
+                });
+                $.validator.addMethod('idRule', function (value, element) {
+                    var regExp = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                    return this.optional(element) || (regExp.test(value));
+                }, '请输入正确的身份证号码！');
+
+                //固定电话验证
+                $('#phone').rules('add', {
+                    phone: true
+                });
+                $.validator.addMethod('phone', function (value, element) {
+                    var regExp = /^([0-9]{3,4}-)?[0-9]{7,8}$/;
+                    return this.optional(element) || (regExp.test(value));
+                }, '请输入正确的固定电话号码！');
+
+                //手机验证
+                $('#mobile').rules('add', {
+                    required: true,
+                    mobile: true,
+                    messages: {
+                        required : '手机不得为空！',
+                    },
+                });
+                $.validator.addMethod('mobile', function (value, element) {
+                    var regExp = /^((\+?86)|(\+86))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|18[02356789][0-9]{8}|147[0-9]{8}|1349[0-9]{7})$/;
+                    return this.optional(element) || (regExp.test(value));
+                }, '请输入正确的手机号码！');
+
+                //密码验证
+                $('#pwd').rules('add', {
+                    required: true,
+                    pwd: true,
+                    messages: {
+                        required : '密码不得为空！',
+                    },
+                });
+                $.validator.addMethod('pwd', function (value, element) {
+                    var regExp = /^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){5,19}$/;
+                    return this.optional(element) || (regExp.test(value));
+                }, '6-20个字母开头、数字、“_”、“.”组合的字串!');
+
             });
         </script>
     </body>

@@ -84,8 +84,14 @@ a {
                         line-height: 70px;
                         text-align: center;
                         transition: all .4s;
-                        &:hover {
-                            background: #0a67c4;
+                    }
+                    &:hover, &.active {
+                        background: #0a67c4;
+                    }
+                    &.disabled {
+                        a {
+                            color: #5d88c5;
+                            cursor: not-allowed;
                         }
                     }
                 }
@@ -149,7 +155,7 @@ a {
     color: #666;
     padding-top: 20px;
     float: left;
-    z-index: 88;
+    z-index: 8;
     background: #fff;
     ul {
         li {
@@ -190,6 +196,7 @@ a {
                         width: 160px;
                         text-align: right;
                         float: left;
+                        cursor: pointer;
                         span {
                             color: $red;
                         }
@@ -210,6 +217,10 @@ a {
                         a {
                             display: inline-block;
                             color: #999;
+                            cursor: pointer;
+                            &:hover {
+                                text-decoration: underline;
+                            }
                         }
                         i {
                             margin: 0 5px;
@@ -241,6 +252,7 @@ a {
 .login {
     background: url(../images/login_bg.png) no-repeat;
     background-size: cover;
+    min-height: 750px;
     form {
     position: absolute;
     top: 50%;
@@ -319,7 +331,7 @@ a {
             transition: all .4s;
             &:first-child {
                 background: $blue;
-                &:hover {
+                &:hover, &.active {
                     background: $blueHover;
                 }
             }
@@ -346,6 +358,7 @@ a {
         bottom: 0;
         left: 0;
         right: 0;
+        display: none;
         height: 46px;
         line-height: 46px;
         text-align: center;
@@ -388,12 +401,12 @@ h1 {
 /*********** 注册 ***********/
 .reg {
     position: absolute;
-    top: 50%;
+    top: 50% !important;
     left: 50%;
-    width: 650px !important;
-    height: 600px !important;
-    margin-top: -300px !important;
-    margin-left: -325px !important;
+    width: 670px !important;
+    height: 745px !important;
+    margin-top: -372px !important;
+    margin-left: -335px !important;
     background: #fff !important;
     box-shadow: 0 0 15px 0 #444 !important;
     border-radius: 4px !important;
@@ -434,11 +447,11 @@ h1 {
 .reg-main {
     padding: 0 10px;
     margin-top: 10px;
-    height: 480px;
+    height: 660px;
     overflow-y: auto;
     .reg-row {
         margin: 10px auto;
-        width: 500px;
+        width: 642px;
         height: 40px;
         line-height: 46px;
         .login-text {
@@ -539,6 +552,7 @@ h1 {
     }
     .reg-code {
         display: table;
+        position: relative;
         .login-text {
             width: 110px;
         }
@@ -549,6 +563,10 @@ h1 {
             height: 38px;
             vertical-align: middle;
             margin-left: 5px;
+        }
+        label {
+            position: absolute;
+            left: 330px;
         }
     }
     .reg-checkbox {
@@ -597,10 +615,13 @@ h1 {
         outline: none;
         transition: all .4s;
         margin-bottom: 40px;
-        &:hover {
+        &:hover, &.active {
             background: #1481b3;
         }
     }
+}
+.reg-success {
+    display: none;
 }
 .reg-success-body {
     width: 260px;
@@ -612,7 +633,7 @@ h1 {
             display: inline-block;
             width: 80px;
             height: 80px;
-            background: url(../images/icons.png) -50px 10px no-repeat #e54260;
+            background: url(../images/icons.png) -30px 15px no-repeat #e54260;
             border-radius: 100%;
             box-shadow: 0 0 15px 10px #ffecf0;
         }
@@ -649,6 +670,16 @@ h1 {
             color: #fff;
             font-size: 14px;
             box-shadow: 0 0 10px 0 #8db6c9;
+        }
+    }
+    &.reg-error {
+        .reg-success-img {
+            i {
+                background-position: -29px -69px;
+            }
+            span {
+                color: $red;
+            }
         }
     }
 }
