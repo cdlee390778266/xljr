@@ -6,13 +6,13 @@
         <meta name="description" content="">
         <meta name="keywords" content="">
         <link rel="shortcut icon" href="myicon.ico">
-        <link rel="stylesheet" href="../frameworks/font-awesome-4.7.0/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="../css/animate.css" />
-        <link href="../css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../frameworks/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="../../css/animate.css" />
+        <link href="../../css/style.css" rel="stylesheet">
     
-        <script type="text/javascript" src="../js/jquery-1.10.1.js"></script>
-        <script src="../js/common.js"></script>
-        <script src="../js/data.js"></script>
+        <script type="text/javascript" src="../../js/jquery-1.10.1.js"></script>
+        <script src="../../js/common.js"></script>
+        <script src="../../js/data.js"></script>
         
         <title>信龙金融数据平台</title>
     </head>
@@ -22,15 +22,15 @@
         <div class="header">
             <div class="wrapper">
                 <div class="header-left">
-                    <img src="../images/login_title.png"  alt="" />
+                    <img src="../../images/login_title.png"  alt="" />
                 </div>
                 <div class="header-right">
                     <div class="header-right-l">
                         <ul id="top-menu">
-                            <li><a href="index.html">首页</a></li>
+                            <li><a href="../home/index.html">首页</a></li>
                             <li class="disabled active"><a href="javascript:void(0);" data-link="data.html">数据中心</a></li>
-                            <li class="disabled"><a href="javascript:void(0);" data-link="news.html">公告资讯</a></li>
-                            <li class="disabled"><a href="javascript:void(0);" data-link="news.html">新闻中心</a></li>
+                            <li class="disabled"><a href="javascript:void(0);" data-link="../notice/notices.html">公告资讯</a></li>
+                            <li class="disabled"><a href="javascript:void(0);" data-link="../news/news.html">新闻中心</a></li>
                             <li class="disabled"><a href="javascript:void(0);" data-link="">行情导出</a></li>
                         </ul>
                     </div>
@@ -38,9 +38,9 @@
                         <span>欢迎你！ 游客</span>
                         <i class="fa fa-angle-down"></i>
                         <ul>
-                            <li class="line"><a href="../index.html">退出</a>
+                            <li class="line"><a href="../../index.html">退出</a>
                             </li>
-                            <li><a href="../index.html" class="blueBg">登录</a></li>
+                            <li><a href="../../index.html" class="blueBg">登录</a></li>
                             <li><a href="reg.html" class="warningBg">注册</a></li>
                         </ul>
                     </div>
@@ -50,7 +50,7 @@
 
         <!--  广告图  -->
         <div class="wrapper">
-            <img src="../images/banner.png"  alt="" class="banner-img" />
+            <img src="../../images/banner.png"  alt="" class="banner-img" />
         </div>
 
         <!--  页面主体  -->
@@ -65,11 +65,11 @@
             <div class="right">
                 <div class="right-history">
                     <ul>
-                        <li><a href="javascript: void(0);">股票市场交易<img src="../images/history-close.png"  alt="" /></a></li>
+                        <li data-link="home"><a href="javascript: void(0);">主页</a></li>
                     </ul>
                 </div>
                 <div class="right-body">
-                    <iframe name="right" src="home.html" frameborder="0"  style="border:none;" width="100%" ></iframe>
+                    <iframe name="home" src="home.html" frameborder="0"  style="border:none;" width="100%" id="home"></iframe>
                 </div>
                 
             </div>

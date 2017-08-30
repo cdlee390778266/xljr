@@ -6,10 +6,10 @@
         <meta name="description" content="">
         <meta name="keywords" content="">
         <link rel="shortcut icon" href="myicon.ico">
-        <link rel="stylesheet" href="../frameworks/font-awesome-4.7.0/css/font-awesome.min.css" />
-        <link href="../css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../frameworks/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <link href="../../css/style.css" rel="stylesheet">
 
-        <script type="text/javascript" src="../js/jquery-1.10.1.js"></script>
+        <script type="text/javascript" src="../../js/jquery-1.10.1.js"></script>
         
         <title>信龙金融数据平台</title>
     </head>
@@ -39,7 +39,7 @@
         
         <script>
             $(function() {
-                
+
                 var domH = $('.new').height();
                 function setHeight() {
                     if($(window).height() > domH) {
@@ -47,6 +47,32 @@
                     }
                 }
 
+                var noticeId = location.href.split('?')[1].split('=')[1];
+
+                $.ajax({
+                    url: '../../data/notice.json',
+                    type: 'POST',
+                    data: {
+                        FunType: "IF011",
+                        F001: "wq123",
+                        F002: noticeId 
+                    }
+                })
+                .done(function(res) {
+                    if(parseInt(res.resultdata)) {
+                        $('.new-title').find('h2').text(res.ResData[0].F002);
+                        $('.new-title').find('span').text(res.ResData[0].F003);
+                        $('.new-detail').text(res.ResData[0].F004);
+                    }else {
+                        $('.wrapper').html('获取数据失败！');
+                    }
+                    setHeight();
+                })
+                .fail(function() {
+                    $('.wrapper').html('获取数据失败，请检查网络！');
+                    setHeight();
+                })
+                
                 $(window).resize(setHeight);
                 setHeight();
             })

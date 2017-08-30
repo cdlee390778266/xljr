@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2017-08-28 14:21:38
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-08-28 14:41:22
+* @Last Modified time: 2017-08-29 10:53:09
 */
 
 $(document).ready(function(){
@@ -11,7 +11,7 @@ $(document).ready(function(){
      */
     var getTopMenu = function() {
         $.ajax({
-            url: '../data/topMenu.json',
+            url: '../../data/topMenu.json',
             type: 'POST',
             data: {
                 FunType: "IF003",

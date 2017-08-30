@@ -27,7 +27,7 @@
                 </div>
                 <div class="login-row">
                     <div class="login-checkbox">
-                        <input type="checkbox"  >
+                        <input type="checkbox" name="F003" value="1" id="remember">
                         <i></i>
                         <span>Check me out</span>
                     </div>
@@ -37,7 +37,7 @@
                     <a href="javascript: void(0);" id="anonymous">匿名登录</a>
                 </div>
                 <div class="login-row tc login-reg">
-                    还没有账号？<a href="./tpls/reg.html">马上注册</a>
+                    还没有账号？<a href="./tpls/reg/reg.html">马上注册</a>
                 </div>
             </div>
             <div class="login-error">
@@ -52,7 +52,7 @@
                  */
                 $('#anonymous').click(function() {
                     $(this).text('匿名登录中...');
-                    location.href = './tpls/index.html';
+                    location.href = './tpls/home/index.html';
                 });
 
                 /**
@@ -98,12 +98,13 @@
                         data: {
                             FunType: "IF002",
                             F001: $('#userName').val(),
-                            F002: $('#pwd').val()
+                            F002: $('#pwd').val(),
+                            F003: $('#remember:checked').length
                         }
                     })
                     .done(function(res) {
                         if(parseInt(res.resultdata)) { //登录成功
-                            location.href = './tpls/index.html';
+                            location.href = './tpls/home/index.html';
                         }else { //登录失败
                             $('#login-submit').text('登录').removeClass('active');
                             $('.login-error span').text('登录失败，用户名或密码错误！');

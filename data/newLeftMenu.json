@@ -1,0 +1,217 @@
+{
+    "resultdata":"1",
+    "errordata":"获取成功",
+    "ResData":
+        [
+            {
+                "belongsname":"",
+                "pid":"",
+                "id":"001",
+                "name":"股票市场系列新闻",
+                "type":"1",
+                "children":[
+                    {
+                        "belongsname":"股票市场系列",
+                        "pid":"001",
+                        "id":"001001",
+                        "name":"股票市场交易",
+                        "type":"2",
+                        "children":[
+                            {
+                                "belongsname":"股票市场交易",
+                                "pid":"001001",
+                                "id":"001001001",
+                                "name":"股票基本数据",
+                                "type":"3",
+                                "children": [
+                                    {
+                                        "belongsname":"股票市场交易",
+                                        "pid":"001001",
+                                        "id":"001001001",
+                                        "name":"股票基本数据",
+                                        "type":"3",
+                                        "children": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "belongsname":"股票市场交易",
+                                "pid":"001001",
+                                "id":"001001001",
+                                "name":"股票基本数据",
+                                "type":"3",
+                                "children": [
+                                    {
+                                        "belongsname":"股票市场交易",
+                                        "pid":"001001",
+                                        "id":"001001001",
+                                        "name":"股票基本数据",
+                                        "type":"3",
+                                        "children": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "belongsname":"股票市场交易",
+                                "pid":"001001",
+                                "id":"001001001",
+                                "name":"股票基本数据",
+                                "type":"3",
+                                "children": [
+                                    {
+                                        "belongsname":"股票市场交易",
+                                        "pid":"001001",
+                                        "id":"001001001",
+                                        "name":"股票基本数据",
+                                        "type":"3",
+                                        "children": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                
+                ]   
+            },
+            {
+                "belongsname":"",
+                "pid":"",
+                "id":"001",
+                "name":"股票市场系列",
+                "type":"1",
+                "children":[
+                    {
+                        "belongsname":"股票市场系列",
+                        "pid":"001",
+                        "id":"001001",
+                        "name":"股票市场交易",
+                        "type":"2",
+                        "children":[
+                            {
+                                "belongsname":"股票市场交易",
+                                "pid":"001001",
+                                "id":"001001001",
+                                "name":"股票基本数据",
+                                "type":"3",
+                                "children": [
+                                    {
+                                        "belongsname":"股票市场交易",
+                                        "pid":"001001",
+                                        "id":"001001001",
+                                        "name":"股票基本数据",
+                                        "type":"3",
+                                        "children": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "belongsname":"股票市场交易",
+                                "pid":"001001",
+                                "id":"001001001",
+                                "name":"股票基本数据",
+                                "type":"3",
+                                "children": [
+                                    {
+                                        "belongsname":"股票市场交易",
+                                        "pid":"001001",
+                                        "id":"001001001",
+                                        "name":"股票基本数据",
+                                        "type":"3",
+                                        "children": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "belongsname":"股票市场交易",
+                                "pid":"001001",
+                                "id":"001001001",
+                                "name":"股票基本数据",
+                                "type":"3",
+                                "children": [
+                                    {
+                                        "belongsname":"股票市场交易",
+                                        "pid":"001001",
+                                        "id":"001001001",
+                                        "name":"股票基本数据",
+                                        "type":"3",
+                                        "children": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                
+                ]   
+            },
+            {
+                "belongsname":"",
+                "pid":"",
+                "id":"001",
+                "name":"股票市场系列",
+                "type":"1",
+                "children":[
+                    {
+                        "belongsname":"股票市场系列",
+                        "pid":"001",
+                        "id":"001001",
+                        "name":"股票市场交易",
+                        "type":"2",
+                        "children":[
+                            {
+                                "belongsname":"股票市场交易",
+                                "pid":"001001",
+                                "id":"001001001",
+                                "name":"股票基本数据",
+                                "type":"3",
+                                "children": [
+                                    {
+                                        "belongsname":"股票市场交易",
+                                        "pid":"001001",
+                                        "id":"001001001",
+                                        "name":"股票基本数据",
+                                        "type":"3",
+                                        "children": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "belongsname":"股票市场交易",
+                                "pid":"001001",
+                                "id":"001001001",
+                                "name":"股票基本数据",
+                                "type":"3",
+                                "children": [
+                                    {
+                                        "belongsname":"股票市场交易",
+                                        "pid":"001001",
+                                        "id":"001001001",
+                                        "name":"股票基本数据",
+                                        "type":"3",
+                                        "children": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "belongsname":"股票市场交易",
+                                "pid":"001001",
+                                "id":"001001001",
+                                "name":"股票基本数据",
+                                "type":"3",
+                                "children": [
+                                    {
+                                        "belongsname":"股票市场交易",
+                                        "pid":"001001",
+                                        "id":"001001001",
+                                        "name":"股票基本数据",
+                                        "type":"3",
+                                        "children": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                
+                ]   
+            }   
+    ]
+}

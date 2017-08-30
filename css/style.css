@@ -178,7 +178,10 @@ a {
 }
 
 .left {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
   width: 200px;
   font-size: 14px;
   color: #666;
@@ -186,11 +189,12 @@ a {
   float: left;
   z-index: 8;
   background: #fff;
+  border-right: 1px solid #eeeeee;
 }
 .left ul li > span {
   position: relative;
   display: block;
-  width: 180px;
+  width: 179px;
   height: 50px;
   text-align: center;
   line-height: 50px;
@@ -209,7 +213,7 @@ a {
 }
 .left ul li > div {
   position: absolute;
-  left: 201px;
+  left: 200px;
   top: 0px;
   display: none;
   width: 752px;
@@ -217,6 +221,7 @@ a {
   padding: 20px;
   border: 1px solid #db6b80;
   background: #fff;
+  z-index: 1;
 }
 .left ul li > div dl {
   line-height: 36px;
@@ -268,7 +273,7 @@ a {
 
 .right {
   width: 780px;
-  height: 500px;
+  min-height: 500px;
   float: right;
 }
 
@@ -709,6 +714,7 @@ h1 {
 }
 
 .data {
+  position: relative;
   overflow: hidden;
   box-shadow: 0 0 5px 0 #ddd;
   padding: 5px;
@@ -731,15 +737,25 @@ h1 {
   display: inline-block;
   height: 40px;
   line-height: 40px;
-  background: #4ba5ff;
+  background: #c9d8e6;
   color: #fff;
   font-size: 14px;
   padding: 0 10px;
   margin-bottom: 2px;
   margin-right: 2px;
 }
+.data .right-history ul li a i {
+  font-style: normal;
+}
 .data .right-history ul li a img {
   margin-left: 10px;
+}
+.data .right-history ul li.active a {
+  background: #4ba5ff;
+}
+.data #table th {
+  height: 40px;
+  line-height: 40px;
 }
 
 /*********** detail ***********/
@@ -791,6 +807,9 @@ h1 {
   color: #999;
 }
 
+.detail {
+  padding-bottom: 40px;
+}
 .detail .detail-bar {
   height: 40px;
   line-height: 40px;
@@ -1188,19 +1207,24 @@ h1 {
 .detail .table-screen .slide-box .cdt-list table tr:hover {
   background: #f9f9f9;
 }
+.detail .detail-table {
+  width: 100%;
+  overflow: auto;
+}
 .detail .detail-table .dataTables_info {
   display: block;
-  width: 100%;
+  width: auto;
   height: 40px;
   line-height: 40px;
   background: #f8f8f8;
   padding-left: 10px;
+  float: none;
 }
 
 .filed-dialog {
   position: absolute;
-  top: 126px;
-  left: 12px;
+  top: 178px;
+  right: 30px;
   display: none;
   width: 680px;
   height: 210px;
@@ -1252,7 +1276,10 @@ h1 {
 
 /*********** 新闻中心 ***********/
 .new-wrapper {
-  padding: 0;
+  padding-bottom: 100px;
+}
+.new-wrapper .page {
+  margin-right: 5px;
 }
 
 .news-menu {
@@ -1302,6 +1329,9 @@ div.collapsable-hitarea:before {
 .filetree {
   color: #666;
   font-size: 12px;
+}
+.filetree span {
+  cursor: pointer;
 }
 .filetree > li {
   position: relative;
@@ -1380,6 +1410,9 @@ div.collapsable-hitarea:before {
 .filetree a {
   color: #999;
 }
+.filetree .expandable, .filetree .collapsable {
+  background-image: none !important;
+}
 
 .treeview .hover {
   color: #4ba5ff;
@@ -1391,10 +1424,10 @@ div.collapsable-hitarea:before {
 }
 .news .new-form-item {
   display: inline-block;
-  margin-right: 15px;
+  margin-right: 5px;
 }
 .news .new-form-item input[type="text"] {
-  width: 88px;
+  width: 76px;
   height: 32px;
   padding: 0 5px;
   outline: none;
@@ -1434,6 +1467,9 @@ div.collapsable-hitarea:before {
 .news .new-form-item .new-btn.export:hover {
   background: #b45a6c;
 }
+.news .new-form-item:last-child {
+  margin-right: 0;
+}
 .news .new-body .new-item {
   border-bottom: 1px solid #eeeeee;
   padding: 10px;
@@ -1460,15 +1496,37 @@ div.collapsable-hitarea:before {
   color: #db6b80;
   text-decoration: underline;
 }
+.news .newsList-empty {
+  font-size: 18px;
+  text-align: center;
+  line-height: 100px;
+}
 
 .new-page {
+  position: absolute;
+  right: 0;
+  bottom: 0;
   margin: 15px 0;
   text-align: right;
 }
 .new-page .page {
   display: inline-block;
 }
-.new-page .page a {
+.new-page .page > a {
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border: 1px solid #dcdcdc;
+  float: left;
+}
+.new-page .page > span {
+  display: inline-block;
+  margin: 0 10px;
+  float: left;
+}
+.new-page .page > span a {
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -1478,10 +1536,16 @@ div.collapsable-hitarea:before {
   float: left;
   border-left: none;
 }
-.new-page .page a:first-child {
+.new-page .page > span a:first-child {
   border-left: 1px solid #dcdcdc;
 }
-.new-page .page a.active {
+.new-page .page a {
+  color: #999;
+}
+.new-page .page a:hover {
+  background: #eee;
+}
+.new-page .page a.active, .new-page .page a.button_page_click {
   background: #45d48f;
   color: #fff;
 }
@@ -1494,6 +1558,8 @@ div.collapsable-hitarea:before {
   padding: 50px 20px;
   background: #fff;
   min-height: 100%;
+  font-size: 18px;
+  text-align: center;
 }
 .new .new-title {
   text-align: center;
@@ -1505,10 +1571,14 @@ div.collapsable-hitarea:before {
 }
 .new .new-title span {
   color: #999;
+  font-size: 12px;
 }
 .new .new-detail {
   color: #999;
   line-height: 24px;
+  margin-top: 20px;
+  font-size: 12px;
+  text-align: left;
 }
 .new .new-detail p {
   margin: 20px 0;
@@ -1517,4 +1587,35 @@ div.collapsable-hitarea:before {
 .new-bg {
   background: #f8f8f8;
   min-height: 100%;
+}
+
+/*********** 主页 ***********/
+.web-describe {
+  font-size: 16px;
+  padding-top: 10px;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 888;
+}
+.loading div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 100px;
+  height: 60px;
+  text-align: center;
+  line-height: 76px;
+  background: #fff;
+  box-shadow: 0 0 15px 0 #999;
+  color: #4ba5ff;
+  margin-top: -30px;
+  margin-left: -50px;
 }

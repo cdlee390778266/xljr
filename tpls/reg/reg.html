@@ -6,10 +6,10 @@
         <meta name="description" content="">
         <meta name="keywords" content="">
         <link rel="shortcut icon" href="myicon.ico">
-        <link href="../css/style.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
 
-        <script type="text/javascript" src="../js/jquery-1.10.1.js"></script>
-        <script src="../js/jquery.validate.js"></script>
+        <script type="text/javascript" src="../../js/jquery-1.10.1.js"></script>
+        <script src="../../js/jquery.validate.js"></script>
         
         <title>注册</title>
     </head>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="reg-title-right">
                     <span>已有账号？</span>
-                    <a href="../index.html">返回登录</a>
+                    <a href="../../index.html">返回登录</a>
                 </div>
             </div>
             <div class="reg-main reg-form">
@@ -77,7 +77,7 @@
                 <div class="reg-row reg-code">
                     <span class="reg-text"><i>*</i>验证码</span>
                     <input type="text" class="login-text" name="F011" />
-                    <img src="../images/login_bg.png" height="1467" width="2495" alt="" />
+                    <img src="../../images/login_bg.png" height="1467" width="2495" alt="" />
                 </div>
                 <!-- <div class="reg-row">
                     <span class="reg-text"></span>
@@ -168,7 +168,7 @@
                         if($('#reg-submit').hasClass('active')) return;
                         $('#reg-submit').addClass('active').val('注册中...');
                         $.ajax({
-                            url: '../data/reg.json',
+                            url: '../../data/reg.json',
                             type: 'POST',
                             data: {
                                 FunType: "IF001",
@@ -221,7 +221,7 @@
                  */
                 $('.reg-success-btns a').click(function() {
                     if(!$(this).parents('.reg-error').length) {
-                        location.href = '../index.html';
+                        location.href = '../../index.html';
                     }else {
                         $('.reg-success').hide();
                         $('.reg-form').fadeIn();

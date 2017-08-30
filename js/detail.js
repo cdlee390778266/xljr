@@ -1,6 +1,11 @@
 $(document).ready( function () {
-
+   
     var flag = true;
+    var id = location.href.split('?')[1].split('=')[1];
+
+    var refreshHeight = function() {
+        $(parent.document).find('iframe').height($(document).height() + 80);
+    }
 
     var myDataTables = $('#table').DataTable({
         autoFill: true,
@@ -10,7 +15,7 @@ $(document).ready( function () {
         bDestroy : true, 
         retrieve: true,//保证只有一个table实例
         ajax: {
-            url: '../data/data.json',
+            url: '../../data/data.json',
             dataSrc: ''
         },
         columns: [
@@ -20,7 +25,7 @@ $(document).ready( function () {
             { data: 'office' }
         ],
         fnInitComplete: function (oSettings, json) {
-            $(parent.document).find('iframe, .right').height($(document).height() + 80);
+            refreshHeight();
         },
         language: {
             "sProcessing": "处理中...",
@@ -52,13 +57,14 @@ $(document).ready( function () {
     });
     
     $('#change').click(function() {
-        var url = flag ? '../data/data.json' : '../data/data1.json';
+        var url = flag ? '../../data/data.json' : '../../data/data1.json';
         flag = !flag;
         myDataTables.ajax.url(url).load();
     });
 
+
     /**
-     * 单选
+     * 字段选择单选
      */
     $('.slide-fields-body').delegate('span i', 'click', function(event) {
         if($(this).hasClass('fa-square-o')) {
@@ -69,7 +75,7 @@ $(document).ready( function () {
     });
 
     /**
-     * 全选
+     * 字段选择全选
      */
     $('.slide-fields-foot span i').click(function() {
         if($(this).hasClass('fa-square-o')) {
