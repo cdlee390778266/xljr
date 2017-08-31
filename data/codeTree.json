@@ -4,85 +4,81 @@
     "ResData":[
         {
             "belongsname":"",
-            "pid":"",
+            "pId":"",
             "id":"001",
             "name":"股票市场分类",
             "type":"1",
-            "children":[
-                {
-                    "belongsname":"股票市场分类",
-                    "pid":"001",
-                    "id":"001001",
-                    "name":"全部A股",
-                    "type":"2","children":""
-                },
-                {
-                    "belongsname":"股票市场分类",
-                    "pid":"001",
-                    "id":"001002",
-                    "name":"上证A股",
-                    "type":"2",
-                    "children":""
-                }
-            ]
+            "children":""
+        },
+        {
+            "belongsname":"股票市场分类",
+            "pId":"001",
+            "id":"001001",
+            "name":"全部A股",
+            "type":"2","children":""
+        },
+        {
+            "belongsname":"股票市场分类",
+            "pId":"001",
+            "id":"001002",
+            "name":"上证A股",
+            "type":"2",
+            "children":""
         },
         {
             "belongsname":"",
-            "pid":"",
+            "pId":"",
             "id":"002",
             "name":"证监会行业分类",
             "type":"1",
-            "children":[
-                {
-                    "belongsname":"证监会行业分类",
-                    "pid":"002",
-                    "id":"002001",
-                    "name":"采掘业",
-                    "type":"2",
-                    "children":[
-                        {
-                            "belongsname":"采掘业",
-                            "pid":"002001",
-                            "id":"001002001",
-                            "name":"煤炭采掘业",
-                            "type":"3",
-                            "children":""
-                        },
-                        {
-                            "belongsname":"采掘业",
-                            "pid":"002001",
-                            "id":"001002002",
-                            "name":"石油天然气开采业",
-                            "type":"3","children":""
-                        }
-                    ]
-                },
-                {
-                    "belongsname":"证监会行业分类",
-                    "pid":"002",
-                    "id":"002002",
-                    "name":"建筑业",
-                    "type":"2",
-                    "children":[
-                        {
-                            "belongsname":"建筑业",
-                            "pid":"002002",
-                            "id":"002002001",
-                            "name":"土木工工程",
-                            "type":"3",
-                            "children":""
-                        },
-                        {
-                            "belongsname":"建筑业",
-                            "pid":"002002",
-                            "id":"002002002",
-                            "name":"装修装潢",
-                            "type":"3",
-                            "children":""
-                        }
-                    ]
-                }
-            ]
+            "children":""
+        },
+        {
+            "belongsname":"证监会行业分类",
+            "pId":"002",
+            "id":"002001",
+            "name":"采掘业",
+            "type":"2",
+            "children":""
+        },
+        {
+            "belongsname":"采掘业",
+            "pId":"002001",
+            "id":"001002001",
+            "name":"煤炭采掘业",
+            "type":"3",
+            "children":""
+        },
+        {
+            "belongsname":"采掘业",
+            "pId":"002001",
+            "id":"001002002",
+            "name":"石油天然气开采业",
+            "type":"3","children":""
+        },
+        {
+            "belongsname":"证监会行业分类",
+            "pId":"002",
+            "id":"002002",
+            "name":"建筑业",
+            "type":"2",
+            "children":""
+        },
+        {
+            "belongsname":"建筑业",
+            "pId":"002002",
+            "id":"002002001",
+            "name":"土木工工程",
+            "type":"3",
+            "children":""
+        },
+        {
+            "belongsname":"建筑业",
+            "pId":"002002",
+            "id":"002002002",
+            "name":"装修装潢",
+            "type":"3",
+            "children":""
         }
-    ]
+     ]               
 }

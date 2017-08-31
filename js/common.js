@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2017-08-28 14:21:38
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-08-29 10:53:09
+* @Last Modified time: 2017-08-31 11:10:07
 */
 
 $(document).ready(function(){
@@ -51,3 +51,21 @@ $(document).ready(function(){
     topInit();
 
 });
+
+var XAlert = function (mes, type) {
+    $('body').dialog({
+        type: type ? type : 'warning',
+        showBoxShadow:true,
+        duration:0,
+        buttons:[
+            {
+                name: '确定',
+                className: 'false'
+            }
+        ],
+        discription:mes,
+        buttonsSameWidth:true,
+        discriptionFontSize:'14px',
+        showCloseIcon:true
+    })
+}

@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="../../frameworks/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.min.css" />
         <link rel="stylesheet" href="../../frameworks/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.min.css" />
         <link rel="stylesheet" href="../../frameworks/ztree.3.5.26/css/zTreeStyle/zTreeStyle.css" />
+        <link rel="stylesheet" href="../../css/dialog.css" />
         <link href="../../css/style.css" rel="stylesheet">
     
         <script type="text/javascript" src="../../js/jquery-1.10.1.js"></script>
@@ -21,6 +22,7 @@
         <script src="../../frameworks/ztree.3.5.26/js/jquery.ztree.core.min.js"></script>
         <script src="../../frameworks/ztree.3.5.26/js/jquery.ztree.excheck.min.js"></script>
         <script src="../../frameworks/ztree.3.5.26/js/jquery.ztree.exhide.min.js"></script>
+        <script src="../../js/dialog.js"></script>
         <script src="../../js/common.js"></script>
         <script src="../../js/data.js"></script>
         
@@ -79,16 +81,14 @@
                     </ul>
                 </div>
                 <div class="right-body" id="right-body">
-                    
+                    <!-- 加载中 -->
+                    <div class="loading page-loading" id="page-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
                 </div>
                 
             </div>
     
         </div>
         
-        <!-- 加载中 -->
-        <div class="loading" id="page-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
-
         <!-- 数据库简介 -->
         <script type="text/html" id="database">
             <div class="database-box" id="database-box">
@@ -176,7 +176,7 @@
 
         <!-- 数据 -->
         <script type="text/html" id="data">
-            <div class="database-box" id="data-box">
+            <div class="database-box" id="data-box" style="display:block;">
                 <input type="hidden" id="dataId" />
                 <div class="detail">
                     <div class="detail-bar">
@@ -229,25 +229,15 @@
                                             <input type="text" id="key" value="" class="empty" placeholder="搜索行业分类" />
                                         </div>
                                         <ul id="tree" class="ztree"></ul>
+                                        <!-- 加载中 -->
+                                        <div class="loading" id="slide-item-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
                                     </div>
                                     <div class="slide-code-item" handletype="add" id="add">
                                         <div class="code-result">可选代码/查找结果[<span>0</span>]个</div>
                                         <div class="code-list">
                                             <ul>
-                                                <li><i class="fa fa-square-o"></i>备选项1</li>
-                                                <li><i class="fa fa-square-o"></i>备选项3</li>
-                                                <li><i class="fa fa-square-o"></i>备选项t</li>
-                                                <li><i class="fa fa-square-o"></i>备选项4</li>
-                                                <li><i class="fa fa-square-o"></i>备选项t</li>
-                                                <li><i class="fa fa-square-o"></i>备选项9</li>
-                                                <li><i class="fa fa-square-o"></i>备选项f</li>
-                                                <li><i class="fa fa-square-o"></i>备选项dd</li>
-                                                <li><i class="fa fa-square-o"></i>备选项fff</li>
-                                                <li><i class="fa fa-square-o"></i>备选项</li>
-                                                <li><i class="fa fa-square-o"></i>备选项</li>
-                                                <li><i class="fa fa-square-o"></i>备选项</li>
                                             </ul>
-                                            <div class="code-all"><i class="fa fa-square-o"></i>共20项</div>
+                                            <div class="code-all"><i class="fa fa-square-o"></i>共<strong>0</strong>项</div>
                                         </div>
                                     </div>
                                     <div class="slide-code-handle">
@@ -255,7 +245,7 @@
                                         <button class="remove-btn" id="remove-all"><i class="fa fa-angle-double-left "></i></button>
                                         <button class="add-btn" id="add-angle"><i class="fa fa-angle-right"></i></button>
                                         <button class="add-btn" id="add-all"><i class="fa fa-angle-double-right"></i></button>
-                                        <button>导出</button>
+                                        <button class="export" id="export">导出</button>
                                     </div>
 
                                     <div class="slide-code-item"  handletype="remove" id="remove">
@@ -264,7 +254,7 @@
                                             <ul>
                                                 
                                             </ul>
-                                            <div class="code-all"><i class="fa fa-square-o"></i>共20项</div>
+                                            <div class="code-all"><i class="fa fa-square-o"></i>共<strong>0</strong>项</div>
                                         </div>
                                     </div>
                                 </div>
@@ -275,6 +265,8 @@
                                     </label>
                                     <a href="">代码模板</a>
                                 </div>
+                                <!-- 加载中 -->
+                                <div class="loading" id="slide-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
                             </div>
                             <!-- 条件筛选下拉 -->
                             <div class="slide-box slide-box-cdt">
@@ -282,37 +274,34 @@
                                     <div class="cdt-box">
                                         <div class="cdt-item">
                                             <label for="">字段</label>
-                                            <select name="" id="">
-                                                <option value="">Email</option>
-                                                <option value="">Email</option>
-                                                <option value="">Email</option>
-                                                <option value="">Email</option>
+                                            <select name="" id="screen-fields">
+                                                <option value=""></option>
                                             </select>
                                         </div>
                                         <div class="cdt-item">
-                                            <label for="">字段</label>
-                                            <select name="" id="">
-                                                <option value="">Email</option>
-                                                <option value="">Email</option>
-                                                <option value="">Email</option>
-                                                <option value="">Email</option>
+                                            <label for="">运算符</label>
+                                            <select name="" id="screen-opt">
+                                                <option value=""></option>
+                                                <option value=">">&gt;</option>
+                                                <option value=">=">&gt;=</option>
+                                                <option value="<">&lt;</option>
+                                                <option value="<=">&lt;=</option>
+                                                <option value="=">=</option>
+                                                <option value="<>">!=</option>
+                                                <option value="IS NULL">为空</option>
+                                                <option value="IS NOT NULL">不为空</option>
                                             </select>
                                         </div>
                                         <div class="cdt-item">
                                             <label for="">条件值</label>
-                                            <select name="" id="">
-                                                <option value="">Email</option>
-                                                <option value="">Email</option>
-                                                <option value="">Email</option>
-                                                <option value="">Email</option>
-                                            </select>
+                                            <input type="text"  value="" id="screen-input" />
                                         </div>
                                         <div class="cdt-item">
-                                            <a href="javascript:void(0);">添加</a>
+                                            <a href="javascript:void(0);" id="screen-add">添加</a>
                                         </div>
                                     </div>
-                                    <div class="cdt-list">
-                                        <table cellpadding="0" cellspacing="0">
+                                    <div class="cdt-list empty">
+                                        <table cellpadding="0" cellspacing="0" >
                                             <thead>
                                                 <tr>
                                                     <th>序号</th>
@@ -326,85 +315,40 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>证券代码</td>
-                                                    <td>></td>
-                                                    <td>0</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td><a href="javascript:void(0);">删除</a></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>证券代码</td>
-                                                    <td>></td>
-                                                    <td>0</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td><a href="javascript:void(0);">删除</a></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>证券代码</td>
-                                                    <td>></td>
-                                                    <td>0</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td><a href="javascript:void(0);">删除</a></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>证券代码</td>
-                                                    <td>></td>
-                                                    <td>0</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td><a href="javascript:void(0);">删除</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>证券代码</td>
-                                                    <td>></td>
-                                                    <td>0</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td><a href="javascript:void(0);">删除</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>证券代码</td>
-                                                    <td>></td>
-                                                    <td>0</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td><a href="javascript:void(0);">删除</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>证券代码</td>
-                                                    <td>></td>
-                                                    <td>0</td>
                                                     <td></td>
-                                                    <td></td>
-                                                    <td><a href="javascript:void(0);">删除</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>证券代码</td>
-                                                    <td>></td>
-                                                    <td>0</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><a href="javascript:void(0);">删除</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>证券代码</td>
-                                                    <td>></td>
-                                                    <td>0</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><a href="javascript:void(0);">删除</a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -457,6 +401,9 @@
                                     <th>
                                         字段说明
                                     </th>
+                                    <th>
+                                        单位
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -466,12 +413,6 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
@@ -480,8 +421,18 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -490,10 +441,38 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <!-- 加载中 -->
+                        <div class="loading" id="filed-dialog-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
+                    </div>
+                </div>
+                <div class="export-dialog">
+                    <div class="export-dialog-head">
+                        导出
+                    </div>
+                    <div class="export-dialog-body">
+                        <div class="export-item">
+                            <div class="export-item-left">选择文档</div>
+                            <div class="export-item-right">
+                                <select name="" id="export-type">
+                                    <option value="0">TXT</option>
+                                    <option value="1">EXCEl</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="export-item">
+                            <div class="export-item-left">是否压缩</div>
+                            <div class="export-item-right">
+                                <span><i></i>是</span>
+                                <span><i></i>否</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="export-dialog-foot">
+                        <button>确定</button>
+                        <button>取消</button>
                     </div>
                 </div>
             </div>  
         </script>
-    
     </body>
 </html>

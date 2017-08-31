@@ -746,6 +746,7 @@ h1 {
 
 /*********** detail ***********/
 .right-body {
+    position: relative;
     height: auto;   
 }
 .ifm {
@@ -895,6 +896,7 @@ h1 {
                 padding: 20px 0;
                 height: 268px;
                 .slide-code-item {
+                    position: relative;
                     display: inline-block;
                     width: 184px;
                     height: 280px;
@@ -971,7 +973,7 @@ h1 {
                                 }
                             }
                         }
-                        &:last-child {
+                        &.export {
                             font-size: 14px;
                             background: $blue;
                             &:hover {
@@ -1148,11 +1150,12 @@ h1 {
                     display: inline-block;
                     margin-right: 10px;
                     color: #666;
-                    select {
-                        width: 160px;
+                    select, input{
+                        width: 148px;
                         height: 40px;
                         line-height: 40px;
                         margin-left: 10px;
+                        padding: 0 10px;
                         border: 1px solid #e1e1e1;
                         color: #999;
                         &:focus {
@@ -1188,13 +1191,24 @@ h1 {
                     th {
                         border-bottom: 2px solid $borderColor;
                         color: #333;
+                        width: percentage(1/7);
                     }
                     td {
+                        height: 30px;
                         line-height: 30px;
                         border-bottom: 1px solid $borderColor;
                         color: #999;
                         a {
                             color: $red;
+                        }
+                        i {
+                            position: relative;
+                            top: 2px;
+                            width: 32px;
+                            font-size: 16px;
+                            display: inline-block;
+                            text-align: right;
+                            margin-right: 5px;
                         }
                     }
                     tr:hover {
@@ -1614,5 +1628,15 @@ div.collapsable-hitarea {
         color: $blue;
         margin-top: -30px;
         margin-left: -50px;
+    }
+    &.page-loading {
+        div {
+            top: 170px;
+        }
+    }
+}
+.slide-box {
+    .loading div {
+        box-shadow: none;
     }
 }

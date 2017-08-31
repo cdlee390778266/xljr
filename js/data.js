@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2017-08-28 15:47:18
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-08-30 18:30:52
+* @Last Modified time: 2017-08-31 18:26:35
 */
 
 $(document).ready(function(){
@@ -42,7 +42,7 @@ $(document).ready(function(){
             }
         })
         .fail(function() {
-            console.log("error");
+            XAlert('获取数据失败，请检查网络！');
         })  
     }
 
@@ -134,9 +134,10 @@ $(document).ready(function(){
         if($('.right-history li').length < 2) {
             $('.right-history ul').append('<li><a href="javascript: void(0);"><i></i><img src="../../images/history-close.png"  alt="" /></a></li>');
         }
-        $('#dataId').val($(this).data('id'));
         $('.right-history li').removeClass('active');
         $('.right-history li:last-child').attr('data-link','data-box').addClass('active').find('i').text($(this).text());
+
+        $('#dataId').val($(this).data('id'));
         dataInit();
         event.stopPropagation();
         event.preventDefault();
@@ -194,6 +195,42 @@ $(document).ready(function(){
      */
     $('body').delegate('.slide-fields-foot a', 'click', function() {
         $('.filed-dialog').css('display', 'block').removeClass('fadeOut').addClass('fadeIn');
+        if($(this).attr('data-id') != $('#dataId').val()) {
+            $(this).attr('data-id', $('#dataId').val());
+            $('#filed-dialog-loading').show();
+            $.ajax({
+                url: '../../data/filedsDes.json',
+                type: 'POST',
+                data: {
+                    FunType: "IF016",
+                    F001: "wq123",
+                    F002: $('#dataId').val()
+                }
+            })
+            .done(function(res) {
+                var html = '';
+                if(parseInt(res.resultdata)) {
+                    for(var i = 0; i < res.ResData.length; i++) {
+                        html += '<tr>'
+                             +      '<td>' + (i+1) + '</td>'
+                             +      '<td>' + res.ResData[i].Name + '</td>'
+                             +      '<td>' + res.ResData[i].Name + '</td>'
+                             +      '<td>' + res.ResData[i].Name + '</td>'
+                             +      '<td>' + res.ResData[i].Description + '</td>'
+                             +      '<td>' + res.ResData[i].Unit + '</td>'
+                             +  '</tr>'
+                    }
+                }else {
+
+                }
+                $('#filed-dialog-loading').hide();
+                $('.filed-dialog-body tbody').html(html);
+            })
+            .fail(function() {
+                XAlert('获取数据失败，请检查网络！');
+            })
+        }
+        
     })
 
     /**
@@ -203,7 +240,8 @@ $(document).ready(function(){
         $('.filed-dialog').removeClass('fadeIn').addClass('fadeOut').css('display', 'none');
     });
 
- 
+    var dataId; //保存页面id
+
     /**
      * 条件选择下拉
      */
@@ -217,8 +255,12 @@ $(document).ready(function(){
             $('.screen-select-slide .slide-box').hide();
             $('.screen-select-slide .slide-box').eq($(this).index()).stop().show();
         }
-
-        if($(this).index() == 1 && !$('#tree li').length) {
+        
+          
+        //第一次点击代码选择获取代码树
+        if($(this).index() == 1 && $('.screen-select-btns button:nth-child(2)').data('id') != $('#dataId').val()) {
+            $('.screen-select-btns button:nth-child(2)').attr('data-id',$('#dataId').val());
+            $('#slide-item-loading').show();
             $.ajax({
                 url: '../../data/codeTree.json',
                 type: 'POST',
@@ -229,15 +271,47 @@ $(document).ready(function(){
                 }
             })
             .done(function(res) {
-                $.fn.zTree.init($("#tree"), setting, zNodes);
-                key.bind("focus", focusKey)
-                .bind("blur", blurKey)
-                .bind("propertychange", searchNode)
-                .bind("input", searchNode);
+                if(parseInt(res.resultdata)) {
+                    zNodes = res.ResData;
+                    zTreeObj = $.fn.zTree.init($("#tree"), setting, zNodes);
+                    key.bind("focus", focusKey)
+                    .bind("blur", blurKey)
+                    .bind("propertychange", searchNode)
+                    .bind("input", searchNode);
+                }
+                $('#slide-item-loading').hide();
             })
             .fail(function() {
-                console.log("error");
+                $('#slide-item-loading').hide();
+                XAlert('获取数据失败，请检查网络！');
             }) 
+        }
+
+        //第一次点击条件筛选获取字段
+        if($(this).index() == 2 && $('.screen-select-btns button:nth-child(3)').data('id') != $('#dataId').val()) {
+            $('.screen-select-btns button:nth-child(3)').attr('data-id',$('#dataId').val());
+            $('#screen-input').attr('disabled', 'disabled').val('');
+            $.ajax({
+                url: '../../data/screen.json',
+                type: 'POST',
+                data: {
+                    FunType: "IF008",
+                    F001: "wq123",
+                    F002: $('#dataId').val()
+                }
+            })
+            .done(function(res) {
+                var html = '<option value=""></option>'
+                if(parseInt(res.resultdata)) {
+                    for(var i = 0; i < res.ResData.length; i++) {
+                        html += '<option value="' + res.ResData[i].F001 + '">' + res.ResData[i].F002 + '</option>'
+                    }
+                }
+                $('#screen-fields').html(html)
+            })
+            .fail(function() {
+                XAlert('获取数据失败，请检查网络！');
+            })
         }
     })
 
@@ -318,6 +392,14 @@ $(document).ready(function(){
     })
     
     /**
+     * [setSelectAllNum 设置可选代码总共项数]
+     */
+    var setSelectAllNum = function() {
+        $('#add .code-all strong, #add .code-result span').text($('#add ul li').length);
+        $('#remove .code-all strong, #remove .code-result span').text($('#remove ul li').length);
+    }
+    
+    /**
      * 添加或移除代码
      * @param {[string]} handle 操作 移除(add)或添加('remove')
      * @param {[string]} type 操作类型 移除(添加)全部或选中代码  
@@ -329,8 +411,8 @@ $(document).ready(function(){
                 $('#add li i').each(function(index, val) {
                      if($(this).hasClass('active')) {
                         $(this).removeClass('fa-check-square active').addClass('fa-square-o');
-                        html += $(this).parent().prop("outerHTML");
-                        $(this).parent().remove();
+                        html += $(this).parent().parent().prop("outerHTML");
+                        $(this).parent().parent().remove();
                      }
                 });
                 $('#remove ul').append(html);
@@ -348,6 +430,7 @@ $(document).ready(function(){
             if(!$('#add ul li').length) {
                 $('#add-all').removeClass('active');
             }
+            setSelectAllNum();
             return;
         }
         
@@ -356,8 +439,8 @@ $(document).ready(function(){
                 $('#remove li i').each(function(index, val) {
                      if($(this).hasClass('active')) {
                         $(this).removeClass('fa-check-square active').addClass('fa-square-o');
-                        html += $(this).parent().prop("outerHTML");
-                        $(this).parent().remove();
+                        html += $(this).parent().parent().prop("outerHTML");
+                        $(this).parent().parent().remove();
                      }
                 });
                 $('#add ul').append(html);
@@ -375,6 +458,7 @@ $(document).ready(function(){
             if(!$('#remove ul li').length) {
                 $('#remove-all').removeClass('active');
             }
+            setSelectAllNum();
             return;
         }
 
@@ -416,6 +500,52 @@ $(document).ready(function(){
         }
     });
 
+    /**
+     * 行业分类树选择回调
+     */
+    var onCheck = function() {
+        var selectArr = [];
+        var treeObj=$.fn.zTree.getZTreeObj("tree"),
+        nodes=treeObj.getCheckedNodes(true),
+        v="";
+        for(var i=0;i<nodes.length;i++){
+        v+=nodes[i].name + ",";
+            selectArr.push(nodes[i].id); //获取选中节点的值
+        }
+
+        //获取可选代码
+        $('#slide-loading').show();
+        $('#remove ul, #add ul').html('');
+        $('.slide-code-handle button').removeClass('active');
+        $.ajax({
+            url: '../../data/code.json',
+            type: 'POST',
+            data: {
+                FunType: "IF017",
+                F001: "wq123",
+                F002: selectArr
+            }
+        })
+        .done(function(res) {
+            var html = '';
+            if(parseInt(res.resultdata)) {
+                for(var i = 0; i < res.ResData.length; i++) {
+                    html += '<li><span data-id="ClosePrice"><i class="fa fa-square-o" data-id="' + res.ResData[i].F001 + '"></i>' + res.ResData[i].F002 + '</span></li>';
+                }
+            }
+            $('#add ul').html(html);
+            $('#add-all').addClass('active');
+            $('#slide-loading').hide();
+            setSelectAllNum();
+        })
+        .fail(function() {
+            $('#slide-loading').hide();
+            $('#add ul').html('');
+            setSelectAllNum();
+            XAlert('获取数据失败，请检查网络！');
+        })
+       
+    }
 
     //行业分类
     var setting = {
@@ -433,24 +563,13 @@ $(document).ready(function(){
             simpleData: {
                 enable: true
             }    
+        },
+         callback:{
+            onCheck: onCheck
         }
     };
   
-    var zNodes =[
-        { id:1, pId:0, name:"节点属性搜索演示 1", t:"id=1"},
-        { id:11, pId:1, name:"关键字可以是名字", t:"id=11"},
-        { id:12, pId:1, name:"关键字可以是level", t:"id=12"},
-        { id:13, pId:1, name:"关键字可以是id", t:"id=13"},
-        { id:14, pId:1, name:"关键字可以是各种属性", t:"id=14"},
-        { id:2, pId:0, name:"节点搜索演示 2", t:"id=2"},
-        { id:21, pId:2, name:"可以只搜索一个节点", t:"id=21"},
-        { id:22, pId:2, name:"可以搜索节点集合", t:"id=22"},
-        { id:23, pId:2, name:"搜我吧", t:"id=23"},
-        { id:3, pId:0, name:"节点搜索演示 3", t:"id=3"},
-        { id:31, pId:3, name:"我的 id 是: 31", t:"id=31"},
-        { id:32, pId:31, name:"我的 id 是: 32", t:"id=32"},
-        { id:33, pId:32, name:"我的 id 是: 33", t:"id=33"}
-    ];
+    var zNodes =[];
   
     function focusKey(e) {
         if (key.hasClass("empty")) {
@@ -520,6 +639,7 @@ $(document).ready(function(){
      */
     var dataInit  = function() {
         $('#page-loading').show();
+        addArr = [];
         $.ajax({
             url: '../../data/fileds.json',
             type: 'POST',
@@ -540,9 +660,10 @@ $(document).ready(function(){
             }else {
 
             }
+            $('.screen-select-btns button:nth-child(1)').attr('data-id', $('#dataId').val());
         })
         .fail(function() {
-            console.log("error");
+            XAlert('获取数据失败，请检查网络！');
         })
         
         $('.screen-select-btns button').removeClass('active').eq(0).addClass('active');
@@ -597,6 +718,106 @@ $(document).ready(function(){
             }
         });
     }
+
+    /**
+     * 条件选择-字段选择不为空时解禁运算符选框
+     */
+    $('body').delegate('#screen-fields', 'change', function(event) {
+        if($(this).val()) {
+            $('#screen-input').removeAttr('disabled');
+        }else {
+            $('#screen-opt').val('');
+            $('#screen-input').attr('disabled', 'disabled').val('');
+        }
+    });
+
+   
+    var addArr = [];   //保存条件筛选所添加的数组
+
+    /**
+     * 创建筛选条件列表html
+     */
+    var createAddsHtml = function() {
+        var html = '';
+        for(var i = 0; i < addArr.length; i++) {
+            var relationshipClass = addArr[i].F004 == 'AND' ? 'fa-check-square-o' : 'fa-square-o';
+            html += '<tr>'
+                 +      '<td>' + (i+1) + '</td>'
+                 +      '<td>' + addArr[i].F001 + '</td>'
+                 +      '<td>' + addArr[i].F002 + '</td>'
+                 +      '<td>' + addArr[i].F003 + '</td>'
+                 +      '<td></td>'
+                 +      '<td><i class="fa ' + relationshipClass + '" data-index="' + i + '"></i><span>' + addArr[i].F004 + '</span></td>'
+                 +      '<td><a href="javascript:void(0);" data-index="' + i + '">删除</a></td>'
+                 +  '</tr>'
+        }
+
+        $('.cdt-list table tbody').html(html);
+    }
+
+     /**
+     * 条件选择-点击添加按钮触发
+     */
+    $('body').delegate('#screen-add', 'click', function(event) {
+        if(!$('#screen-fields').val()) {
+            XAlert('请选择字段！');
+            return;
+        }
+        if(!$('#screen-opt').val()) {
+            XAlert('请选择运算符！');
+            return;
+        }
+        if(!$('#screen-input').val()) {
+            XAlert('请输入条件值！');
+            return;
+        }
+        var obj = {
+            F001: $('#screen-fields').val(),
+            F002: $('#screen-opt').val(),
+            F003: $('#screen-input').val(),
+            F004: 'AND'
+        };  
+
+        var flag = false;  //条件是否重复
+        for(var i = 0; i < addArr.length; i++) { 
+            if(addArr[i].F001 == obj.F001 && addArr[i].F002 == obj.F002 && addArr[i].F003 == obj.F003) {
+                flag = true;
+                break;
+            }
+        }
+
+        if(!flag) {
+            addArr.push(obj);
+            createAddsHtml();
+        }else {
+            XAlert('请不要添加相同的条件！');
+        }
+    });
+
+    /**
+     * 选择条件关系
+     */
+    $('body').delegate('.cdt-list tbody tr .fa', 'click', function(event) {
+        if($(this).hasClass('fa-check-square-o')) {
+            $(this).removeClass('fa-check-square-o').addClass('fa-square-o');
+            $(this).siblings('span').text('OR');
+            addArr[$(this).data('index')].F004 = 'OR';
+        }else {
+            $(this).removeClass('fa-square-o').addClass('fa-check-square-o');
+            $(this).siblings('span').text('AND');
+            addArr[$(this).data('index')].F004 = 'AND';
+        }
+       
+    });
+
+    /**
+     * 删除条件
+     */
+    $('body').delegate('.cdt-list tbody tr a', 'click', function(event) {
+        addArr.splice($(this).data('index'), 1);
+        createAddsHtml();
+    });
+
 
     init();
 });

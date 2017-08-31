@@ -1,0 +1,14 @@
+{
+    "resultdata":"1",
+    "errordata":"获取成功",
+    "ResData":[
+        {
+            "F001": "Stckcode",
+            "F002": "证券代码"
+        },
+        {
+            "F001": "ClosePrice",
+            "F002": "收盘价"
+        }
+    ]
+}
