@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <link rel="shortcut icon" href="myicon.ico">
+        <link rel="stylesheet" href="../../frameworks/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="../../css/animate.css" />
+        <link rel="stylesheet" href="../../frameworks/DataTables-1.10.15/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="../../frameworks/ztree.3.5.26/css/zTreeStyle/zTreeStyle.css" />
+        <link rel="stylesheet" href="../../css/dialog.css" />
+        <link rel="stylesheet" href="../../css/daterangepicker.css" />
+        <link href="../../css/style.css" rel="stylesheet">
+    
+        <script type="text/javascript" src="../../js/jquery-1.10.1.js"></script>
+        <script src="../../frameworks/DataTables-1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="../../frameworks/ztree.3.5.26/js/jquery.ztree.core.min.js"></script>
+        <script src="../../frameworks/ztree.3.5.26/js/jquery.ztree.excheck.min.js"></script>
+        <script src="../../frameworks/ztree.3.5.26/js/jquery.ztree.exhide.min.js"></script>
+        <script src="../../js/moment.min.js"></script>
+        <script src="../../js/jquery.daterangepicker.js"></script>
+        <script src="../../js/dialog.js"></script>
+        <script src="../../js/common.js"></script>
+        <script src="../../js/export.js"></script>
+        
+        <title>信龙金融数据平台</title>
+    </head>
+    <body>
+
+        <!--  头部  -->
+        <div class="header">
+            <div class="wrapper">
+                <div class="header-left">
+                    <img src="../../images/login_title.png"  alt="" />
+                </div>
+                <div class="header-right">
+                    <div class="header-right-l">
+                        <ul id="top-menu">
+                            <li><a href="../home/index.html">首页</a></li>
+                            <li class="disabled"><a href="javascript:void(0);" data-link="data.html">数据中心</a></li>
+                            <li class="disabled"><a href="javascript:void(0);" data-link="../notice/notices.html">公告资讯</a></li>
+                            <li class="disabled"><a href="javascript:void(0);" data-link="../news/news.html">新闻中心</a></li>
+                            <li class="disabled active"><a href="javascript:void(0);" data-link="export.html">行情导出</a></li>
+                        </ul>
+                    </div>
+                    <div class="header-right-r">
+                        <span>欢迎你！ 游客</span>
+                        <i class="fa fa-angle-down"></i>
+                        <ul>
+                            <li class="line"><a href="../../index.html">退出</a>
+                            </li>
+                            <li><a href="../../index.html" class="blueBg">登录</a></li>
+                            <li><a href="../reg/reg.html" class="warningBg">注册</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  广告图  -->
+        <div class="wrapper">
+            <img src="../../images/banner.png"  alt="" class="banner-img" />
+        </div>
+
+        <!--  页面主体  -->
+        <div class="wrapper data">
+
+            <!--  左侧菜单  -->
+            <div class="left">
+                <ul id="leftMenu"></ul>
+            </div>
+
+            <!--  右侧详细内容  -->
+            <div class="right news">
+                <div class="news-top">
+                        <form action="" class="new-form" id="search-form">
+                            <input type="hidden" name="F001" id="F001" value="wq123" />
+                            <input type="hidden" name="F002" id="F002" value="" />
+                            <div class="new-form-item">
+                                <select>
+                                    <option value="0" checked>前复权</option>
+                                    <option value="1">前复权</option>
+                                </select>
+                            </div>
+                            <div class="new-form-item">
+                                <select>
+                                    <option value="0" checked>日线</option>
+                                    <option value="1">日线</option>
+                                </select>
+                            </div>
+                            <div class="new-form-item" id="date">
+                                <label for="">日期</label>
+                                <input type="text" placeholder="请选择日期" id="start" readonly="readonly" name="F006" /> 至
+                                <input type="text" placeholder="请选择日期" id="end" readonly="readonly" name="F007" />
+                            </div>
+                            <div class="new-form-item">
+                                <input type="submit" value="预览" class="new-btn search" />
+                                <input type="button" value="导出" class="new-btn export"  data-link="../../data/data.rar"/>
+                            </div>
+                        </form>
+                    </div>
+                <div class="right-body" id="right-body">
+                    <!-- 数据 -->
+                    <div class="database-box" id="data-box" style="display:block;">
+                        <input type="hidden" id="dataId" />
+                        <div class="detail">
+                            
+                            <div class="table-screen">
+                                <div class="screen-select-slide" style="display: block;">
+                                    <!-- 代码选择下拉 -->
+                                    <div class="slide-box" style="display: block;">
+                                        <div class="slide-body">
+                                            <div class="slide-code-item">
+                                                <div class="slide-code-title">
+                                                    <input type="text" id="key" value="" class="empty" placeholder="搜索行业分类" />
+                                                </div>
+                                                <ul id="tree" class="ztree"></ul>
+                                                <!-- 加载中 -->
+                                                <div class="loading" id="slide-item-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
+                                            </div>
+                                            <div class="slide-code-item" handletype="add" id="add">
+                                                <div class="code-result">可选代码/查找结果[<span>0</span>]个</div>
+                                                <div class="code-list">
+                                                    <ul>
+                                                    </ul>
+                                                    <div class="code-all"><i class="fa fa-square-o"></i>共<strong>0</strong>项</div>
+                                                </div>
+                                            </div>
+                                            <div class="slide-code-handle">
+                                                <button class="remove-btn" id="remove-angle"><i class="fa fa-angle-left"></i></button>
+                                                <button class="remove-btn" id="remove-all"><i class="fa fa-angle-double-left "></i></button>
+                                                <button class="add-btn" id="add-angle"><i class="fa fa-angle-right"></i></button>
+                                                <button class="add-btn" id="add-all"><i class="fa fa-angle-double-right"></i></button>
+                                                <button class="export" id="export">导出</button>
+                                                <ul>
+                                                    <li><a href="../../data/data.rar">TXT</a></li>
+                                                    <li><a href="../../data/data.rar">EXCEL</a></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="slide-code-item"  handletype="remove" id="remove">
+                                                <div class="code-result">可选代码/查找结果[<span>0</span>]个</div>
+                                                <div class="code-list">
+                                                    <ul>
+                                                        
+                                                    </ul>
+                                                    <div class="code-all"><i class="fa fa-square-o"></i>共<strong>0</strong>项</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slide-foot slide-foot-code">
+                                            <label for="">
+                                                代码导入：<input type="file" />
+                                                <span><i></i><strong>浏览</strong></span>
+                                            </label>
+                                            <!-- <a href="">导入</a> -->
+                                        </div>
+                                    </div>
+                                    <!-- 加载中 -->
+                                    <div class="loading" id="slide-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
+                                </div>
+                            </div>
+                            <div class="detail-table">
+                                <table id="table" class="display">
+                                    <!-- <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                           <td colspan="4">没有相应数据！</td>
+                                       </tr>
+                                    </tbody> -->
+                                </table> 
+                            </div> 
+                        </div>
+
+                        <div class="filed-dialog animated">
+                            <div class="filed-dialog-top">
+                                <span>字段说明（公司文件）</span>
+                                <i></i>
+                            </div>
+                            <div class="filed-dialog-body">
+                                <table cellpadding="0" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                序号
+                                            </th>
+                                            <th>
+                                                字段
+                                            </th>
+                                            <th>
+                                                数据类型
+                                            </th>
+                                            <th>
+                                                字段说明
+                                            </th>
+                                            <th>
+                                                单位
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- 加载中 -->
+                                <div class="loading" id="filed-dialog-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 加载中 -->
+                    <div class="loading page-loading" id="page-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
+                </div>
+                
+            </div>
+    
+        </div>
+    
+    
+          
+    </body>
+</html>

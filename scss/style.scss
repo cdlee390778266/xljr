@@ -937,6 +937,7 @@ h1 {
                     }
                 }
                 .slide-code-handle {
+                    position: relative;
                     display: inline-block;
                     width: 66px;
                     height: 250px;
@@ -979,6 +980,26 @@ h1 {
                             &:hover {
                                 background: $blueHover;
                             }
+                        }
+                    }
+                    ul {
+                        position: absolute;
+                        bottom: -50px;
+                        left: 0px;
+                        display: none;
+                        width: 80px;
+                        line-height: 30px;
+                        background: #fff;
+                        border-radius: 4px;
+                        box-shadow: 0 0 10px 0 #666;
+                        li {
+                            padding-left: 10px;
+                            &:first-child {
+                                border-bottom: 1px solid #eee;
+                            }
+                        }
+                        a {
+                            color: #666;
                         }
                     }
                 }

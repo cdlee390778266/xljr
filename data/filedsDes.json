@@ -3,20 +3,26 @@
     "errordata":"获取成功",
     "ResData":[
         {
-            "Name":"证券代码",
+            "Sqn":"1",
             "ColName":"Stkcd",
+            "Name":"证券代码",
+            "Ftype":"C6",
             "Unit":"单位:没有单位\u003c/br\u003e",
             "Description":"以上交所、深交所公布的证券代码为准"
         },
         {
-            "Name":"交易日期",
+            "Sqn":"2",
             "ColName":"Trddt",
-            "Unit":"单位:没有单位\u003c/br\u003e", 
-            "Description":"以YYYY-MM-DD表示"
+            "Name":"交易日期",
+            "Ftype":"C10",
+            "Unit":"单位:没有单位\u003c/br\u003e",
+             "Description":"以YYY-MM-DD表示"
         },
         {
-            "Name":"日收盘价",
+            "Sqn":"3",
             "ColName":"Clsprc",
+            "Name":"日收盘价",
+            "Ftype":"N8,3",
             "Unit":"单位:元/股\u003c/br\u003e", 
             "Description":"A股以人民币元计，上海B以美元计，深圳B以港币计"
         }

@@ -1,0 +1,44 @@
+{
+    "resultdata":"1",
+    "errordata":"获取成功",
+    "ResData": [
+        {
+            "ColNames":["证券代码","交易日期","日收盘价"],
+            "ColModels":[
+                {"Name":"Stkcd","Index":"0"},
+                {"Name":"Trddt","Index":"1"},
+                {"Name":"Clsprc","Index":"2"}
+            ],
+            "Data":[
+                {"Stkcd":  "000001", "Trddt":  "2010-12-30", "Clsprc":  "15.670"},
+                {"Stkcd":  "000002", "Trddt":  "2010-12-30", "Clsprc":  "15.6700"},
+                {"Stkcd":  "000003", "Trddt":  "2010-12-30", "Clsprc":  "15.670"},
+                {"Stkcd":  "000004", "Trddt":  "2010-12-30", "Clsprc":  "15.670"},
+                {"Stkcd":  "000005", "Trddt":  "2010-12-30", "Clsprc":  "15.670"},
+                {"Stkcd":  "000006", "Trddt":  "2010-12-30", "Clsprc":  "15.670"},
+                {"Stkcd":  "000008", "Trddt":  "2010-12-30", "Clsprc":  "15.670"},
+                {"Stkcd":  "0000033", "Trddt":  "2010-12-30", "Clsprc":  "15.670"},
+                {"Stkcd":  "0000000", "Trddt":  "2010-12-30", "Clsprc":  "15.670"}
+            ],
+            "ColNameTitles":[
+                {
+                    "Name":"证券代码",
+                    "ColName":"Stkcd",
+                    "Title":"字段名:Stkcd\u003c/br\u003e单位:没有单位\u003c/br\u003e说明:以上交所、深交所公布的证券代码为准"
+                },
+                {
+                    "Name":"交易日期",
+                    "ColName":"Trddt",
+                    "Title":"字段名:Trddt\u003c/br\u003e单位:没有单位\u003c/br\u003e说明:以YYYY-MM-DD表示"
+                },
+                {
+                    "Name":"日收盘价",
+                    "ColName":"Clsprc",
+                    "Title":"字段名:Clsprc\u003c/br\u003e单位:元/股\u003c/br\u003e说明:A股以人民币元计，上海B以美元计，深圳B以港币计"
+                }
+            ],
+            "DataCount":4
+        }
+
+    ]
+}

@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2017-08-28 15:47:18
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-08-31 18:26:35
+* @Last Modified time: 2017-09-01 18:18:47
 */
 
 $(document).ready(function(){
@@ -155,15 +155,6 @@ $(document).ready(function(){
 
 
     var flag = true;
-    var id = 99;
-
-
-    $('#change').click(function() {
-        var url = flag ? '../../data/data.json' : '../../data/data1.json';
-        flag = !flag;
-        myDataTables.ajax.url(url).load();
-    });
-
 
     /**
      * 字段选择单选
@@ -212,10 +203,9 @@ $(document).ready(function(){
                 if(parseInt(res.resultdata)) {
                     for(var i = 0; i < res.ResData.length; i++) {
                         html += '<tr>'
-                             +      '<td>' + (i+1) + '</td>'
+                             +      '<td>' + res.ResData[i].Sqn + '</td>'
                              +      '<td>' + res.ResData[i].Name + '</td>'
-                             +      '<td>' + res.ResData[i].Name + '</td>'
-                             +      '<td>' + res.ResData[i].Name + '</td>'
+                             +      '<td>' + res.ResData[i].Ftype + '</td>'
                              +      '<td>' + res.ResData[i].Description + '</td>'
                              +      '<td>' + res.ResData[i].Unit + '</td>'
                              +  '</tr>'
@@ -291,6 +281,8 @@ $(document).ready(function(){
         if($(this).index() == 2 && $('.screen-select-btns button:nth-child(3)').data('id') != $('#dataId').val()) {
             $('.screen-select-btns button:nth-child(3)').attr('data-id',$('#dataId').val());
             $('#screen-input').attr('disabled', 'disabled').val('');
+            $('#slide-loading').show();
+
             $.ajax({
                 url: '../../data/screen.json',
                 type: 'POST',
@@ -307,9 +299,11 @@ $(document).ready(function(){
                         html += '<option value="' + res.ResData[i].F001 + '">' + res.ResData[i].F002 + '</option>'
                     }
                 }
-                $('#screen-fields').html(html)
+                $('#slide-loading').hide();
+                $('#screen-fields').html(html);
             })
             .fail(function() {
+                $('#slide-loading').hide();
                 XAlert('获取数据失败，请检查网络！');
             })
         }
@@ -634,12 +628,15 @@ $(document).ready(function(){
         return !node.isParent && node.isFirstNode;
     }
 
+    var myDataTables;
     /**
      * 初始化函数
      */
     var dataInit  = function() {
         $('#page-loading').show();
         addArr = [];
+
+        //获取字段选择下拉数据
         $.ajax({
             url: '../../data/fileds.json',
             type: 'POST',
@@ -669,13 +666,11 @@ $(document).ready(function(){
         $('.screen-select-btns button').removeClass('active').eq(0).addClass('active');
         $('.screen-select-slide .slide-box').hide().eq(0).show();
 
-        var myDataTables = $('#table').DataTable({
+        myDataTables = $('#table').DataTable({
             autoFill: true,
             dom: '<"top"i>rtp',
-            // dom: '<"top"i>Brtp',
-            buttons: ['colvis'],
             bDestroy : true, 
-            retrieve: true,//保证只有一个table实例
+            retrieve: true,
             ajax: {
                 url: '../../data/data.json',
                 dataSrc: ''
@@ -684,8 +679,10 @@ $(document).ready(function(){
                 { data: 'name' },
                 { data: 'position' },
                 { data: 'salary' },
+                { data: 'office' },
                 { data: 'office' }
             ],
+            paging: false,
             fnInitComplete: function (oSettings, json) {
                 
             },
@@ -731,6 +728,17 @@ $(document).ready(function(){
         }
     });
 
+    /**
+     * 导出
+     */
+    $('body').delegate('#export', 'click', function(event) {
+        var $exportDialog = $(this).next();
+        if($exportDialog.hasClass('active')) {
+            $exportDialog.removeClass('active').hide();
+        }else {
+            $exportDialog.addClass('active').show();
+        }
+    });
    
     var addArr = [];   //保存条件筛选所添加的数组
 
@@ -818,6 +826,140 @@ $(document).ready(function(){
         createAddsHtml();
     });
 
+    /**
+     * 重置
+     */
+    $('body').delegate('#reset', 'click', function(event) {
+        $('.slide-fields-body span i').removeClass('fa-check-square-o').addClass('fa-square-o');
+
+        var treeObj = $.fn.zTree.getZTreeObj("tree");
+        if(treeObj) {
+            treeObj.checkAllNodes(false);
+        }
+        $('.code-list ul').html('');
+        $('.code-result span').text(0);
+        $('.code-all strong').text(0);
+        $('.code-all i').removeClass('fa-check-square-o').addClass('fa-square-o');
+        $('.slide-code-handle button').removeClass('active');
+
+        addArr = [];
+        createAddsHtml();
+    });
+
+    /**
+     * 刷新表格数据
+     */
+    var refreshDataTable = function(data) {
+        
+        myDataTables.fnClearTable();//清空数据.fnClearTable();//清空数据  
+        myDataTables.fnDestroy(); //还原初始化了的datatable
+
+        var columnsArr = [];
+        for(var i = 0; i < data.ColModels.length; i++) {
+            var obj = {};
+            obj.data = data.ColModels[i].Name;
+            columnsArr.push(obj);
+        }
+    
+        myDataTables = $('#table').DataTable({
+            autoFill: true,
+            dom: '<"top"i>rtp',
+            buttons: ['colvis'],
+            bDestroy : true, 
+            retrieve: true,//保证只有一个table实例
+            data: data.Data,
+            columns: columnsArr,
+            paging: false,
+            fnInitComplete: function (oSettings, json) {
+                
+            },
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，数据总记录数为 _TOTAL_ 条",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                },
+                "buttons": {
+                    "colvis": '显示列'
+                }
+            }
+        });
+    }
+
+    /**
+     * 预览数据
+     */
+    $('body').delegate('#preview', 'click', function(event) {
+
+        if(!$('.slide-fields-body span i').hasClass('fa-check-square-o')) {
+            XAlert('请选择字段！');
+            return;
+        }
+
+        //选择的字段
+        var fieldsArr = [];
+        $('.slide-fields-body span').each(function(index, val) {
+             if($(this).find('i').hasClass('fa-check-square-o')) {
+                fieldsArr.push($(this).data('id'));
+             }
+        });
+
+        var checkedCodeArr = [];
+        $('.remove code-list ul li').each(function(index, val) {
+             checkedCodeArr.push($(this).find('span').data('id'));
+        });
+        
+        $('#page-loading').show();
+        $.ajax({
+            url: '../../data/preview.json',
+            type: 'POST',
+            data: {
+                FunType: 'IF008',
+                F001: 'wq123',
+                F002: $('#dataId').val(),
+                F003: fieldsArr,
+                F004: checkedCodeArr,
+                F005: addArr
+            }
+        })
+        .done(function(res) {
+            if(parseInt(res.resultdata)) {
+                refreshDataTable(res.ResData[0]);
+            }else {
+
+            }
+            $('#page-loading').hide();
+        })
+        .fail(function() {
+            XAlert('获取数据失败，请检查网络！');
+            $('#page-loading').hide();
+        }) 
+    });    
+    
+
+    /**
+     * 下载数据
+     */
+     $('body').delegate('#download', 'click', function(event) {
+         location.href = '../../data/data.rar'
+     });
 
     init();
 });

@@ -949,6 +949,7 @@ h1 {
   color: #4ba5ff;
 }
 .detail .table-screen .slide-box .slide-body .slide-code-handle {
+  position: relative;
   display: inline-block;
   width: 66px;
   height: 250px;
@@ -993,6 +994,26 @@ h1 {
 }
 .detail .table-screen .slide-box .slide-body .slide-code-handle button.export:hover {
   background: #1765b3;
+}
+.detail .table-screen .slide-box .slide-body .slide-code-handle ul {
+  position: absolute;
+  bottom: -50px;
+  left: 0px;
+  display: none;
+  width: 80px;
+  line-height: 30px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 10px 0 #666;
+}
+.detail .table-screen .slide-box .slide-body .slide-code-handle ul li {
+  padding-left: 10px;
+}
+.detail .table-screen .slide-box .slide-body .slide-code-handle ul li:first-child {
+  border-bottom: 1px solid #eee;
+}
+.detail .table-screen .slide-box .slide-body .slide-code-handle ul a {
+  color: #666;
 }
 .detail .table-screen .slide-box .slide-fields-body {
   padding: 20px 0;

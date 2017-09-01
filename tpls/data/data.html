@@ -9,16 +9,12 @@
         <link rel="stylesheet" href="../../frameworks/font-awesome-4.7.0/css/font-awesome.min.css" />
         <link rel="stylesheet" href="../../css/animate.css" />
         <link rel="stylesheet" href="../../frameworks/DataTables-1.10.15/css/jquery.dataTables.min.css" />
-        <link rel="stylesheet" href="../../frameworks/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.min.css" />
-        <link rel="stylesheet" href="../../frameworks/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.min.css" />
         <link rel="stylesheet" href="../../frameworks/ztree.3.5.26/css/zTreeStyle/zTreeStyle.css" />
         <link rel="stylesheet" href="../../css/dialog.css" />
         <link href="../../css/style.css" rel="stylesheet">
     
         <script type="text/javascript" src="../../js/jquery-1.10.1.js"></script>
         <script src="../../frameworks/DataTables-1.10.15/js/jquery.dataTables.min.js"></script>
-        <script src="../../frameworks/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-        <script src="../../frameworks/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.min.js"></script>
         <script src="../../frameworks/ztree.3.5.26/js/jquery.ztree.core.min.js"></script>
         <script src="../../frameworks/ztree.3.5.26/js/jquery.ztree.excheck.min.js"></script>
         <script src="../../frameworks/ztree.3.5.26/js/jquery.ztree.exhide.min.js"></script>
@@ -43,7 +39,7 @@
                             <li class="disabled active"><a href="javascript:void(0);" data-link="data.html">数据中心</a></li>
                             <li class="disabled"><a href="javascript:void(0);" data-link="../notice/notices.html">公告资讯</a></li>
                             <li class="disabled"><a href="javascript:void(0);" data-link="../news/news.html">新闻中心</a></li>
-                            <li class="disabled"><a href="javascript:void(0);" data-link="">行情导出</a></li>
+                            <li class="disabled"><a href="javascript:void(0);" data-link="../export/export.html">行情导出</a></li>
                         </ul>
                     </div>
                     <div class="header-right-r">
@@ -53,7 +49,7 @@
                             <li class="line"><a href="../../index.html">退出</a>
                             </li>
                             <li><a href="../../index.html" class="blueBg">登录</a></li>
-                            <li><a href="reg.html" class="warningBg">注册</a></li>
+                            <li><a href="../reg/reg.html" class="warningBg">注册</a></li>
                         </ul>
                     </div>
                 </div>
@@ -187,9 +183,9 @@
                     <div class="table-screen">
                         <div class="table-screen-bar">
                             <div class="table-screen-btns">
-                                <button><i class="fa fa-refresh"></i>重置</button>
-                                <button><i class="fa fa-eye"></i>预览数据</button>
-                                <button><i class="fa fa-download"></i>下载数据</button>
+                                <button id="reset"><i class="fa fa-refresh"></i>重置</button>
+                                <button id="preview"><i class="fa fa-eye"></i>预览数据</button>
+                                <button id="download"><i class="fa fa-download"></i>下载数据</button>
                             </div>
                             <div class="screen-select-btns">
                                 <button>字段选择<i></i></button>
@@ -201,20 +197,7 @@
                             <!-- 字段选择下拉 -->
                             <div class="slide-box">
                                 <div class="slide-body slide-fields-body">
-                                    <span><i class="fa fa-square-o"></i>国家代码</span>
-                                    <span><i class="fa fa-square-o"></i>公司英文全称</span>
-                                    <span><i class="fa fa-square-o"></i>国家代码</span>
-                                    <span><i class="fa fa-square-o"></i>公司英文全称</span>
-                                    <span><i class="fa fa-square-o"></i>国家代码</span>
-                                    <span><i class="fa fa-square-o"></i>公司英文全称</span>
-                                    <span><i class="fa fa-square-o"></i>国家代码</span>
-                                    <span><i class="fa fa-square-o"></i>公司英文全称</span>
-                                    <span><i class="fa fa-square-o"></i>国家代码</span>
-                                    <span><i class="fa fa-square-o"></i>公司英文全称</span>
-                                    <span><i class="fa fa-square-o"></i>国家代码</span>
-                                    <span><i class="fa fa-square-o"></i>公司英文全称</span>
-                                    <span><i class="fa fa-square-o"></i>国家代码</span>
-                                    <span><i class="fa fa-square-o"></i>公司英文全称</span>
+                                    
                                 </div>
                                 <div class="slide-foot slide-fields-foot">
                                     <span><i class="fa fa-square-o"></i>全选</span>
@@ -246,6 +229,10 @@
                                         <button class="add-btn" id="add-angle"><i class="fa fa-angle-right"></i></button>
                                         <button class="add-btn" id="add-all"><i class="fa fa-angle-double-right"></i></button>
                                         <button class="export" id="export">导出</button>
+                                        <ul>
+                                            <li><a href="../../data/data.rar">TXT</a></li>
+                                            <li><a href="../../data/data.rar">EXCEL</a></li>
+                                        </ul>
                                     </div>
 
                                     <div class="slide-code-item"  handletype="remove" id="remove">
@@ -263,10 +250,8 @@
                                         代码导入：<input type="file" />
                                         <span><i></i><strong>浏览</strong></span>
                                     </label>
-                                    <a href="">代码模板</a>
+                                    <!-- <a href="">导入</a> -->
                                 </div>
-                                <!-- 加载中 -->
-                                <div class="loading" id="slide-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
                             </div>
                             <!-- 条件筛选下拉 -->
                             <div class="slide-box slide-box-cdt">
@@ -356,11 +341,13 @@
                                 </div>
                                 <div class="slide-foot"></div>
                             </div>
+                            <!-- 加载中 -->
+                            <div class="loading" id="slide-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
                         </div>
                     </div>
                     <div class="detail-table">
                         <table id="table" class="display">
-                            <thead>
+                            <!-- <thead>
                                 <tr>
                                     <th></th>
                                     <th></th>
@@ -372,7 +359,7 @@
                                <tr>
                                    <td colspan="4">没有相应数据！</td>
                                </tr>
-                            </tbody>
+                            </tbody> -->
                         </table> 
                     </div> 
                 </div>
@@ -396,9 +383,6 @@
                                         数据类型
                                     </th>
                                     <th>
-                                        字段标题
-                                    </th>
-                                    <th>
                                         字段说明
                                     </th>
                                     <th>
@@ -413,6 +397,12 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
@@ -421,18 +411,8 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -443,33 +423,6 @@
                         </table>
                         <!-- 加载中 -->
                         <div class="loading" id="filed-dialog-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
-                    </div>
-                </div>
-                <div class="export-dialog">
-                    <div class="export-dialog-head">
-                        导出
-                    </div>
-                    <div class="export-dialog-body">
-                        <div class="export-item">
-                            <div class="export-item-left">选择文档</div>
-                            <div class="export-item-right">
-                                <select name="" id="export-type">
-                                    <option value="0">TXT</option>
-                                    <option value="1">EXCEl</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="export-item">
-                            <div class="export-item-left">是否压缩</div>
-                            <div class="export-item-right">
-                                <span><i></i>是</span>
-                                <span><i></i>否</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="export-dialog-foot">
-                        <button>确定</button>
-                        <button>取消</button>
                     </div>
                 </div>
             </div>  
