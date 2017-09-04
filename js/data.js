@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2017-08-28 15:47:18
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-09-01 18:18:47
+* @Last Modified time: 2017-09-04 17:32:53
 */
 
 $(document).ready(function(){
@@ -152,9 +152,6 @@ $(document).ready(function(){
         $('#' + $(this).attr('data-link')).show();
         $(this).addClass('active');
     })
-
-
-    var flag = true;
 
     /**
      * 字段选择单选
@@ -360,6 +357,7 @@ $(document).ready(function(){
      * 代码全选
      */
     $('body').delegate('.code-all', 'click', function() {
+        if(!$(this).prev().find('li').length) return;
         var handletype = $(this).parents('.slide-code-item').attr('handletype');
         if($(this).find('i').hasClass('active')) {
             $(this).find('i').removeClass('fa-check-square active').addClass('fa-square-o');
@@ -391,6 +389,7 @@ $(document).ready(function(){
     var setSelectAllNum = function() {
         $('#add .code-all strong, #add .code-result span').text($('#add ul li').length);
         $('#remove .code-all strong, #remove .code-result span').text($('#remove ul li').length);
+         $('.code-all i').removeClass('fa-check-square active').addClass('fa-square-o');
     }
     
     /**
@@ -635,6 +634,8 @@ $(document).ready(function(){
     var dataInit  = function() {
         $('#page-loading').show();
         addArr = [];
+        $('#table-head').html('<tr class="table-init"><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>');
+        $('#table-body').html('<tr><td colspan="12" class="empty"><img src="../../images/empty.png" alt="" /> <br /> 没有相应数据！</td></tr>');
 
         //获取字段选择下拉数据
         $.ajax({
@@ -666,54 +667,6 @@ $(document).ready(function(){
         $('.screen-select-btns button').removeClass('active').eq(0).addClass('active');
         $('.screen-select-slide .slide-box').hide().eq(0).show();
 
-        myDataTables = $('#table').DataTable({
-            autoFill: true,
-            dom: '<"top"i>rtp',
-            bDestroy : true, 
-            retrieve: true,
-            ajax: {
-                url: '../../data/data.json',
-                dataSrc: ''
-            },
-            columns: [
-                { data: 'name' },
-                { data: 'position' },
-                { data: 'salary' },
-                { data: 'office' },
-                { data: 'office' }
-            ],
-            paging: false,
-            fnInitComplete: function (oSettings, json) {
-                
-            },
-            language: {
-                "sProcessing": "处理中...",
-                "sLengthMenu": "显示 _MENU_ 项结果",
-                "sZeroRecords": "没有匹配结果",
-                "sInfo": "显示第 _START_ 至 _END_ 项结果，数据总记录数为 _TOTAL_ 条",
-                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-                "sInfoPostFix": "",
-                "sSearch": "搜索:",
-                "sUrl": "",
-                "sEmptyTable": "表中数据为空",
-                "sLoadingRecords": "载入中...",
-                "sInfoThousands": ",",
-                "oPaginate": {
-                    "sFirst": "首页",
-                    "sPrevious": "上页",
-                    "sNext": "下页",
-                    "sLast": "末页"
-                },
-                "oAria": {
-                    "sSortAscending": ": 以升序排列此列",
-                    "sSortDescending": ": 以降序排列此列"
-                },
-                "buttons": {
-                    "colvis": '显示列'
-                }
-            }
-        });
     }
 
     /**
@@ -738,6 +691,13 @@ $(document).ready(function(){
         }else {
             $exportDialog.addClass('active').show();
         }
+    });
+
+    /**
+     * 隐藏导出弹框
+     */
+    $('body').delegate('.slide-code-handle ul a', 'click', function(event) {
+        $('.slide-code-handle').hide();
     });
    
     var addArr = [];   //保存条件筛选所添加的数组
@@ -851,16 +811,24 @@ $(document).ready(function(){
      */
     var refreshDataTable = function(data) {
         
-        myDataTables.fnClearTable();//清空数据.fnClearTable();//清空数据  
-        myDataTables.fnDestroy(); //还原初始化了的datatable
-
         var columnsArr = [];
         for(var i = 0; i < data.ColModels.length; i++) {
             var obj = {};
             obj.data = data.ColModels[i].Name;
             columnsArr.push(obj);
         }
-    
+
+        var html = '';
+        for(var i = 0; i < data.ColNames.length; i++) {     //更新表格头部
+            html += '<th>' + data.ColNames[i] + '</th>';
+        }
+
+        $('#table-head tr').removeClass('table-init').html(html);
+        
+        if(typeof(myDataTables) != "undefined") {
+            myDataTables.clear();//清空数据.fnClearTable();//清空数据  
+            myDataTables.destroy(); //还原初始化了的datatable
+        }
         myDataTables = $('#table').DataTable({
             autoFill: true,
             dom: '<"top"i>rtp',
@@ -870,14 +838,12 @@ $(document).ready(function(){
             data: data.Data,
             columns: columnsArr,
             paging: false,
-            fnInitComplete: function (oSettings, json) {
-                
-            },
+            destroy: true,
             language: {
                 "sProcessing": "处理中...",
                 "sLengthMenu": "显示 _MENU_ 项结果",
                 "sZeroRecords": "没有匹配结果",
-                "sInfo": "显示第 _START_ 至 _END_ 项结果，数据总记录数为 _TOTAL_ 条",
+                "sInfo": "数据总记录数为 <span>_TOTAL_</span> 条，预览数据为： <span>_TOTAL_</span> 条",
                 "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
                 "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
                 "sInfoPostFix": "",
@@ -901,6 +867,7 @@ $(document).ready(function(){
                 }
             }
         });
+
     }
 
     /**

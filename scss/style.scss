@@ -23,6 +23,7 @@ body {
     min-height: 100%;
     padding: 0;
     margin: 0;
+    background: #f8f8f8;
 }
 
 a {
@@ -248,17 +249,42 @@ a {
     }
 }
 .right {
-    width: 780px;
+    width: 794px;
     min-height: 500px;
     float: right;
 }
+.x-footer {
+    height: 200px;
+    background: url(../images/footerbg.png) center;
+    background-size: cover;
+    p {
+        width: 640px;
+        margin: 0 auto; 
+        color: #999;
+        text-align: center;
+        line-height: 40px;
+        &:first-child {
+            padding-top: 58px;
+            line-height: 40px;
+            border-bottom: 1px solid #544c45;
+        }
+        a {
+            color: #d9d9d9;
+            font-size: 14px;
+            margin: 0 20px;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
 
 /*********** 登录 ***********/
-.login {
+.login, .login-dialog {
     background: url(../images/login_bg.png) no-repeat;
     background-size: cover;
     min-height: 750px;
-    form {
+    form, .login-dialog-box {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -401,6 +427,24 @@ h1 {
 }
 .login-text:focus {
     border: 1px solid #db6b80;
+}
+.login-dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background: none;
+    .login-dialog-mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+    }
 }
 
 /*********** 注册 ***********/
@@ -701,12 +745,14 @@ h1 {
     box-shadow: 0 0 5px 0 #ddd;
     padding: 5px;
     margin-bottom: 40px;
+    background: #fff;
     .right-history {
         ul {
             padding: 5px;
             padding-right: 0px;
             padding-bottom: 0px;
             border-bottom: 1px solid $borderColor;
+            padding-left: 10px;
             overflow: hidden;
             li {
                 display: inline-block;
@@ -737,9 +783,35 @@ h1 {
         }
     }
     #table {
+        border-bottom: 1px solid #ddd;
+        min-width: 100%;
         th {
             height: 40px;
             line-height: 40px;
+            background-color: #eee;
+            color: #999;
+            text-align: center;
+            border: 1px solid #ddd;
+            &.sorting_asc, &.sorting_desc, &.sorting {
+                height: 20px;
+                line-height: 20px;
+            }
+        }
+        tbody {
+            td {
+                line-height: 26px;
+                border: 1px solid #ddd;
+                color: #999;
+                border-bottom: none;
+                text-align: center;
+            }
+        }
+        .empty {
+            line-height: 18px;
+            padding: 20px 0;
+        }
+        .table-init th{
+            padding: 0;
         }
     }
 }
@@ -803,7 +875,8 @@ h1 {
         line-height: 40px;
         background: #f8f8f8;
         color: #999;
-        margin: 10px 5px;
+        margin: 10px 0px;
+        padding: 0 5px;
         span {
             margin-left: 10px;
         }
@@ -815,7 +888,7 @@ h1 {
         position: relative;
         color: #999;
         line-height: 40px;
-        margin: 0 5px;
+        margin-left: 10px;
         .table-screen-bar {
             position: relative;
             height: 40px;
@@ -918,6 +991,7 @@ h1 {
                             height: 208px;
                             padding-left: 15px;
                             overflow-y: auto;
+                            line-height: 30px;
                         }
                         i {
                             color: #ddd;
@@ -1108,7 +1182,7 @@ h1 {
                     content: "\f096";
                 }
             }
-            .checkbox_true_full, .checkbox_true_full_focus, .checkbox_true_part{
+            .checkbox_true_full, .checkbox_true_full_focus, .checkbox_true_part, .checkbox_true_part_focus{
                 background: none !important;
                 display: inline-block;
                 font: normal normal normal 14px/1 FontAwesome;
@@ -1141,6 +1215,7 @@ h1 {
             }
             .slide-code-title {
                 input {
+                    width: 150px;
                     height: 36px;
                     padding: 0 11px;
                     margin: 5px;
@@ -1225,7 +1300,6 @@ h1 {
                         i {
                             position: relative;
                             top: 2px;
-                            width: 32px;
                             font-size: 16px;
                             display: inline-block;
                             text-align: right;
@@ -1240,8 +1314,7 @@ h1 {
         }
     }
     .detail-table {
-        width: 100%;
-        overflow: auto;
+        margin-left: 10px;
         .dataTables_info {
             display: block;
             width: auto;
@@ -1250,6 +1323,10 @@ h1 {
             background: #f8f8f8;
             padding-left: 10px;
             float: none;
+            color: #999;
+            span {
+                color: $red;
+            }
         }
     }
 }
@@ -1257,7 +1334,7 @@ h1 {
 
 .filed-dialog {
     position: absolute;
-    top: 178px;
+    top: 115px;
     right: 30px;
     display: none;
     width: 680px;
@@ -1292,8 +1369,9 @@ h1 {
             width: 100%;
             line-height: 36px;
             text-align: center;
-            font-size: 14px;
+            font-size: 12px;
             border: 1px solid #e5e5e5;
+            text-align: center;
             th {
                 background: #eee;
                 text-align: center;
@@ -1302,6 +1380,7 @@ h1 {
             }
             td {
                 height: 36px;
+                text-align: center;
                 border-bottom: 1px solid #e5e5e5;
             }
         }
@@ -1316,7 +1395,10 @@ h1 {
     }
 }
 .news-menu {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
     width: 200px;
     line-height: 30px;
     font-size: 14px;
@@ -1325,6 +1407,10 @@ h1 {
     float: left;
     z-index: 88;
     background: #fff;
+    border-right: 1px solid $borderColor;
+    .treeview > li {
+        border-bottom: 1px solid $borderColor;
+    }  
 }
 div.expandable-hitarea {
     position: relative;
@@ -1337,6 +1423,7 @@ div.expandable-hitarea {
     line-height: 16px !important;
     text-align: center;
     color: #999;
+    margin-right: 5px;
     &:before {
         content: "\f105";
     }
@@ -1352,6 +1439,7 @@ div.collapsable-hitarea {
     text-align: center;
     transition: all .4s;
     transform: rotate(90deg);
+    margin-right: 5px;
     &:before {
         content: "\f105";
     }
@@ -1624,8 +1712,10 @@ div.collapsable-hitarea {
 
 /*********** 主页 ***********/
 .web-describe {
-    font-size: 16px;
+    font-size: 12px;
+    line-height: 20px;
     padding-top: 10px;
+    padding-left: 10px;
 }
 .loading {
     position: absolute;
@@ -1649,6 +1739,17 @@ div.collapsable-hitarea {
         color: $blue;
         margin-top: -30px;
         margin-left: -50px;
+        span {
+            animation: none;
+            &:before {
+                content: '';
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                background: url(../images/loading.gif) center;
+                background-size: cover;
+            }
+        }
     }
     &.page-loading {
         div {
@@ -1656,8 +1757,42 @@ div.collapsable-hitarea {
         }
     }
 }
+
+/***********  ***********/
 .slide-box {
     .loading div {
         box-shadow: none;
     }
+}
+.div_dialog.warning .dialog_divOperation .btn_span {
+    background: $blue;
+    &:hover {
+        background: $blueHover;
+    }
+}
+.div_dialog.warning .title_dialog {
+    border-bottom: 1px solid #999;
+}
+.export-left {
+    li:hover span, li.active span {
+        border: 1px solid #fff !important;
+        border-bottom: 1px solid #eeeeee !important; 
+        border-right: 1px solid #eeeeee !important;
+        color: $blue;
+        cursor: pointer;
+        i {
+            color: $blue;
+        }
+    }
+}
+.export-top {
+    select, input[type="text"] {
+        width: 133px !important;
+    }
+}
+.export-right-body {
+    margin-top: 10px;
+}
+.new-right {
+    width: 794px;
 }

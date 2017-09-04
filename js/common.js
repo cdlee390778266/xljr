@@ -2,8 +2,73 @@
 * @Author: Lee
 * @Date:   2017-08-28 14:21:38
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-08-31 11:10:07
+* @Last Modified time: 2017-09-04 18:22:20
 */
+
+/**
+ * 错误提示弹框
+ * @param {[string]} mes  错误信息
+ * @param {[string]} type 弹框样式类名
+ */
+var XAlert = function (mes, type) {
+    $('body').dialog({
+        type: type ? type : 'warning',
+        showBoxShadow:true,
+        duration:0,
+        buttons:[
+            {
+                name: '确定',
+                className: 'false'
+            }
+        ],
+        discription:mes,
+        buttonsSameWidth:true,
+        discriptionFontSize:'14px',
+        showCloseIcon:true
+    })
+}
+
+/**
+ * 创建登录登录弹窗dom
+ */
+var createLoginHtml = function() {
+    var html = '';
+    html += '<div class="login-dialog">'
+         +      '<div class="login-dialog-mask"></div>'
+         +      '<form class="login-dialog-box">'
+         +          '<h1><img src="../../images/login_title.png"></h1>'
+         +          '<div class="login-main">'
+         +              '<div class="login-row">'
+         +                  '<label for="">用户名</label>'
+         +                  '<input type="text" placeholder="用户名" class="login-text" id="userName">'
+         +              '</div>'
+         +              '<div class="login-row">'
+         +                  '<label for="">密码</label>'
+         +                  '<input type="password" placeholder="密码" class="login-text" id="pwd">'
+         +              '</div>'
+         +              '<div class="login-row">'
+         +                  '<div class="login-checkbox">'
+         +                      '<input type="checkbox" name="F003" value="1" id="remember">'
+         +                      '<i></i>'
+         +                      '<span>Check me out</span>'
+         +                  '</div>'
+         +              '</div>'
+         +              '<div class="login-row login-btns">'
+         +                  '<a href="javascript:void(0);" id="login-submit">登录</a>'
+         +                  '<a href="javascript: void(0);" id="anonymous">匿名登录</a>'
+         +              '</div>'
+         +              '<div class="login-row tc login-reg">'
+         +                   '还没有账号？<a href="./tpls/reg/reg.html">马上注册</a>'
+         +              '</div>'
+         +          '</div>'
+         +          '<div class="login-error">'
+         +              '<div id="login-error-box" class="animated"><i></i><span>您输入的用户名有误</span></div>'
+         +          '</div>'
+         +      '</form>'
+         +  '</div>'
+
+    $('body').append(html);
+}
 
 $(document).ready(function(){
     /**
@@ -50,22 +115,94 @@ $(document).ready(function(){
 
     topInit();
 
-});
+    createLoginHtml();
 
-var XAlert = function (mes, type) {
-    $('body').dialog({
-        type: type ? type : 'warning',
-        showBoxShadow:true,
-        duration:0,
-        buttons:[
-            {
-                name: '确定',
-                className: 'false'
-            }
-        ],
-        discription:mes,
-        buttonsSameWidth:true,
-        discriptionFontSize:'14px',
-        showCloseIcon:true
+    /**
+     * 显示登录弹窗
+     */
+    $('body').delegate('#login', 'click', function(event) {
+        $('.login-dialog').show();
+    });
+
+    /**
+     * 隐藏登录弹窗
+     */
+    $('body').delegate('.login-dialog-mask', 'click', function(event) {
+        $('.login-dialog').hide();
+    });
+
+    /**
+     * 匿名登录
+     */
+    $('body').delegate('#anonymous', 'click', function() {
+        $(this).text('匿名登录中...');
+        location.href = './tpls/home/index.html';
+    });
+
+    /**
+     * 关闭错误提示
+     */
+    $('body').delegate('.login-error i', 'click', function() {
+        $('.login-error').hide();
+        $('.login-error').removeClass('shake');
     })
-}
+
+    /**
+     * 登录
+     */
+    $('body').delegate('#login-submit', 'click', function() {
+
+        if($(this).hasClass('active')) return;
+
+        var userName = $('#userName').val();
+        var pwd = $('#pwd').val();
+        //用户名验证
+        if(userName.length < 2 || userName.length > 20) {
+            $('.login-error span').text('用户名长度应该在2-20位之间！');
+            $('.login-error div').addClass('shake');
+            $('.login-error').show();
+            return;
+        }
+        //密码验证
+        if(pwd.length < 6 || pwd.length > 20) {
+            $('.login-error span').text('密码长度应该在6-20位之间！');
+            $('.login-error div').addClass('shake');
+            $('.login-error').show();
+            return;
+        }
+
+        $(this).text('登录中...').addClass('active');
+        $('.login-error').hide();
+        $('.login-error').removeClass('shake');
+
+        //表单提交
+        $.ajax({
+            url: './data/login.json',
+            type: 'POST',
+            data: {
+                FunType: "IF002",
+                F001: $('#userName').val(),
+                F002: $('#pwd').val(),
+                F003: $('#remember:checked').length
+            }
+        })
+        .done(function(res) {
+            if(parseInt(res.resultdata)) { //登录成功
+                location.href = './tpls/home/index.html';
+            }else { //登录失败
+                $('#login-submit').text('登录').removeClass('active');
+                $('.login-error span').text('登录失败，用户名或密码错误！');
+                $('.login-error div').addClass('shake');
+                $('.login-error').show();
+            }
+        })
+        .fail(function() {
+            $('#login-submit').text('登录').removeClass('active');
+            $('.login-error span').text('登录失败，请检查网络！');
+            $('.login-error div').addClass('shake');
+            $('.login-error').show();
+        })
+        
+    })
+
+});

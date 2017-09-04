@@ -52,6 +52,7 @@ body {
   min-height: 100%;
   padding: 0;
   margin: 0;
+  background: #f8f8f8;
 }
 
 a {
@@ -272,18 +273,44 @@ a {
 }
 
 .right {
-  width: 780px;
+  width: 794px;
   min-height: 500px;
   float: right;
 }
 
+.x-footer {
+  height: 200px;
+  background: url(../images/footerbg.png) center;
+  background-size: cover;
+}
+.x-footer p {
+  width: 640px;
+  margin: 0 auto;
+  color: #999;
+  text-align: center;
+  line-height: 40px;
+}
+.x-footer p:first-child {
+  padding-top: 58px;
+  line-height: 40px;
+  border-bottom: 1px solid #544c45;
+}
+.x-footer p a {
+  color: #d9d9d9;
+  font-size: 14px;
+  margin: 0 20px;
+}
+.x-footer p a:hover {
+  text-decoration: underline;
+}
+
 /*********** 登录 ***********/
-.login {
+.login, .login-dialog {
   background: url(../images/login_bg.png) no-repeat;
   background-size: cover;
   min-height: 750px;
 }
-.login form {
+.login form, .login .login-dialog-box, .login-dialog form, .login-dialog .login-dialog-box {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -295,17 +322,17 @@ a {
   box-shadow: 0 0 15px 0 #444;
   border-radius: 4px;
 }
-.login form .login-main {
+.login form .login-main, .login .login-dialog-box .login-main, .login-dialog form .login-main, .login-dialog .login-dialog-box .login-main {
   margin-top: 25px;
 }
-.login form .login-row {
+.login form .login-row, .login .login-dialog-box .login-row, .login-dialog form .login-row, .login-dialog .login-dialog-box .login-row {
   width: 330px;
   height: 40px;
   line-height: 40px;
   margin: 0px auto;
   margin-bottom: 15px;
 }
-.login form .login-row label {
+.login form .login-row label, .login .login-dialog-box .login-row label, .login-dialog form .login-row label, .login-dialog .login-dialog-box .login-row label {
   display: inline-block;
   width: 66px;
   text-align: right;
@@ -313,16 +340,16 @@ a {
   font-weight: bold;
   color: #333;
 }
-.login form .login-row .login-text {
+.login form .login-row .login-text, .login .login-dialog-box .login-row .login-text, .login-dialog form .login-row .login-text, .login-dialog .login-dialog-box .login-row .login-text {
   width: 200px;
 }
-.login form .login-checkbox {
+.login form .login-checkbox, .login .login-dialog-box .login-checkbox, .login-dialog form .login-checkbox, .login-dialog .login-dialog-box .login-checkbox {
   position: relative;
   top: -7px;
   margin-left: 96px;
   color: #999;
 }
-.login form .login-checkbox input {
+.login form .login-checkbox input, .login .login-dialog-box .login-checkbox input, .login-dialog form .login-checkbox input, .login-dialog .login-dialog-box .login-checkbox input {
   position: absolute;
   left: 0;
   top: 12px;
@@ -332,10 +359,10 @@ a {
   opacity: 0;
   z-index: 2;
 }
-.login form .login-checkbox input:checked + i {
+.login form .login-checkbox input:checked + i, .login .login-dialog-box .login-checkbox input:checked + i, .login-dialog form .login-checkbox input:checked + i, .login-dialog .login-dialog-box .login-checkbox input:checked + i {
   background: url(../images/icons.png) -4px -11px no-repeat;
 }
-.login form .login-checkbox i {
+.login form .login-checkbox i, .login .login-dialog-box .login-checkbox i, .login-dialog form .login-checkbox i, .login-dialog .login-dialog-box .login-checkbox i {
   position: absolute;
   left: 0;
   top: 12px;
@@ -344,13 +371,13 @@ a {
   height: 14px;
   border: 1px solid #b5b5b5;
 }
-.login form .login-checkbox span {
+.login form .login-checkbox span, .login .login-dialog-box .login-checkbox span, .login-dialog form .login-checkbox span, .login-dialog .login-dialog-box .login-checkbox span {
   margin-left: 26px;
 }
-.login form .login-btns {
+.login form .login-btns, .login .login-dialog-box .login-btns, .login-dialog form .login-btns, .login-dialog .login-dialog-box .login-btns {
   text-align: center;
 }
-.login form .login-btns a {
+.login form .login-btns a, .login .login-dialog-box .login-btns a, .login-dialog form .login-btns a, .login-dialog .login-dialog-box .login-btns a {
   display: inline-block;
   width: 120px;
   height: 40px;
@@ -362,29 +389,29 @@ a {
   margin: 0 5px;
   transition: all .4s;
 }
-.login form .login-btns a:first-child {
+.login form .login-btns a:first-child, .login .login-dialog-box .login-btns a:first-child, .login-dialog form .login-btns a:first-child, .login-dialog .login-dialog-box .login-btns a:first-child {
   background: #4ba5ff;
 }
-.login form .login-btns a:first-child:hover, .login form .login-btns a:first-child.active {
+.login form .login-btns a:first-child:hover, .login form .login-btns a:first-child.active, .login .login-dialog-box .login-btns a:first-child:hover, .login .login-dialog-box .login-btns a:first-child.active, .login-dialog form .login-btns a:first-child:hover, .login-dialog form .login-btns a:first-child.active, .login-dialog .login-dialog-box .login-btns a:first-child:hover, .login-dialog .login-dialog-box .login-btns a:first-child.active {
   background: #1765b3;
 }
-.login form .login-btns a:last-child {
+.login form .login-btns a:last-child, .login .login-dialog-box .login-btns a:last-child, .login-dialog form .login-btns a:last-child, .login-dialog .login-dialog-box .login-btns a:last-child {
   background: #959595;
 }
-.login form .login-btns a:last-child:hover {
+.login form .login-btns a:last-child:hover, .login .login-dialog-box .login-btns a:last-child:hover, .login-dialog form .login-btns a:last-child:hover, .login-dialog .login-dialog-box .login-btns a:last-child:hover {
   background: #726969;
 }
-.login form .login-reg {
+.login form .login-reg, .login .login-dialog-box .login-reg, .login-dialog form .login-reg, .login-dialog .login-dialog-box .login-reg {
   margin-top: 10px;
   color: #999;
 }
-.login form .login-reg a {
+.login form .login-reg a, .login .login-dialog-box .login-reg a, .login-dialog form .login-reg a, .login-dialog .login-dialog-box .login-reg a {
   color: #6bdb88;
 }
-.login form .login-reg a:hover {
+.login form .login-reg a:hover, .login .login-dialog-box .login-reg a:hover, .login-dialog form .login-reg a:hover, .login-dialog .login-dialog-box .login-reg a:hover {
   text-decoration: underline;
 }
-.login form .login-error {
+.login form .login-error, .login .login-dialog-box .login-error, .login-dialog form .login-error, .login-dialog .login-dialog-box .login-error {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -396,7 +423,7 @@ a {
   background: #db6b80;
   color: #fff;
 }
-.login form .login-error i {
+.login form .login-error i, .login .login-dialog-box .login-error i, .login-dialog form .login-error i, .login-dialog .login-dialog-box .login-error i {
   position: relative;
   top: 3px;
   display: inline-block;
@@ -428,6 +455,25 @@ h1 {
 
 .login-text:focus {
   border: 1px solid #db6b80;
+}
+
+.login-dialog {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: none;
+}
+.login-dialog .login-dialog-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
 }
 
 /*********** 注册 ***********/
@@ -719,12 +765,14 @@ h1 {
   box-shadow: 0 0 5px 0 #ddd;
   padding: 5px;
   margin-bottom: 40px;
+  background: #fff;
 }
 .data .right-history ul {
   padding: 5px;
   padding-right: 0px;
   padding-bottom: 0px;
   border-bottom: 1px solid #eeeeee;
+  padding-left: 10px;
   overflow: hidden;
 }
 .data .right-history ul li {
@@ -753,9 +801,35 @@ h1 {
 .data .right-history ul li.active a {
   background: #4ba5ff;
 }
+.data #table {
+  border-bottom: 1px solid #ddd;
+  min-width: 100%;
+}
 .data #table th {
   height: 40px;
   line-height: 40px;
+  background-color: #eee;
+  color: #999;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+.data #table th.sorting_asc, .data #table th.sorting_desc, .data #table th.sorting {
+  height: 20px;
+  line-height: 20px;
+}
+.data #table tbody td {
+  line-height: 26px;
+  border: 1px solid #ddd;
+  color: #999;
+  border-bottom: none;
+  text-align: center;
+}
+.data #table .empty {
+  line-height: 18px;
+  padding: 20px 0;
+}
+.data #table .table-init th {
+  padding: 0;
 }
 
 /*********** detail ***********/
@@ -816,7 +890,8 @@ h1 {
   line-height: 40px;
   background: #f8f8f8;
   color: #999;
-  margin: 10px 5px;
+  margin: 10px 0px;
+  padding: 0 5px;
 }
 .detail .detail-bar span {
   margin-left: 10px;
@@ -828,7 +903,7 @@ h1 {
   position: relative;
   color: #999;
   line-height: 40px;
-  margin: 0 5px;
+  margin-left: 10px;
 }
 .detail .table-screen .table-screen-bar {
   position: relative;
@@ -932,6 +1007,7 @@ h1 {
   height: 208px;
   padding-left: 15px;
   overflow-y: auto;
+  line-height: 30px;
 }
 .detail .table-screen .slide-box .slide-body .slide-code-item .code-list i {
   color: #ddd;
@@ -1115,12 +1191,12 @@ h1 {
 .detail .table-screen .slide-box .checkbox_false_full:before, .detail .table-screen .slide-box .checkbox_false_full_focus:before {
   content: "\f096";
 }
-.detail .table-screen .slide-box .checkbox_true_full, .detail .table-screen .slide-box .checkbox_true_full_focus, .detail .table-screen .slide-box .checkbox_true_part {
+.detail .table-screen .slide-box .checkbox_true_full, .detail .table-screen .slide-box .checkbox_true_full_focus, .detail .table-screen .slide-box .checkbox_true_part, .detail .table-screen .slide-box .checkbox_true_part_focus {
   background: none !important;
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
 }
-.detail .table-screen .slide-box .checkbox_true_full:before, .detail .table-screen .slide-box .checkbox_true_full_focus:before, .detail .table-screen .slide-box .checkbox_true_part:before {
+.detail .table-screen .slide-box .checkbox_true_full:before, .detail .table-screen .slide-box .checkbox_true_full_focus:before, .detail .table-screen .slide-box .checkbox_true_part:before, .detail .table-screen .slide-box .checkbox_true_part_focus:before {
   content: "\f14a";
   color: #4ba5ff;
 }
@@ -1147,6 +1223,7 @@ h1 {
   content: "\f0d7";
 }
 .detail .table-screen .slide-box .slide-code-title input {
+  width: 150px;
   height: 36px;
   padding: 0 11px;
   margin: 5px;
@@ -1233,7 +1310,6 @@ h1 {
 .detail .table-screen .slide-box .cdt-list table td i {
   position: relative;
   top: 2px;
-  width: 32px;
   font-size: 16px;
   display: inline-block;
   text-align: right;
@@ -1243,8 +1319,7 @@ h1 {
   background: #f9f9f9;
 }
 .detail .detail-table {
-  width: 100%;
-  overflow: auto;
+  margin-left: 10px;
 }
 .detail .detail-table .dataTables_info {
   display: block;
@@ -1254,11 +1329,15 @@ h1 {
   background: #f8f8f8;
   padding-left: 10px;
   float: none;
+  color: #999;
+}
+.detail .detail-table .dataTables_info span {
+  color: #db6b80;
 }
 
 .filed-dialog {
   position: absolute;
-  top: 178px;
+  top: 115px;
   right: 30px;
   display: none;
   width: 680px;
@@ -1295,8 +1374,9 @@ h1 {
   width: 100%;
   line-height: 36px;
   text-align: center;
-  font-size: 14px;
+  font-size: 12px;
   border: 1px solid #e5e5e5;
+  text-align: center;
 }
 .filed-dialog .filed-dialog-body table th {
   background: #eee;
@@ -1306,6 +1386,7 @@ h1 {
 }
 .filed-dialog .filed-dialog-body table td {
   height: 36px;
+  text-align: center;
   border-bottom: 1px solid #e5e5e5;
 }
 
@@ -1318,7 +1399,10 @@ h1 {
 }
 
 .news-menu {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
   width: 200px;
   line-height: 30px;
   font-size: 14px;
@@ -1327,6 +1411,10 @@ h1 {
   float: left;
   z-index: 88;
   background: #fff;
+  border-right: 1px solid #eeeeee;
+}
+.news-menu .treeview > li {
+  border-bottom: 1px solid #eeeeee;
 }
 
 div.expandable-hitarea {
@@ -1340,6 +1428,7 @@ div.expandable-hitarea {
   line-height: 16px !important;
   text-align: center;
   color: #999;
+  margin-right: 5px;
 }
 div.expandable-hitarea:before {
   content: "\f105";
@@ -1356,6 +1445,7 @@ div.collapsable-hitarea {
   text-align: center;
   transition: all .4s;
   transform: rotate(90deg);
+  margin-right: 5px;
 }
 div.collapsable-hitarea:before {
   content: "\f105";
@@ -1626,8 +1716,10 @@ div.collapsable-hitarea:before {
 
 /*********** 主页 ***********/
 .web-describe {
-  font-size: 16px;
+  font-size: 12px;
+  line-height: 20px;
   padding-top: 10px;
+  padding-left: 10px;
 }
 
 .loading {
@@ -1654,10 +1746,56 @@ div.collapsable-hitarea:before {
   margin-top: -30px;
   margin-left: -50px;
 }
+.loading div span {
+  animation: none;
+}
+.loading div span:before {
+  content: '';
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background: url(../images/loading.gif) center;
+  background-size: cover;
+}
 .loading.page-loading div {
   top: 170px;
 }
 
+/***********  ***********/
 .slide-box .loading div {
   box-shadow: none;
+}
+
+.div_dialog.warning .dialog_divOperation .btn_span {
+  background: #4ba5ff;
+}
+.div_dialog.warning .dialog_divOperation .btn_span:hover {
+  background: #1765b3;
+}
+
+.div_dialog.warning .title_dialog {
+  border-bottom: 1px solid #999;
+}
+
+.export-left li:hover span, .export-left li.active span {
+  border: 1px solid #fff !important;
+  border-bottom: 1px solid #eeeeee !important;
+  border-right: 1px solid #eeeeee !important;
+  color: #4ba5ff;
+  cursor: pointer;
+}
+.export-left li:hover span i, .export-left li.active span i {
+  color: #4ba5ff;
+}
+
+.export-top select, .export-top input[type="text"] {
+  width: 133px !important;
+}
+
+.export-right-body {
+  margin-top: 10px;
+}
+
+.new-right {
+  width: 794px;
 }

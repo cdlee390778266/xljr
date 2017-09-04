@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2017-08-28 15:47:18
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-09-01 16:52:41
+* @Last Modified time: 2017-09-04 16:15:51
 */
 
 $(document).ready(function(){
@@ -20,26 +20,26 @@ $(document).ready(function(){
             }
         })
         .done(function(res) {
-            var html = '';
-            if(parseInt(res.resultdata)) {
-                for(var i = 0; i < res.ResData.length; i++) {
-                    html += '<li><span>' + res.ResData[i].name + '<i class="fa fa-angle-right"></i></span><div>'
-                    for(var j = 0; j < res.ResData[i].children.length; j++) {
-                        html += '<dl>'
-                             +      '<dt><span>' + res.ResData[i].children[j].name + '</span> <i class="fa fa-angle-right"></i></dt>'
-                             +      '<dd>'
-                        for(var k = 0; k < res.ResData[i].children[j].children.length; k++) {
-                            html += '<a class="javascript:void(0);" data-id="' + res.ResData[i].children[j].children[k].id + '">' + res.ResData[i].children[j].children[k].name + '</a>'
-                            if(k < res.ResData[i].children[j].children.length -1) {
-                                html += '<i>|</i>';
-                            }
-                        }
-                        html += '</dd></dl>';
-                    }
-                    html += '</div></li>'
-                }
-                $('#leftMenu').html(html);
-            }
+            // var html = '';
+            // if(parseInt(res.resultdata)) {
+            //     for(var i = 0; i < res.ResData.length; i++) {
+            //         html += '<li><span>' + res.ResData[i].name + '<i class="fa fa-angle-right"></i></span><div>'
+            //         for(var j = 0; j < res.ResData[i].children.length; j++) {
+            //             html += '<dl>'
+            //                  +      '<dt><span>' + res.ResData[i].children[j].name + '</span> <i class="fa fa-angle-right"></i></dt>'
+            //                  +      '<dd>'
+            //             for(var k = 0; k < res.ResData[i].children[j].children.length; k++) {
+            //                 html += '<a class="javascript:void(0);" data-id="' + res.ResData[i].children[j].children[k].id + '">' + res.ResData[i].children[j].children[k].name + '</a>'
+            //                 if(k < res.ResData[i].children[j].children.length -1) {
+            //                     html += '<i>|</i>';
+            //                 }
+            //             }
+            //             html += '</dd></dl>';
+            //         }
+            //         html += '</div></li>'
+            //     }
+            //     $('#leftMenu').html(html);
+            // }
         })
         .fail(function() {
             XAlert('获取数据失败，请检查网络！');
