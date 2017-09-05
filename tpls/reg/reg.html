@@ -10,6 +10,7 @@
 
         <script type="text/javascript" src="../../js/jquery-1.10.1.js"></script>
         <script src="../../js/jquery.validate.js"></script>
+        <script src="../../js/utils.js"></script>
         
         <title>注册</title>
     </head>
@@ -111,6 +112,42 @@
         <script>
             $(function() {
 
+                /**
+                 * [getRegSuccess 获取注册数据成功]
+                 * @param  {[type]} res 返回的数据
+                 */
+                var getRegSuccess = function(res) {
+                    $('#reg-submit').removeClass('active').val('注册');
+                    if(parseInt(res.resultdata)) {
+                        $('.reg-form').hide();
+                        $('.reg-success-body').removeClass('reg-error');
+                        $('#res-text').html('恭喜您，注册成功');
+                        $('.reg-success-mes').html('你的用户名：' +  $('input[name="F007"]').val()+ '<br/>密码：' + $('input[name="F008"]').val() + '');
+                        $('.reg-success-btns a').text('直接登录');
+                        $('.reg-success').fadeIn();
+                    }else {
+                        $('.reg-form').hide();
+                        $('.reg-success-body').addClass('reg-error');
+                        $('#res-text').html('对不起，注册失败！');
+                        $('.reg-success-mes').html('');
+                        $('.reg-success-btns a').text('重新注册');
+                        $('.reg-success').fadeIn();
+                    }
+                } 
+
+                /**
+                 * [getRegError 获取注册数据失败]
+                 */
+                var getRegError = function() {
+                    $('#reg-submit').removeClass('active').val('注册');
+                    $('.reg-form').hide();
+                    $('.reg-success-body').addClass('reg-error');
+                    $('#res-text').html('对不起，注册失败！');
+                    $('.reg-success-mes').html('由于网络原因，注册失败！');
+                    $('.reg-success-btns a').text('重新注册');
+                    $('.reg-success').fadeIn();
+                }
+
                 $('#reg').validate({
                     rules : {
                         F001 : {
@@ -167,10 +204,10 @@
                     submitHandler : function (form) {   //提交表单
                         if($('#reg-submit').hasClass('active')) return;
                         $('#reg-submit').addClass('active').val('注册中...');
-                        $.ajax({
-                            url: '../../data/reg.json',
-                            type: 'POST',
-                            data: {
+
+                        var url = '../../data/reg.json';
+                        var funType = 'POST';
+                        var params = {
                                 FunType: "IF001",
                                 F001: escape($('input[name="F001"]').val()),
                                 F002: $('input[name="F001"]').val(),
@@ -184,35 +221,9 @@
                                 F010: escape($('input[name="F010"]').val()),
                                 F011: $('input[name="F005"]').val()
                             }
-                        })
-                        .done(function(res) {
-                            $('#reg-submit').removeClass('active').val('注册');
-                            if(parseInt(res.resultdata)) {
-                                $('.reg-form').hide();
-                                $('.reg-success-body').removeClass('reg-error');
-                                $('#res-text').html('恭喜您，注册成功');
-                                $('.reg-success-mes').html('你的用户名：' +  $('input[name="F007"]').val()+ '<br/>密码：' + $('input[name="F008"]').val() + '');
-                                $('.reg-success-btns a').text('直接登录');
-                                $('.reg-success').fadeIn();
-                            }else {
-                                $('.reg-form').hide();
-                                $('.reg-success-body').addClass('reg-error');
-                                $('#res-text').html('对不起，注册失败！');
-                                $('.reg-success-mes').html('');
-                                $('.reg-success-btns a').text('重新注册');
-                                $('.reg-success').fadeIn();
-                            }
-                        })
-                        .fail(function() {
-                            $('#reg-submit').removeClass('active').val('注册');
-                            $('.reg-form').hide();
-                            $('.reg-success-body').addClass('reg-error');
-                            $('#res-text').html('对不起，注册失败！');
-                            $('.reg-success-mes').html('由于网络原因，注册失败！');
-                            $('.reg-success-btns a').text('重新注册');
-                            $('.reg-success').fadeIn();
-                        })
-            
+
+                        //注册
+                        getData(url, funType, params, getRegSuccess, getRegError);
                     }
                 });
                 

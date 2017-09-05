@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2017-08-29 18:19:59
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-08-30 14:11:34
+* @Last Modified time: 2017-09-05 13:59:47
 */
 
 /**
@@ -86,4 +86,29 @@ function renderPageHTML(page,pageNum,count,$wrapper,fn){
     }
     //pageInfo = '<div class="button_count">共计'+count+'条</div>' + pageInfo;
     $wrapper.html(pageInfo);
+}
+
+/**
+ * [getData ajax获取数据]
+ * @param  {[type]} url     请求地址
+ * @param  {[type]} funType 请求类型
+ * @param  {[type]} params  请求参数
+ * @param  {[type]} sucess  执行成功回调函数
+ * @param  {[type]} error   执行失败回调函数
+ */
+var getData = function(url, funType, params, sucess, error) {
+    $.ajax({
+        url: url,
+        type: funType ?  funType : 'POST',
+        dataType: 'json',
+        data: params ? params : {}
+    })
+    .done(function(res) {
+        if(!!sucess) {
+            sucess(res);
+        }
+    })
+    .fail(function() {
+        error();
+    })  
 }

@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2017-08-28 14:21:38
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-09-04 18:22:20
+* @Last Modified time: 2017-09-05 14:36:25
 */
 
 /**
@@ -58,7 +58,7 @@ var createLoginHtml = function() {
          +                  '<a href="javascript: void(0);" id="anonymous">匿名登录</a>'
          +              '</div>'
          +              '<div class="login-row tc login-reg">'
-         +                   '还没有账号？<a href="./tpls/reg/reg.html">马上注册</a>'
+         +                   '还没有账号？<a href="../reg/reg.html">马上注册</a>'
          +              '</div>'
          +          '</div>'
          +          '<div class="login-error">'
@@ -70,31 +70,41 @@ var createLoginHtml = function() {
     $('body').append(html);
 }
 
+/**
+ * [errorReturn ajax获取数据失败]
+ */
+var errorReturn = function() {
+    XAlert('获取数据失败，请检查网络！');
+}
+
 $(document).ready(function(){
+    
+    /**
+     * [getTopMenuSuccess 请求头部菜单成功回调]
+     * @param  {[type]} res 返回的数据
+     */
+    var getTopMenuSuccess = function(res) {
+        var $topMenu = $('#top-menu li');
+        if(parseInt(res.resultdata)) {
+            var html = '';
+            for(var i = 0; i < res.ResData.Privilege.length; i++) {
+                $topMenu.eq(parseInt(res.ResData.Privilege[i].F001)).removeClass('disabled').addClass('enable');
+            }
+        }
+    }  
+
     /**
      * [getTopMenu 获取头部菜单权限]
      */
     var getTopMenu = function() {
-        $.ajax({
-            url: '../../data/topMenu.json',
-            type: 'POST',
-            data: {
+        var url = '../../data/topMenu.json';
+        var funType = 'POST';
+        var params = {
                 FunType: "IF003",
                 F001: "wq123"
             }
-        })
-        .done(function(res) {
-            var $topMenu = $('#top-menu li');
-            if(parseInt(res.resultdata)) {
-                var html = '';
-                for(var i = 0; i < res.ResData.Privilege.length; i++) {
-                    $topMenu.eq(parseInt(res.ResData.Privilege[i].F001)).removeClass('disabled').addClass('enable');
-                }
-            }
-        })
-        .fail(function() {
-            
-        })
+
+        getData(url, funType, params, getTopMenuSuccess, errorReturn);
     }
 
     /**
@@ -136,7 +146,7 @@ $(document).ready(function(){
      */
     $('body').delegate('#anonymous', 'click', function() {
         $(this).text('匿名登录中...');
-        location.href = './tpls/home/index.html';
+        location.href = '../home/index.html';
     });
 
     /**
@@ -146,6 +156,32 @@ $(document).ready(function(){
         $('.login-error').hide();
         $('.login-error').removeClass('shake');
     })
+
+
+    /**
+     * [loginSuccess 请求登录数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var loginSuccess = function(res) {
+        if(parseInt(res.resultdata)) { //登录成功
+            location.href = '../home/index.html';
+        }else { //登录失败
+            $('#login-submit').text('登录').removeClass('active');
+            $('.login-error span').text('登录失败，用户名或密码错误！');
+            $('.login-error div').addClass('shake');
+            $('.login-error').show();
+        }
+    }
+
+    /**
+     * [loginError 请求登录数据失败]
+     */
+    var loginError = function() {
+        $('#login-submit').text('登录').removeClass('active');
+        $('.login-error span').text('登录失败，请检查网络！');
+        $('.login-error div').addClass('shake');
+        $('.login-error').show();
+    }
 
     /**
      * 登录
@@ -175,34 +211,18 @@ $(document).ready(function(){
         $('.login-error').hide();
         $('.login-error').removeClass('shake');
 
-        //表单提交
-        $.ajax({
-            url: './data/login.json',
-            type: 'POST',
-            data: {
+        var url = '../../data/login.json';
+        var funType = 'POST';
+        var params = {
                 FunType: "IF002",
                 F001: $('#userName').val(),
                 F002: $('#pwd').val(),
                 F003: $('#remember:checked').length
             }
-        })
-        .done(function(res) {
-            if(parseInt(res.resultdata)) { //登录成功
-                location.href = './tpls/home/index.html';
-            }else { //登录失败
-                $('#login-submit').text('登录').removeClass('active');
-                $('.login-error span').text('登录失败，用户名或密码错误！');
-                $('.login-error div').addClass('shake');
-                $('.login-error').show();
-            }
-        })
-        .fail(function() {
-            $('#login-submit').text('登录').removeClass('active');
-            $('.login-error span').text('登录失败，请检查网络！');
-            $('.login-error div').addClass('shake');
-            $('.login-error').show();
-        })
-        
+
+        //表单提交
+        getData(url, funType, params, loginSuccess, loginError);
+  
     })
 
 });

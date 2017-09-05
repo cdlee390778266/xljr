@@ -2,64 +2,88 @@
 * @Author: Lee
 * @Date:   2017-08-28 15:47:18
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-09-04 16:15:51
+* @Last Modified time: 2017-09-05 15:49:44
 */
 
 $(document).ready(function(){
     
     /**
-     * [getLeft 获取左侧菜单]
+     * [getLeftSuccess 获取左侧菜单数据成功]
+     * @param  {[type]} res 返回的数据
      */
-    var getLeft = function() {
-        $.ajax({
-            url: '../../data/left.json',
-            type: 'POST',
-            data: {
-                FunType: "IF004",
-                F001: "wq123"
-            }
-        })
-        .done(function(res) {
-            // var html = '';
-            // if(parseInt(res.resultdata)) {
-            //     for(var i = 0; i < res.ResData.length; i++) {
-            //         html += '<li><span>' + res.ResData[i].name + '<i class="fa fa-angle-right"></i></span><div>'
-            //         for(var j = 0; j < res.ResData[i].children.length; j++) {
-            //             html += '<dl>'
-            //                  +      '<dt><span>' + res.ResData[i].children[j].name + '</span> <i class="fa fa-angle-right"></i></dt>'
-            //                  +      '<dd>'
-            //             for(var k = 0; k < res.ResData[i].children[j].children.length; k++) {
-            //                 html += '<a class="javascript:void(0);" data-id="' + res.ResData[i].children[j].children[k].id + '">' + res.ResData[i].children[j].children[k].name + '</a>'
-            //                 if(k < res.ResData[i].children[j].children.length -1) {
-            //                     html += '<i>|</i>';
-            //                 }
-            //             }
-            //             html += '</dd></dl>';
-            //         }
-            //         html += '</div></li>'
-            //     }
-            //     $('#leftMenu').html(html);
-            // }
-        })
-        .fail(function() {
-            XAlert('获取数据失败，请检查网络！');
-        })  
+    var getLeftSuccess = function(res) {
+        
     }
 
     /**
-     * 鼠标移过菜单显示子菜单
+     * [getLeft 获取左侧菜单]
      */
-    $('#leftMenu').delegate('li', 'mouseover', function(event) {
-        $(this).find('div').show();
-    });
+    var getLeft = function() {
+        var url = '../../data/left.json';
+        var funType = 'POST';
+        var params = {
+                FunType: "IF004",
+                F001: "wq123"
+            }
+
+        getData(url, funType, params, getLeftSuccess, errorReturn);   
+    }
+
+    
+    var key = $('#tree');    
 
     /**
-     * 鼠标移出菜单隐藏子菜单
+     * [init 页面初始化]
      */
-    $('#leftMenu').delegate('li', 'mouseout', function(event) {
-        $(this).find('div').hide();
-    });
-    
+    var init = function () {
+
+        $('#table-head').html('<tr class="table-init"><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>');
+        $('#table-body').html('<tr><td colspan="12" class="empty"><img src="../../images/empty.png" alt="" /> <br /> 没有相应数据！</td></tr>');
+
+        $('.screen-select-btns button').removeClass('active').eq(0).addClass('active');
+        $('.screen-select-slide .slide-box').hide().eq(0).show();
+
+
+        $('#slide-item-loading').show();
+
+            var url = '../../data/codeTree.json';
+            var funType = 'POST';
+            var params = {
+                    FunType: "IF007",
+                    F001: "wq123",
+                    F002: $('#dataId').val()
+                }
+
+            getData(url, funType, params, getCodeSuccess, getCodeError);
+
+        getLeft();
+    }
+
+
+    /**
+     * [getCodeSuccess 获取条件选择下拉数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var getCodeSuccess = function(res) {
+        if(parseInt(res.resultdata)) {
+            zNodes = res.ResData;
+            zTreeObj = $.fn.zTree.init($("#tree"), setting, zNodes);
+            key.bind("focus", focusKey)
+            .bind("blur", blurKey)
+            .bind("propertychange", searchNode)
+            .bind("input", searchNode);
+        }
+        $('#slide-item-loading').hide();
+    }
+
+    /**
+     * [getCodeError 获取条件选择下拉数据失败]
+     */
+    var getCodeError = function() {
+        $('#slide-item-loading').hide();
+        XAlert('获取数据失败，请检查网络！');
+    }
+
     /**
      * 禁用or解禁操作按钮
      * @$wrapper 选框父元素
@@ -111,6 +135,7 @@ $(document).ready(function(){
      * 代码全选
      */
     $('body').delegate('.code-all', 'click', function() {
+        if(!$(this).prev().find('li').length) return;
         var handletype = $(this).parents('.slide-code-item').attr('handletype');
         if($(this).find('i').hasClass('active')) {
             $(this).find('i').removeClass('fa-check-square active').addClass('fa-square-o');
@@ -142,6 +167,7 @@ $(document).ready(function(){
     var setSelectAllNum = function() {
         $('#add .code-all strong, #add .code-result span').text($('#add ul li').length);
         $('#remove .code-all strong, #remove .code-result span').text($('#remove ul li').length);
+         $('.code-all i').removeClass('fa-check-square active').addClass('fa-square-o');
     }
     
     /**
@@ -246,6 +272,33 @@ $(document).ready(function(){
     });
 
     /**
+     * [getSelectTreeSuccess 获取选中行业数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var getSelectTreeSuccess = function(res) {
+        var html = '';
+        if(parseInt(res.resultdata)) {
+            for(var i = 0; i < res.ResData.length; i++) {
+                html += '<li><span data-id="ClosePrice"><i class="fa fa-square-o" data-id="' + res.ResData[i].F001 + '"></i>' + res.ResData[i].F002 + '</span></li>';
+            }
+        }
+        $('#add ul').html(html);
+        $('#add-all').addClass('active');
+        $('#slide-loading').hide();
+        setSelectAllNum();
+    }
+
+    /**
+     * [getSelectTreeError 获取选中行业数据失败]
+     */
+    var getSelectTreeError = function() {
+        $('#slide-loading').hide();
+        $('#add ul').html('');
+        setSelectAllNum();
+        XAlert('获取数据失败，请检查网络！');
+    }
+
+    /**
      * 行业分类树选择回调
      */
     var onCheck = function() {
@@ -262,34 +315,17 @@ $(document).ready(function(){
         $('#slide-loading').show();
         $('#remove ul, #add ul').html('');
         $('.slide-code-handle button').removeClass('active');
-        $.ajax({
-            url: '../../data/code.json',
-            type: 'POST',
-            data: {
+
+        var url = '../../data/code.json';
+        var funType = 'POST';
+        var params = {
                 FunType: "IF017",
                 F001: "wq123",
                 F002: selectArr
             }
-        })
-        .done(function(res) {
-            var html = '';
-            if(parseInt(res.resultdata)) {
-                for(var i = 0; i < res.ResData.length; i++) {
-                    html += '<li><span data-id="ClosePrice"><i class="fa fa-square-o" data-id="' + res.ResData[i].F001 + '"></i>' + res.ResData[i].F002 + '</span></li>';
-                }
-            }
-            $('#add ul').html(html);
-            $('#add-all').addClass('active');
-            $('#slide-loading').hide();
-            setSelectAllNum();
-        })
-        .fail(function() {
-            $('#slide-loading').hide();
-            $('#add ul').html('');
-            setSelectAllNum();
-            XAlert('获取数据失败，请检查网络！');
-        })
-       
+
+        getData(url, funType, params, getSelectTreeSuccess, getSelectTreeError);
+
     }
 
     //行业分类
@@ -379,71 +415,67 @@ $(document).ready(function(){
         return !node.isParent && node.isFirstNode;
     }
 
+    var myDataTables;
+
+
     /**
-     * 初始化函数
+     * 导出
      */
-    var key = $('#tree');
-    var init  = function() {
-        getLeft();
-        $('#page-loading').show();
-        $.ajax({
-            url: '../../data/codeTree.json',
-            type: 'POST',
-            data: {
-                FunType: "IF007",
-                F001: "wq123",
-                F002: $('#dataId').val()
-            }
-        })
-        .done(function(res) {
-            if(parseInt(res.resultdata)) {
-                zNodes = res.ResData;
-                zTreeObj = $.fn.zTree.init($("#tree"), setting, zNodes);
-                key.bind("focus", focusKey)
-                .bind("blur", blurKey)
-                .bind("propertychange", searchNode)
-                .bind("input", searchNode);
-            }
-            $('#page-loading').hide();
+    $('body').delegate('#export', 'click', function(event) {
+        var $exportDialog = $(this).next();
+        if($exportDialog.hasClass('active')) {
+            $exportDialog.removeClass('active').hide();
+        }else {
+            $exportDialog.addClass('active').show();
+        }
+    });
 
-        })
-        .fail(function() {
-            $('#page-loading').hide();
-            XAlert('获取数据失败，请检查网络！');
-        }) 
-       
+    /**
+     * 隐藏导出弹框
+     */
+    $('body').delegate('.slide-code-handle ul a', 'click', function(event) {
+        $('.slide-code-handle').hide();
+    });
+   
 
+    /**
+     * 刷新表格数据
+     */
+    var refreshDataTable = function(data) {
         
-        $('.screen-select-btns button').removeClass('active').eq(0).addClass('active');
-        $('.screen-select-slide .slide-box').hide().eq(0).show();
+        var columnsArr = [];
+        for(var i = 0; i < data.ColModels.length; i++) {
+            var obj = {};
+            obj.data = data.ColModels[i].Name;
+            columnsArr.push(obj);
+        }
 
+        var html = '';
+        for(var i = 0; i < data.ColNames.length; i++) {     //更新表格头部
+            html += '<th>' + data.ColNames[i] + '</th>';
+        }
+
+        $('#table-head tr').removeClass('table-init').html(html);
+        
+        if(typeof(myDataTables) != "undefined") {
+            myDataTables.clear();//清空数据.fnClearTable();//清空数据  
+            myDataTables.destroy(); //还原初始化了的datatable
+        }
         myDataTables = $('#table').DataTable({
             autoFill: true,
-            dom: 'rtp',
-            // dom: '<"top"i>Brtp',
+            dom: '<"top"i>rtp',
             buttons: ['colvis'],
             bDestroy : true, 
             retrieve: true,//保证只有一个table实例
-            ajax: {
-                url: '../../data/data.json',
-                dataSrc: ''
-            },
-            columns: [
-                { data: 'name' },
-                { data: 'position' },
-                { data: 'salary' },
-                { data: 'office' },
-                { data: 'office' }
-            ],
+            data: data.Data,
+            columns: columnsArr,
             paging: false,
-            fnInitComplete: function (oSettings, json) {
-                
-            },
+            destroy: true,
             language: {
                 "sProcessing": "处理中...",
                 "sLengthMenu": "显示 _MENU_ 项结果",
                 "sZeroRecords": "没有匹配结果",
-                "sInfo": "显示第 _START_ 至 _END_ 项结果，数据总记录数为 _TOTAL_ 条",
+                "sInfo": "数据总记录数为 <span>_TOTAL_</span> 条，预览数据为： <span>_TOTAL_</span> 条",
                 "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
                 "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
                 "sInfoPostFix": "",
@@ -467,27 +499,62 @@ $(document).ready(function(){
                 }
             }
         });
+
     }
 
     /**
-     * 日期选择
+     * [getPreviewSuccess 获取预览数据成功回调
+     * @param  {[type]} res 返回的数据
      */
-    $('#date').dateRangePicker({
-        separator : ' 至 ',
-        getValue: function()
-        {
-            if ($('#start').val() && $('#end').val() )
-                return $('#start').val() + ' 至 ' + $('#end').val();
-            else
-                return '';
-        },
-        setValue: function(s,s1,s2)
-        {
-
-            $('#start').val(s1.replace(/-/g,''));
-            $('#end').val(s2.replace(/-/g,''));
+    var getPreviewSuccess = function(res) {
+        if(parseInt(res.resultdata)) {
+            refreshDataTable(res.ResData[0]);
         }
-    });
+        $('#page-loading').hide();
+    }
+
+    /**
+     * [getPreviewError 获取预览数据失败回调
+     * @param  {[type]} res 返回的数据
+     */
+    var getPreviewError = function(res) {
+        $('#page-loading').hide();
+        XAlert('获取数据失败，请检查网络！');
+    }
+
+    /**
+     * 预览数据
+     */
+    $('body').delegate('#preview', 'click', function(event) {
+
+        var checkedCodeArr = [];
+        $('.remove code-list ul li').each(function(index, val) {
+             checkedCodeArr.push($(this).find('span').data('id'));
+        });
+        
+        $('#page-loading').show();
+
+        var url = '../../data/preview.json';
+        var funType = 'POST';
+        var params = {
+                FunType: 'IF008',
+                F001: 'wq123',
+                F002: $('#dataId').val(),
+                F004: checkedCodeArr
+            }
+
+        //获取预览数据
+        getData(url, funType, params, getPreviewSuccess, getPreviewError);
+
+    });    
+    
+
+    /**
+     * 下载数据
+     */
+     $('body').delegate('#download', 'click', function(event) {
+         location.href = '../../data/data.rar'
+     });
 
     init();
 });

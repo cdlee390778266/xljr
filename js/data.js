@@ -2,48 +2,50 @@
 * @Author: Lee
 * @Date:   2017-08-28 15:47:18
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-09-04 17:32:53
+* @Last Modified time: 2017-09-05 18:13:20
 */
 
 $(document).ready(function(){
     
     /**
+     * [getLeftSuccess 获取左侧菜单数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var getLeftSuccess = function(res) {
+        var html = '';
+        if(parseInt(res.resultdata)) {
+            for(var i = 0; i < res.ResData.length; i++) {
+                html += '<li><span>' + res.ResData[i].name + '<i class="fa fa-angle-right"></i></span><div>'
+                for(var j = 0; j < res.ResData[i].children.length; j++) {
+                    html += '<dl>'
+                         +      '<dt><span>' + res.ResData[i].children[j].name + '</span> <i class="fa fa-angle-right"></i></dt>'
+                         +      '<dd>'
+                    for(var k = 0; k < res.ResData[i].children[j].children.length; k++) {
+                        html += '<a class="javascript:void(0);" data-id="' + res.ResData[i].children[j].children[k].id + '">' + res.ResData[i].children[j].children[k].name + '</a>'
+                        if(k < res.ResData[i].children[j].children.length -1) {
+                            html += '<i>|</i>';
+                        }
+                    }
+                    html += '</dd></dl>';
+                }
+                html += '</div></li>'
+            }
+            $('#leftMenu').html(html);
+        }
+    }
+
+    /**
      * [getLeft 获取左侧菜单]
      */
     var getLeft = function() {
-        $.ajax({
-            url: '../../data/left.json',
-            type: 'POST',
-            data: {
+        var url = '../../data/left.json';
+        var funType = 'POST';
+        var params = {
                 FunType: "IF004",
                 F001: "wq123"
             }
-        })
-        .done(function(res) {
-            var html = '';
-            if(parseInt(res.resultdata)) {
-                for(var i = 0; i < res.ResData.length; i++) {
-                    html += '<li><span>' + res.ResData[i].name + '<i class="fa fa-angle-right"></i></span><div>'
-                    for(var j = 0; j < res.ResData[i].children.length; j++) {
-                        html += '<dl>'
-                             +      '<dt><span>' + res.ResData[i].children[j].name + '</span> <i class="fa fa-angle-right"></i></dt>'
-                             +      '<dd>'
-                        for(var k = 0; k < res.ResData[i].children[j].children.length; k++) {
-                            html += '<a class="javascript:void(0);" data-id="' + res.ResData[i].children[j].children[k].id + '">' + res.ResData[i].children[j].children[k].name + '</a>'
-                            if(k < res.ResData[i].children[j].children.length -1) {
-                                html += '<i>|</i>';
-                            }
-                        }
-                        html += '</dd></dl>';
-                    }
-                    html += '</div></li>'
-                }
-                $('#leftMenu').html(html);
-            }
-        })
-        .fail(function() {
-            XAlert('获取数据失败，请检查网络！');
-        })  
+
+        getData(url, funType, params, getLeftSuccess, errorReturn);   
     }
 
     /**
@@ -179,6 +181,28 @@ $(document).ready(function(){
     })
 
     /**
+     * [getFieldsSuccess 获取字段说明数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var getFieldsSuccess = function(res) {
+        var html = '';
+        if(parseInt(res.resultdata)) {
+            for(var i = 0; i < res.ResData.length; i++) {
+                html += '<tr>'
+                     +      '<td>' + res.ResData[i].Sqn + '</td>'
+                     +      '<td>' + res.ResData[i].Name + '</td>'
+                     +      '<td>' + res.ResData[i].Ftype + '</td>'
+                     +      '<td>' + res.ResData[i].Description + '</td>'
+                     +      '<td>' + res.ResData[i].Unit + '</td>'
+                     +  '</tr>'
+            }
+        }
+
+        $('#filed-dialog-loading').hide();
+        $('.filed-dialog-body tbody').html(html);
+    }
+
+    /**
      * 字段说明弹窗打开
      */
     $('body').delegate('.slide-fields-foot a', 'click', function() {
@@ -186,38 +210,17 @@ $(document).ready(function(){
         if($(this).attr('data-id') != $('#dataId').val()) {
             $(this).attr('data-id', $('#dataId').val());
             $('#filed-dialog-loading').show();
-            $.ajax({
-                url: '../../data/filedsDes.json',
-                type: 'POST',
-                data: {
+
+            var url = '../../data/filedsDes.json';
+            var funType = 'POST';
+            var params = {
                     FunType: "IF016",
                     F001: "wq123",
                     F002: $('#dataId').val()
                 }
-            })
-            .done(function(res) {
-                var html = '';
-                if(parseInt(res.resultdata)) {
-                    for(var i = 0; i < res.ResData.length; i++) {
-                        html += '<tr>'
-                             +      '<td>' + res.ResData[i].Sqn + '</td>'
-                             +      '<td>' + res.ResData[i].Name + '</td>'
-                             +      '<td>' + res.ResData[i].Ftype + '</td>'
-                             +      '<td>' + res.ResData[i].Description + '</td>'
-                             +      '<td>' + res.ResData[i].Unit + '</td>'
-                             +  '</tr>'
-                    }
-                }else {
 
-                }
-                $('#filed-dialog-loading').hide();
-                $('.filed-dialog-body tbody').html(html);
-            })
-            .fail(function() {
-                XAlert('获取数据失败，请检查网络！');
-            })
-        }
-        
+            getData(url, funType, params, getFieldsSuccess, errorReturn);
+        } 
     })
 
     /**
@@ -228,6 +231,53 @@ $(document).ready(function(){
     });
 
     var dataId; //保存页面id
+
+    /**
+     * [getCodeSuccess 获取条件选择下拉数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var getCodeSuccess = function(res) {
+        if(parseInt(res.resultdata)) {
+            zNodes = res.ResData;
+            zTreeObj = $.fn.zTree.init($("#tree"), setting, zNodes);
+            key.bind("focus", focusKey)
+            .bind("blur", blurKey)
+            .bind("propertychange", searchNode)
+            .bind("input", searchNode);
+        }
+        $('#slide-item-loading').hide();
+    }
+
+    /**
+     * [getCodeError 获取条件选择下拉数据失败]
+     */
+    var getCodeError = function() {
+        $('#slide-item-loading').hide();
+        XAlert('获取数据失败，请检查网络！');
+    }
+
+    /**
+     * [getScreenSuccess 获取代码选择下拉数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var getScreenSuccess = function(res) {
+        var html = '<option value=""></option>'
+        if(parseInt(res.resultdata)) {
+            for(var i = 0; i < res.ResData.length; i++) {
+                html += '<option value="' + res.ResData[i].F001 + '">' + res.ResData[i].F002 + '</option>'
+            }
+        }
+        $('#slide-loading').hide();
+        $('#screen-fields').html(html);
+    }
+
+    /**
+     * [getScreenError 获取代码选择下拉数据失败]
+     */
+    var getScreenError = function() {
+        $('#slide-loading').hide();
+        XAlert('获取数据失败，请检查网络！');
+    }
 
     /**
      * 条件选择下拉
@@ -248,30 +298,16 @@ $(document).ready(function(){
         if($(this).index() == 1 && $('.screen-select-btns button:nth-child(2)').data('id') != $('#dataId').val()) {
             $('.screen-select-btns button:nth-child(2)').attr('data-id',$('#dataId').val());
             $('#slide-item-loading').show();
-            $.ajax({
-                url: '../../data/codeTree.json',
-                type: 'POST',
-                data: {
+
+            var url = '../../data/codeTree.json';
+            var funType = 'POST';
+            var params = {
                     FunType: "IF007",
                     F001: "wq123",
                     F002: $('#dataId').val()
                 }
-            })
-            .done(function(res) {
-                if(parseInt(res.resultdata)) {
-                    zNodes = res.ResData;
-                    zTreeObj = $.fn.zTree.init($("#tree"), setting, zNodes);
-                    key.bind("focus", focusKey)
-                    .bind("blur", blurKey)
-                    .bind("propertychange", searchNode)
-                    .bind("input", searchNode);
-                }
-                $('#slide-item-loading').hide();
-            })
-            .fail(function() {
-                $('#slide-item-loading').hide();
-                XAlert('获取数据失败，请检查网络！');
-            }) 
+
+            getData(url, funType, params, getCodeSuccess, getCodeError);
         }
 
         //第一次点击条件筛选获取字段
@@ -280,29 +316,15 @@ $(document).ready(function(){
             $('#screen-input').attr('disabled', 'disabled').val('');
             $('#slide-loading').show();
 
-            $.ajax({
-                url: '../../data/screen.json',
-                type: 'POST',
-                data: {
+            var url = '../../data/screen.json';
+            var funType = 'POST';
+            var params = {
                     FunType: "IF008",
                     F001: "wq123",
                     F002: $('#dataId').val()
                 }
-            })
-            .done(function(res) {
-                var html = '<option value=""></option>'
-                if(parseInt(res.resultdata)) {
-                    for(var i = 0; i < res.ResData.length; i++) {
-                        html += '<option value="' + res.ResData[i].F001 + '">' + res.ResData[i].F002 + '</option>'
-                    }
-                }
-                $('#slide-loading').hide();
-                $('#screen-fields').html(html);
-            })
-            .fail(function() {
-                $('#slide-loading').hide();
-                XAlert('获取数据失败，请检查网络！');
-            })
+
+            getData(url, funType, params, getScreenSuccess, getScreenError);
         }
     })
 
@@ -494,6 +516,33 @@ $(document).ready(function(){
     });
 
     /**
+     * [getSelectTreeSuccess 获取选中行业数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var getSelectTreeSuccess = function(res) {
+        var html = '';
+        if(parseInt(res.resultdata)) {
+            for(var i = 0; i < res.ResData.length; i++) {
+                html += '<li><span data-id="ClosePrice"><i class="fa fa-square-o" data-id="' + res.ResData[i].F001 + '"></i>' + res.ResData[i].F002 + '</span></li>';
+            }
+        }
+        $('#add ul').html(html);
+        $('#add-all').addClass('active');
+        $('#slide-loading').hide();
+        setSelectAllNum();
+    }
+
+    /**
+     * [getSelectTreeError 获取选中行业数据失败]
+     */
+    var getSelectTreeError = function() {
+        $('#slide-loading').hide();
+        $('#add ul').html('');
+        setSelectAllNum();
+        XAlert('获取数据失败，请检查网络！');
+    }
+
+    /**
      * 行业分类树选择回调
      */
     var onCheck = function() {
@@ -510,34 +559,17 @@ $(document).ready(function(){
         $('#slide-loading').show();
         $('#remove ul, #add ul').html('');
         $('.slide-code-handle button').removeClass('active');
-        $.ajax({
-            url: '../../data/code.json',
-            type: 'POST',
-            data: {
+
+        var url = '../../data/code.json';
+        var funType = 'POST';
+        var params = {
                 FunType: "IF017",
                 F001: "wq123",
                 F002: selectArr
             }
-        })
-        .done(function(res) {
-            var html = '';
-            if(parseInt(res.resultdata)) {
-                for(var i = 0; i < res.ResData.length; i++) {
-                    html += '<li><span data-id="ClosePrice"><i class="fa fa-square-o" data-id="' + res.ResData[i].F001 + '"></i>' + res.ResData[i].F002 + '</span></li>';
-                }
-            }
-            $('#add ul').html(html);
-            $('#add-all').addClass('active');
-            $('#slide-loading').hide();
-            setSelectAllNum();
-        })
-        .fail(function() {
-            $('#slide-loading').hide();
-            $('#add ul').html('');
-            setSelectAllNum();
-            XAlert('获取数据失败，请检查网络！');
-        })
-       
+
+        getData(url, funType, params, getSelectTreeSuccess, getSelectTreeError);
+
     }
 
     //行业分类
@@ -628,6 +660,32 @@ $(document).ready(function(){
     }
 
     var myDataTables;
+
+    /**
+     * [getFieldSuccess 获取字段选择下拉数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var getFieldSuccess = function(res) {
+        var html = '';
+        if(parseInt(res.resultdata)) {
+            for(var i = 0; i < res.ResData.length; i++) {
+                html += '<span data-id="' + res.ResData[i].F001 + '"><i class="fa fa-square-o"></i>' + res.ResData[i].F002 + '</span>';
+            }
+             $('#page-loading').hide();
+            $('.slide-fields-body').html(html);
+        }
+        $('.screen-select-btns button:nth-child(1)').attr('data-id', $('#dataId').val());
+    }
+
+    /**
+     * [getFieldError 获取字段选择下拉数据失败]
+     * @param  {[type]} res 返回的数据
+     */
+    var getFieldError = function(res) {
+        $('#page-loading').hide();
+        XAlert('获取数据失败，请检查网络！');
+    }
+
     /**
      * 初始化函数
      */
@@ -637,33 +695,17 @@ $(document).ready(function(){
         $('#table-head').html('<tr class="table-init"><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>');
         $('#table-body').html('<tr><td colspan="12" class="empty"><img src="../../images/empty.png" alt="" /> <br /> 没有相应数据！</td></tr>');
 
-        //获取字段选择下拉数据
-        $.ajax({
-            url: '../../data/fileds.json',
-            type: 'POST',
-            data: {
+        var url = '../../data/fileds.json';
+        var funType = 'POST';
+        var params = {
                 FunType: "IF005",
                 F001: "wq123",
                 F002: "001001002"
             }
-        })
-        .done(function(res) {
-            if(parseInt(res.resultdata)) {
-                var html = '';
-                for(var i = 0; i < res.ResData.length; i++) {
-                    html += '<span data-id="' + res.ResData[i].F001 + '"><i class="fa fa-square-o"></i>' + res.ResData[i].F002 + '</span>';
-                }
-                 $('#page-loading').hide();
-                $('.slide-fields-body').html(html);
-            }else {
 
-            }
-            $('.screen-select-btns button:nth-child(1)').attr('data-id', $('#dataId').val());
-        })
-        .fail(function() {
-            XAlert('获取数据失败，请检查网络！');
-        })
-        
+        //获取字段选择下拉数据
+        getData(url, funType, params, getFieldSuccess, getFieldError);
+
         $('.screen-select-btns button').removeClass('active').eq(0).addClass('active');
         $('.screen-select-slide .slide-box').hide().eq(0).show();
 
@@ -831,8 +873,16 @@ $(document).ready(function(){
         }
         myDataTables = $('#table').DataTable({
             autoFill: true,
-            dom: '<"top"i>rtp',
-            buttons: ['colvis'],
+            //dom: '<"top"i>rtpB',
+            dom: 'Bfrtip',
+            buttons: [ {
+            extend: 'excelHtml5',
+            customize: function( xlsx ) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+ 
+                $('row c[r^="C"]', sheet).attr( 's', '2' );
+            }
+            } ],
             bDestroy : true, 
             retrieve: true,//保证只有一个table实例
             data: data.Data,
@@ -871,6 +921,26 @@ $(document).ready(function(){
     }
 
     /**
+     * [getPreviewSuccess 获取预览数据成功回调
+     * @param  {[type]} res 返回的数据
+     */
+    var getPreviewSuccess = function(res) {
+        if(parseInt(res.resultdata)) {
+            refreshDataTable(res.ResData[0]);
+        }
+        $('#page-loading').hide();
+    }
+
+    /**
+     * [getPreviewError 获取预览数据失败回调
+     * @param  {[type]} res 返回的数据
+     */
+    var getPreviewError = function(res) {
+        $('#page-loading').hide();
+        XAlert('获取数据失败，请检查网络！');
+    }
+
+    /**
      * 预览数据
      */
     $('body').delegate('#preview', 'click', function(event) {
@@ -894,10 +964,10 @@ $(document).ready(function(){
         });
         
         $('#page-loading').show();
-        $.ajax({
-            url: '../../data/preview.json',
-            type: 'POST',
-            data: {
+
+        var url = '../../data/preview.json';
+        var funType = 'POST';
+        var params = {
                 FunType: 'IF008',
                 F001: 'wq123',
                 F002: $('#dataId').val(),
@@ -905,19 +975,10 @@ $(document).ready(function(){
                 F004: checkedCodeArr,
                 F005: addArr
             }
-        })
-        .done(function(res) {
-            if(parseInt(res.resultdata)) {
-                refreshDataTable(res.ResData[0]);
-            }else {
 
-            }
-            $('#page-loading').hide();
-        })
-        .fail(function() {
-            XAlert('获取数据失败，请检查网络！');
-            $('#page-loading').hide();
-        }) 
+        //获取预览数据
+        getData(url, funType, params, getPreviewSuccess, getPreviewError);
+
     });    
     
 

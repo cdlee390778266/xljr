@@ -10,7 +10,7 @@
         <link href="./css/style.css" rel="stylesheet">
         <link rel="stylesheet" href="./css/animate.css" />
         <script type="text/javascript" src="./js/jquery-1.10.1.js"></script>
-        
+        <script src="./js/utils.js"></script>
         <title>登录</title>
     </head>
     <body class="login">
@@ -91,18 +91,18 @@
                     $('.login-error').hide();
                     $('.login-error').removeClass('shake');
 
-                    //表单提交
-                    $.ajax({
-                        url: './data/login.json',
-                        type: 'POST',
-                        data: {
+                    var url = './data/login.json';
+                    var funType = 'post';
+                    var params = {
                             FunType: "IF002",
                             F001: $('#userName').val(),
                             F002: $('#pwd').val(),
                             F003: $('#remember:checked').length
                         }
-                    })
-                    .done(function(res) {
+                    /**
+                     * [successReturn 请求数据成功回调]
+                     */
+                    var successReturn = function(res) {
                         if(parseInt(res.resultdata)) { //登录成功
                             location.href = './tpls/home/index.html';
                         }else { //登录失败
@@ -111,14 +111,20 @@
                             $('.login-error div').addClass('shake');
                             $('.login-error').show();
                         }
-                    })
-                    .fail(function() {
+                    }
+
+                    /**
+                     * [errorReturn 请求数据失败回调]
+                     */
+                    var errorReturn = function() {
                         $('#login-submit').text('登录').removeClass('active');
                         $('.login-error span').text('登录失败，请检查网络！');
                         $('.login-error div').addClass('shake');
                         $('.login-error').show();
-                    })
-                    
+                    }
+
+                    getData(url, funType, params, successReturn, errorReturn);
+                      
                 })
                 
             })

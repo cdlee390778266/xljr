@@ -2,8 +2,42 @@
 * @Author: Lee
 * @Date:   2017-08-30 10:56:51
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-08-30 14:06:03
+* @Last Modified time: 2017-09-05 16:19:51
 */
+
+/**
+ * [getNewsSuccess 获取新闻列表数据成功]
+ * @param  {[type]} res 返回的数据
+ */
+var getNewsSuccess = function(res, pageNum) {
+    if(parseInt(res.resultdata)) {
+        var html = '';
+        for (var i = 0; i < res.ResData.length; i++) {
+            html += '<div class="new-item">'
+                 +      '<h3 class="active">' + res.ResData[i].F002 + '</h3>'
+                 +      '<a href="javascript:void(0);" data-link="new.html?id=' + res.ResData[i].F001 + '">' + res.ResData[i].F004 + '...</a>'
+                 +  '</div>'
+        };
+         renderPageHTML(pageNum,res.pagerow,res.datacount,$('#page'),'renderPage');
+        $('.new-body').html(html); 
+        $('.new-page').show();  
+    }else {
+        $('.new-body').html('<div class="newsList-empty">没有相应的新闻！</div>');
+        $('.new-page').hide();
+    }
+
+    $('#loading').hide();
+}
+
+/**
+ * [getNewsError 获取新闻列表数据失败]
+ */
+var getNewsError = function() {
+    $('.new-page').hide();
+    $('#loading').hide();
+    $('.new-body').html('<div class="newsList-empty">检索失败，请检查网络！</div>');  
+}
+
 
 /**
  * 翻页
@@ -11,17 +45,74 @@
  */
 var renderPage = function(pageNum) {
     var params = $('#search-form').serialize();
-    $('#loading').show();
-    $.ajax({
-        url: '../../data/newslist.json',
-        type: 'POST',
-        data: {
+    var url = '../../data/newslist.json';
+    var funType = 'POST';
+    var params = {
             FunType: "IF013",
             F001: "wq123",
             F002: pageNum 
         }
-    })
-    .done(function(res) {
+
+    $('#loading').show();
+
+    //获取新闻列表
+    getData(url, funType, params, function(res) {
+        getNewsSuccess(res, pageNum);
+    }, getNewsError);
+}
+
+
+$(document).ready(function(){
+
+    /**
+     * [getNewsTreeSuccess 左侧新闻树数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var getNewsTreeSuccess = function(res) {
+        var html = '';
+        if(parseInt(res.resultdata)) {
+            for(var i = 0; i < res.ResData.length; i++) {
+                html += '<li><span data-id="' + res.ResData[i].id + '">' + res.ResData[i].name +'</span><ul>'
+                    for(var j = 0; j < res.ResData[i].children.length; j++) {
+                        html += '<li><span data-id="' + res.ResData[i].children[j].id + '">' + res.ResData[i].children[j].name +'</span><ul>'
+                            for(var k = 0; k < res.ResData[i].children[j].children.length; k++) {
+                                html += '<li><span data-id="' + res.ResData[i].children[j].children[k].id + '">' + res.ResData[i].children[j].children[k].name +'</span><ul>'
+                                    for(var l = 0; l < res.ResData[i].children[j].children[k].children.length; l++) {
+                                        html += '<li><span data-id="' + res.ResData[i].children[j].children[k].children[l].id + '">' + res.ResData[i].children[j].children[k].children[l].name +'</span></li>'
+                                    }
+                                html += '</ul></li>'
+                            }
+                        html += '</ul></li>'
+                    }
+                html += '</ul></li>'
+            }
+        }
+
+        $('#menu').append(html);
+        //左侧按钮初始化
+        $("#menu").treeview({
+            collapsed: true
+        });
+    }
+    /**
+     * 创建左侧新闻树
+     */
+    var createNewsTree = function() {
+        var url = '../../data/newLeftMenu.json';
+        var funType = 'POST';
+        var params = {
+                FunType: "IF017",
+                F001: "wq123"
+            }
+
+        getData(url, funType, params, getNewsTreeSuccess, errorReturn);
+    }
+
+    /**
+     * [getRefreshNewsSuccess 获取刷新新闻列表数据成功]
+     * @param  {[type]} res 返回的数据
+     */
+    var getRefreshNewsSuccess = function(res) {
         if(parseInt(res.resultdata)) {
             var html = '';
             for (var i = 0; i < res.ResData.length; i++) {
@@ -30,72 +121,23 @@ var renderPage = function(pageNum) {
                      +      '<a href="javascript:void(0);" data-link="new.html?id=' + res.ResData[i].F001 + '">' + res.ResData[i].F004 + '...</a>'
                      +  '</div>'
             };
-             renderPageHTML(pageNum,res.pagerow,res.datacount,$('#page'),'renderPage');
-            $('.new-body').html(html); 
+            $('.new-body').html(html);
+            renderPageHTML(1,res.pagerow,res.datacount,$('#page'),'renderPage');
             $('.new-page').show();  
         }else {
             $('.new-body').html('<div class="newsList-empty">没有相应的新闻！</div>');
             $('.new-page').hide();
         }
-
         $('#loading').hide();
-    })
-    .fail(function() {
+    }
+
+    /**
+     * [getRefreshNewsError 获取刷新新闻列表数据失败]
+     */
+    var getRefreshNewsError = function() { 
         $('.new-body').html('<div class="newsList-empty">检索失败，请检查网络！</div>');
         $('.new-page').hide();
         $('#loading').hide();
-
-    })
-}
-
-
-$(document).ready(function(){
-    /**
-     * 创建左侧新闻树
-     */
-    var createNewsTree = function() {
-        $.ajax({
-            url: '../../data/newLeftMenu.json',
-            type: 'POST',
-            data: {
-                FunType: "IF017",
-                F001: "wq123"
-            }
-        })
-        .done(function(res) {
-            if(parseInt(res.resultdata)) {
-                var html = '';
-                for(var i = 0; i < res.ResData.length; i++) {
-                    html += '<li><span data-id="' + res.ResData[i].id + '">' + res.ResData[i].name +'</span><ul>'
-                        for(var j = 0; j < res.ResData[i].children.length; j++) {
-                            html += '<li><span data-id="' + res.ResData[i].children[j].id + '">' + res.ResData[i].children[j].name +'</span><ul>'
-                                for(var k = 0; k < res.ResData[i].children[j].children.length; k++) {
-                                    html += '<li><span data-id="' + res.ResData[i].children[j].children[k].id + '">' + res.ResData[i].children[j].children[k].name +'</span><ul>'
-                                        for(var l = 0; l < res.ResData[i].children[j].children[k].children.length; l++) {
-                                            html += '<li><span data-id="' + res.ResData[i].children[j].children[k].children[l].id + '">' + res.ResData[i].children[j].children[k].children[l].name +'</span></li>'
-                                        }
-                                    html += '</ul></li>'
-                                }
-                            html += '</ul></li>'
-                        }
-                    html += '</ul></li>'
-                }
-
-                $('#menu').append(html);
-                //左侧按钮初始化
-                $("#menu").treeview({
-                    collapsed: true,
-                    toggle: function() {
-                        console.log("%s was toggled.", $(this).find(">span").text());
-                    }
-                });
-            }else {
-
-            }
-        })
-        .fail(function() {
-            console.log("error");
-        })
     }
 
     /**
@@ -105,36 +147,13 @@ $(document).ready(function(){
         $('#F002').val(params.newsListId);
         $('#F002').val(newsListId);
         $('#loading').show();
-        $.ajax({
-            url: '../../data/newslist.json',
-            type: 'POST',
-            data: params
-        })
-        .done(function(res) {
-            if(parseInt(res.resultdata)) {
-                var html = '';
-                for (var i = 0; i < res.ResData.length; i++) {
-                    html += '<div class="new-item">'
-                         +      '<h3 class="active">' + res.ResData[i].F002 + '</h3>'
-                         +      '<a href="javascript:void(0);" data-link="new.html?id=' + res.ResData[i].F001 + '">' + res.ResData[i].F004 + '...</a>'
-                         +  '</div>'
-                };
-                $('.new-body').html(html);
-                renderPageHTML(1,res.pagerow,res.datacount,$('#page'),'renderPage');
-                $('.new-page').show();  
-            }else {
-                $('.new-body').html('<div class="newsList-empty">没有相应的新闻！</div>');
-                $('.new-page').hide();
-            }
-            $('#loading').hide();
-    
-        })
-        .fail(function() {
-            $('.new-body').html('<div class="newsList-empty">检索失败，请检查网络！</div>');
-            $('.new-page').hide();
-            $('#loading').hide();
-    
-        })   
+
+        var url = '../../data/newslist.json';
+        var funType = 'POST';
+        var params = params
+
+        getData(url, funType, params, getRefreshNewsSuccess, getRefreshNewsError);
+
     }
 
 
@@ -200,11 +219,11 @@ $(document).ready(function(){
         event.preventDefault();
 
         if(!$('#F003').val()) {
-            alert('证券号不能为空！');
+            XAlert('证券号不能为空！');
             return;
         }
         if(!$('#keywords').val()) {
-            alert('关键字不能为空！');
+            XAlert('关键字不能为空！');
             return;
         }
         refreshNewsList($('#search-form').serialize());

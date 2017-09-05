@@ -21,6 +21,7 @@
         <script src="../../frameworks/ztree.3.5.26/js/jquery.ztree.exhide.min.js"></script>
         <script src="../../js/moment.min.js"></script>
         <script src="../../js/jquery.daterangepicker.js"></script>
+        <script src="../../js/utils.js"></script>
         <script src="../../js/dialog.js"></script>
         <script src="../../js/common.js"></script>
         <script src="../../js/export.js"></script>
@@ -104,8 +105,8 @@
                                 <input type="text" placeholder="请选择结束日期" id="end" readonly="readonly" name="F007" />
                             </div>
                             <div class="new-form-item">
-                                <input type="submit" value="预览" class="new-btn search" />
-                                <input type="button" value="导出" class="new-btn export"  data-link="../../data/data.rar"/>
+                                <input type="button" value="预览" class="new-btn search"  id="preview" />
+                                <input type="button" value="导出" class="new-btn export"  id="download" />
                             </div>
                         </form>
                     </div>
@@ -172,84 +173,14 @@
                             </div>
                             <div class="detail-table">
                                 <table id="table" class="display">
-                                    <!-- <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
+                                    <thead id="table-head">
                                     </thead>
-                                    <tbody>
-                                       <tr>
-                                           <td colspan="4">没有相应数据！</td>
-                                       </tr>
-                                    </tbody> -->
+                                    <tbody id="table-body">
+                                    </tbody>
                                 </table> 
                             </div> 
                         </div>
 
-                        <div class="filed-dialog animated">
-                            <div class="filed-dialog-top">
-                                <span>字段说明（公司文件）</span>
-                                <i></i>
-                            </div>
-                            <div class="filed-dialog-body">
-                                <table cellpadding="0" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                序号
-                                            </th>
-                                            <th>
-                                                字段
-                                            </th>
-                                            <th>
-                                                数据类型
-                                            </th>
-                                            <th>
-                                                字段说明
-                                            </th>
-                                            <th>
-                                                单位
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <!-- 加载中 -->
-                                <div class="loading" id="filed-dialog-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
-                            </div>
-                        </div>
                     </div>
                     <!-- 加载中 -->
                     <div class="loading page-loading" id="page-loading" style="display: none;"><div><span class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></span></div></div>
