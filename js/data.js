@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2017-08-28 15:47:18
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-09-05 18:13:20
+* @Last Modified time: 2017-09-06 11:28:54
 */
 
 $(document).ready(function(){
@@ -727,19 +727,25 @@ $(document).ready(function(){
      * 导出
      */
     $('body').delegate('#export', 'click', function(event) {
-        var $exportDialog = $(this).next();
+        var $exportDialog = $('.slide-code-handle ul');
         if($exportDialog.hasClass('active')) {
             $exportDialog.removeClass('active').hide();
         }else {
             $exportDialog.addClass('active').show();
         }
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    $(document).click(function(event) {
+        $('.slide-code-handle ul').removeClass('active').hide();
     });
 
     /**
      * 隐藏导出弹框
      */
     $('body').delegate('.slide-code-handle ul a', 'click', function(event) {
-        $('.slide-code-handle').hide();
+        $('.slide-code-handle ul').hide();
     });
    
     var addArr = [];   //保存条件筛选所添加的数组
@@ -873,16 +879,16 @@ $(document).ready(function(){
         }
         myDataTables = $('#table').DataTable({
             autoFill: true,
-            //dom: '<"top"i>rtpB',
-            dom: 'Bfrtip',
+            dom: '<"top"i>rtpB',
             buttons: [ {
-            extend: 'excelHtml5',
-            customize: function( xlsx ) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
- 
-                $('row c[r^="C"]', sheet).attr( 's', '2' );
-            }
-            } ],
+                extend: 'excelHtml5',
+                customize: function( xlsx ) {
+
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                    $('row c[r^="C"]', sheet).attr( 's', '2' );
+                }
+            }],
             bDestroy : true, 
             retrieve: true,//保证只有一个table实例
             data: data.Data,
@@ -985,9 +991,14 @@ $(document).ready(function(){
     /**
      * 下载数据
      */
-     $('body').delegate('#download', 'click', function(event) {
-         location.href = '../../data/data.rar'
-     });
+    $('body').delegate('#download', 'click', function(event) {
+        if($('#table .empty').length) {
+            XAlert('没有数据！');
+        }else {
+            $('.buttons-html5').click();
+        }
+        
+    });
 
     init();
 });

@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2017-08-28 15:47:18
 * @Last Modified by:   Lee
-* @Last Modified time: 2017-09-05 15:49:44
+* @Last Modified time: 2017-09-06 12:16:22
 */
 
 $(document).ready(function(){
@@ -428,13 +428,19 @@ $(document).ready(function(){
         }else {
             $exportDialog.addClass('active').show();
         }
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    $(document).click(function(event) {
+        $('.slide-code-handle ul').removeClass('active').hide();
     });
 
     /**
      * 隐藏导出弹框
      */
     $('body').delegate('.slide-code-handle ul a', 'click', function(event) {
-        $('.slide-code-handle').hide();
+        $('.slide-code-handle ul').hide();
     });
    
 
@@ -463,7 +469,7 @@ $(document).ready(function(){
         }
         myDataTables = $('#table').DataTable({
             autoFill: true,
-            dom: '<"top"i>rtp',
+            dom: '<"top"i>rtpB',
             buttons: ['colvis'],
             bDestroy : true, 
             retrieve: true,//保证只有一个table实例
@@ -471,6 +477,15 @@ $(document).ready(function(){
             columns: columnsArr,
             paging: false,
             destroy: true,
+            buttons: [ {
+                extend: 'excelHtml5',
+                customize: function( xlsx ) {
+
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                    $('row c[r^="C"]', sheet).attr( 's', '2' );
+                }
+            }],
             language: {
                 "sProcessing": "处理中...",
                 "sLengthMenu": "显示 _MENU_ 项结果",
@@ -553,8 +568,13 @@ $(document).ready(function(){
      * 下载数据
      */
      $('body').delegate('#download', 'click', function(event) {
-         location.href = '../../data/data.rar'
-     });
+        if($('#table .empty').length) {
+            XAlert('没有数据！');
+        }else {
+            $('.buttons-html5').click();
+        }
+        
+    });
 
     init();
 });

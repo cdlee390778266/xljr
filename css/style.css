@@ -1333,6 +1333,9 @@ h1 {
 .detail .detail-table .dataTables_info span {
   color: #db6b80;
 }
+.detail .dt-buttons {
+  display: none;
+}
 
 .filed-dialog {
   position: absolute;
